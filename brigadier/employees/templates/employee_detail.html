@@ -21,7 +21,7 @@
                     {% translate 'Middlename' %}
                 </div>
                 <div class="col">
-                    {{ employee.middlename }}
+                    {{ employee.middlename|default_if_none:"-" }}
                 </div>
             </div>
             <div class="row">

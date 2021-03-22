@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.views import generic
 from django.urls import reverse_lazy
 
@@ -13,6 +12,7 @@ class EmployeeListView(generic.ListView):
     """
     model = Employee
     template_name = 'employee_list.html'
+    ordering = 'id'
 
 
 class EmployeeDetailView(generic.DetailView):

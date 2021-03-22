@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from django.views import generic
+from django.urls import reverse_lazy
+
+from .forms import EmployeeModelForm
 
 from .models import Employee
 
@@ -18,3 +21,23 @@ class EmployeeDetailView(generic.DetailView):
     """
     model = Employee
     template_name = 'employee_detail.html'
+
+
+class EmployeeCreateView(generic.CreateView):
+    """
+    todo()
+    """
+    template_name = 'employee_form.html'
+    model = Employee
+    form_class = EmployeeModelForm
+    success_url = reverse_lazy('employees:list')
+
+
+class EmployeeEditView(generic.UpdateView):
+    """
+    todo()
+    """
+    template_name = 'employee_form.html'
+    model = Employee
+    form_class = EmployeeModelForm
+    success_url = reverse_lazy('employees:list')

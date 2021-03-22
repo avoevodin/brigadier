@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block container %}
+    <h1>{% translate 'Create' %}</h1>
+    <hr>
+    <form method="post">{% csrf_token %}
+    {{ form }}
+        <button type="submit">
+            {% translate 'Save' %}
+        </button>
+    </form>
+{% endblock %}

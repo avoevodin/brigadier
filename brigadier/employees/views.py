@@ -41,3 +41,12 @@ class EmployeeEditView(generic.UpdateView):
     model = Employee
     form_class = EmployeeModelForm
     success_url = reverse_lazy('employees:list')
+
+
+class EmployeeDeleteView(generic.DeleteView):
+    """
+    todo()
+    """
+    template_name = 'employee_confirm_delete.html'
+    model = Employee
+    success_url = reverse_lazy('employees:list')

@@ -10,3 +10,11 @@ class EmployeeListView(generic.ListView):
     """
     model = Employee
     template_name = 'employee_list.html'
+
+
+class EmployeeDetailView(generic.DetailView):
+    """
+    todo()
+    """
+    model = Employee
+    template_name = 'employee_detail.html'

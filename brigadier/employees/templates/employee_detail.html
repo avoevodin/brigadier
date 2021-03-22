@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block container %}
+    <h1>{{ employee.full_name }}</h1>
+    <hr>
+    <a href="{% url 'employees:list' %}">{% translate 'Back' %}</a>
+    <div class="card" style="max-width: 600px;">
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    {% translate 'Firstname' %}
+                </div>
+                <div class="col">
+                    {{ employee.firstname }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {% translate 'Middlename' %}
+                </div>
+                <div class="col">
+                    {{ employee.middlename }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {% translate 'Surname' %}
+                </div>
+                <div class="col">
+                    {{ employee.surname }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {% translate 'Email' %}
+                </div>
+                <div class="col">
+                    {{ employee.email }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {% translate 'Birthdate' %}
+                </div>
+                <div class="col">
+                    {{ employee.birthdate }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

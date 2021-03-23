@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 
 
 class HomeView(TemplateView):
-    """
-    todo()
+    """View of the home page.
+
     """
     template_name = 'home.html'

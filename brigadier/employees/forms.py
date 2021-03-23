@@ -5,8 +5,8 @@ from .models import Employee
 
 
 class EmployeeModelForm(forms.ModelForm):
-    """
-    todo()
+    """Model form for creating and updating data of Employee objects.
+
     """
     class Meta:
         model = Employee

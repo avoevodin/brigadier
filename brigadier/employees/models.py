@@ -3,8 +3,8 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Employee(models.Model):
-    """
-    todo()
+    """Class describes an employee entity.
+
     """
     firstname = models.CharField(verbose_name=_('Firstname'), max_length=200)
     middlename = models.CharField(
@@ -22,14 +22,13 @@ class Employee(models.Model):
     )
 
     def __str__(self):
-        """
-        todo()
-        """
         return f'{self.id}: {self.full_name()}'
 
     def full_name(self):
-        """
-        todo()
+        """Returns full name of an employee. Contains from
+        a first name, a middle name if it exists and a surname,
+        that are separated with spaces.
+
         """
         return f'{self.firstname} {self.middlename if self.middlename else ""} {self.surname}'
     full_name.short_description = _('Full name')

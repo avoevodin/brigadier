@@ -7,8 +7,8 @@ from .models import Employee
 
 
 class EmployeeListView(generic.ListView):
-    """
-    todo()
+    """View for the common list of all employees.
+
     """
     model = Employee
     template_name = 'employee_list.html'
@@ -16,16 +16,17 @@ class EmployeeListView(generic.ListView):
 
 
 class EmployeeDetailView(generic.DetailView):
-    """
-    todo()
+    """Detail view of the concrete employee.
+
     """
     model = Employee
     template_name = 'employee_detail.html'
 
 
 class EmployeeCreateView(generic.CreateView):
-    """
-    todo()
+    """View is responsible for displaying a form that helps to
+    create new employees.
+
     """
     template_name = 'employee_form.html'
     model = Employee
@@ -34,8 +35,9 @@ class EmployeeCreateView(generic.CreateView):
 
 
 class EmployeeEditView(generic.UpdateView):
-    """
-    todo()
+    """View is responsible for displaying a form
+    for editing exciting employees.
+
     """
     template_name = 'employee_form.html'
     model = Employee
@@ -44,8 +46,8 @@ class EmployeeEditView(generic.UpdateView):
 
 
 class EmployeeDeleteView(generic.DeleteView):
-    """
-    todo()
+    """View for the form of deleting employees.
+
     """
     template_name = 'employee_confirm_delete.html'
     model = Employee

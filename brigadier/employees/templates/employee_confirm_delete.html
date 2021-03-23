@@ -3,7 +3,7 @@
 {% load i18n %}
 
 {% block container %}
-    <h2>{% translate 'Deleting:' %} </h2>
+    <h2>{% translate 'Deleting' %} </h2>
     <h4>{{ employee }}</h4>
     <hr>
     <form method="post">{% csrf_token %}

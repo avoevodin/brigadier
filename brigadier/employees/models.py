@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Employee(models.Model):
-    """Class describes an employee entity.
+    """Class is used for model Employee (saving, updating, deleting).
 
     """
     firstname = models.CharField(verbose_name=_('Firstname'), max_length=200)

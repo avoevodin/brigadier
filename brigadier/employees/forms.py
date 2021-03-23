@@ -5,7 +5,10 @@ from .models import Employee
 
 
 class EmployeeModelForm(forms.ModelForm):
-    """Model form for creating and updating data of Employee objects.
+    """Class for creating and rendering form,
+    validating a form, passing a signal for saving data.
+    It's connected to model Employee (which performs updating
+    and inserting).
 
     """
     class Meta:

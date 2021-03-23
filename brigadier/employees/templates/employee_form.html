@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block container %}
+    <h1>
+        {% if employee %}
+            {{ employee.full_name }}
+        {% else %}
+            {% translate 'Create' %}
+        {% endif %}
+    </h1>
+    <hr>
+    <div class="mb-2">
+        <a class="link link-primary" href="{% url 'employees:list' %}">
+            {% translate 'Back' %}
+        </a>
+    </div>
+    <div class="card" style="max-width: 600px">
+        <div class="card-body">
+            <form method="post">{% csrf_token %}
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ form.non_field_errors }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        </button>
+                    </div>
+                {% endif %}
+                {% for field in form %}
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ error }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                </button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {{ field }}
+                {% endfor %}
+                <button class="btn btn-primary" type="submit">
+                    {% translate 'Save' %}
+                </button>
+                <a class="btn btn-secondary" href="{% url 'employees:list' %}">
+                    {% translate 'Cancel' %}
+                </a>
+            </form>
+        </div>
+    </div>
+{% endblock %}

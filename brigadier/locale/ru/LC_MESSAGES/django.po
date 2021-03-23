@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-22 11:21+0000\n"
+"POT-Creation-Date: 2021-03-23 11:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,10 +20,101 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: brigadier/settings.py:148
+#: brigadier/settings.py:150
 msgid "English"
 msgstr "Английский"
 
-#: brigadier/settings.py:149
+#: brigadier/settings.py:151
 msgid "Russian"
 msgstr "Русский"
+
+#: employees/apps.py:7 employees/templates/employee_list.html:6
+#: templates/nav.html:22
+msgid "Employees"
+msgstr "Сотрудники"
+
+#: employees/forms.py:17 employees/models.py:9
+#: employees/templates/employee_detail.html:13
+msgid "Firstname"
+msgstr "Имя"
+
+#: employees/forms.py:21 employees/models.py:11
+#: employees/templates/employee_detail.html:21
+msgid "Middlename"
+msgstr "Отчество"
+
+#: employees/forms.py:25 employees/models.py:16
+#: employees/templates/employee_detail.html:29
+msgid "Surname"
+msgstr "Фамилия"
+
+#: employees/forms.py:29 employees/models.py:17
+#: employees/templates/employee_detail.html:37
+#: employees/templates/employee_list.html:17
+msgid "Email"
+msgstr "Емэйл"
+
+#: employees/forms.py:33 employees/models.py:19
+#: employees/templates/employee_detail.html:45
+#: employees/templates/employee_list.html:18
+msgid "Birthdate"
+msgstr "Дата рождения"
+
+#: employees/models.py:34 employees/templates/employee_list.html:16
+msgid "Full name"
+msgstr "ФИО"
+
+#: employees/templates/employee_confirm_delete.html:6
+msgid "Deleting"
+msgstr "Удаление"
+
+#: employees/templates/employee_confirm_delete.html:11
+msgid "Are you sure?"
+msgstr "Вы уверены?"
+
+#: employees/templates/employee_confirm_delete.html:15
+msgid "Yes"
+msgstr "Да"
+
+#: employees/templates/employee_confirm_delete.html:18
+#: employees/templates/employee_form.html:46
+msgid "Cancel"
+msgstr "Отмена"
+
+#: employees/templates/employee_detail.html:8
+#: employees/templates/employee_form.html:16
+msgid "Back"
+msgstr "Назад"
+
+#: employees/templates/employee_detail.html:55
+msgid "Edit"
+msgstr "Редактировать"
+
+#: employees/templates/employee_detail.html:59
+msgid "Delete"
+msgstr "Удалить"
+
+#: employees/templates/employee_form.html:10
+#: employees/templates/employee_list.html:10
+msgid "Create"
+msgstr "Создать"
+
+#: employees/templates/employee_form.html:43
+msgid "Save"
+msgstr "Сохранить"
+
+#: employees/templates/employee_list.html:19
+msgid "Actions"
+msgstr "Действия"
+
+#: home/apps.py:7 home/templates/home.html:6 templates/nav.html:13
+msgid "Home"
+msgstr "Домой"
+
+#: templates/nav.html:16
+msgid "Projects"
+msgstr "Проекты"
+
+#: templates/nav.html:19
+msgid "Tasks"
+msgstr "Задачи"

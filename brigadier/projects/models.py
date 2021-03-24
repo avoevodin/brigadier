@@ -8,7 +8,7 @@ COMPLETED = 'completed'
 PROCESSED = 'processed'
 STATUSES = [
     (NEW, _('New')),
-    (COMPLETED, _('Completed')),
+    (COMPLETED, _('Finished')),
     (PROCESSED, _('Processed')),
 ]
 

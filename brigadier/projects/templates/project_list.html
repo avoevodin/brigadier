@@ -5,25 +5,25 @@
 {% block container %}
     <h1>{% translate "Projects" %}</h1>
     <hr>
-     <a class="btn btn-primary" href="{% url "projects:create" %}">
+    <a class="btn btn-primary" href="{% url "projects:create" %}">
         <i class="bi bi-plus"></i>
         {% translate 'Create' %}
     </a>
     <table class="table table-striped table-hover">
         <thead>
-            <tr>
-                <th>#</th>
-                <th>{% translate "Name" %}</th>
-                <th>{% translate "Deadline" %}</th>
-                <th>{% translate "Budget" %}</th>
-                <th>{% translate "Tasks" %}</th>
-                <th>{% translate "Completed" %}</th>
-                <th>{% translate "Closed?" %}</th>
-                <th>{% translate "Actions" %}</th>
-            </tr>
+        <tr>
+            <th>#</th>
+            <th>{% translate "Name" %}</th>
+            <th>{% translate "Deadline" %}</th>
+            <th>{% translate "Budget" %}</th>
+            <th>{% translate "Tasks" %}</th>
+            <th>{% translate "Completed" %}</th>
+            <th>{% translate "Closed?" %}</th>
+            <th>{% translate "Actions" %}</th>
+        </tr>
         </thead>
         <tbody>
-            {% for project in project_list %}
+        {% for project in project_list %}
             <tr>
                 <td>{{ project.id }}</td>
                 <td>
@@ -35,7 +35,13 @@
                 <td>{{ project.budget }}</td>
                 <td></td>
                 <td></td>
-                <td>{{ project.closed }}</td>
+                <td>
+                    {% if project.closed %}
+                        <i class="bi bi-check-circle" style="color:green"></i>
+                    {% else %}
+                        <i class="bi bi-dash-circle" style="color:coral"></i>
+                    {% endif %}
+                </td>
                 <td>
                     <a class="btn btn-warning btn-sm" href="{% url 'projects:edit' project.id %}">
                         <i class="bi bi-pencil-fill"></i>
@@ -45,7 +51,7 @@
                     </a>
                 </td>
             </tr>
-            {% endfor %}
+        {% endfor %}
         </tbody>
     </table>
 {% endblock %}

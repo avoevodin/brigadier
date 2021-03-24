@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block container %}
+    <h1>{% translate "Projects" %}</h1>
+    <hr>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>{% translate "Name" %}</th>
+                <th>{% translate "Deadline" %}</th>
+                <th>{% translate "Tasks" %}</th>
+                <th>{% translate "Completed" %}</th>
+                <th>{% translate "Closed?" %}</th>
+                <th>{% translate "Actions" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for project in project_list %}
+            <tr>
+                <td>{{ project.id }}</td>
+                <td>
+                    <a href="{% url 'projects:detail' project.id %}">
+                        {{ project.project_name }}
+                    </a>
+                </td>
+                <td>{{ project.deadline }}</td>
+                <td></td>
+                <td></td>
+                <td>{{ project.closed }}</td>
+                <td></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

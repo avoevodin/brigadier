@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block container %}
+    <h1>{{ project.project_name }}</h1>
+    <hr>
+    <div class="mb-2">
+        <a href="{% url "projects:list" %}">{% trans "Back" %}</a>
+    </div>
+    <div class="card" style="max-width: 600px;">
+        <div class="card-body">
+            <div class="row">
+                <div class="col" style="">
+                    <b>{% trans "Deadline" %}</b>
+                </div>
+                <div class="col">
+                    {{ project.deadline }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <b>{% trans "Tasks" %}</b>
+                </div>
+                <div class="col">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <b>{% trans "Completed" %}</b>
+                </div>
+                <div class="col">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <b>{% trans "Closed?" %}</b>
+                </div>
+                <div class="col">
+                    {{ project.closed }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <b>{% trans "Description" %}</b>
+                </div>
+            </div>
+             <div class="row">
+                <div class="col">
+                    {{ project.description }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

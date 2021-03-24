@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-23 11:21+0000\n"
+"POT-Creation-Date: 2021-03-23 19:33+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: brigadier/settings.py:150
+#: brigadier/settings.py:151
 msgid "English"
 msgstr "English"
 
-#: brigadier/settings.py:151
+#: brigadier/settings.py:152
 msgid "Russian"
 msgstr "Russian"
 
@@ -31,28 +31,28 @@ msgstr "Russian"
 msgid "Employees"
 msgstr "Employees"
 
-#: employees/forms.py:17 employees/models.py:9
+#: employees/forms.py:20 employees/models.py:9
 #: employees/templates/employee_detail.html:13
 msgid "Firstname"
 msgstr "Firstname"
 
-#: employees/forms.py:21 employees/models.py:11
+#: employees/forms.py:24 employees/models.py:11
 #: employees/templates/employee_detail.html:21
 msgid "Middlename"
 msgstr "Middlename"
 
-#: employees/forms.py:25 employees/models.py:16
+#: employees/forms.py:28 employees/models.py:16
 #: employees/templates/employee_detail.html:29
 msgid "Surname"
 msgstr "Surname"
 
-#: employees/forms.py:29 employees/models.py:17
+#: employees/forms.py:32 employees/models.py:17
 #: employees/templates/employee_detail.html:37
 #: employees/templates/employee_list.html:17
 msgid "Email"
 msgstr "Email"
 
-#: employees/forms.py:33 employees/models.py:19
+#: employees/forms.py:36 employees/models.py:19
 #: employees/templates/employee_detail.html:45
 #: employees/templates/employee_list.html:18
 msgid "Birthdate"
@@ -77,7 +77,7 @@ msgid "Yes"
 msgstr "Yes"
 
 #: employees/templates/employee_confirm_delete.html:18
-#: employees/templates/employee_form.html:46
+#: employees/templates/employee_form.html:45
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -99,11 +99,12 @@ msgstr "Delete"
 msgid "Create"
 msgstr "Create"
 
-#: employees/templates/employee_form.html:43
+#: employees/templates/employee_form.html:42
 msgid "Save"
 msgstr "Save"
 
 #: employees/templates/employee_list.html:19
+#: projects/templates/project_list.html:17
 msgid "Actions"
 msgstr "Actions"
 
@@ -111,10 +112,72 @@ msgstr "Actions"
 msgid "Home"
 msgstr "Home"
 
-#: templates/nav.html:16
+#: projects/models.py:11 projects/templates/project_list.html:12
+#, fuzzy
+#| msgid "Projects"
+msgid "Project name"
+msgstr "Projects"
+
+#: projects/models.py:12 projects/models.py:29
+msgid "Description"
+msgstr ""
+
+#: projects/models.py:13
+msgid "Budget"
+msgstr ""
+
+#: projects/models.py:14 projects/templates/project_list.html:13
+msgid "Deadline"
+msgstr ""
+
+#: projects/models.py:15
+msgid "Closed"
+msgstr ""
+
+#: projects/models.py:24
+#, fuzzy
+#| msgid "Projects"
+msgid "Project"
+msgstr "Projects"
+
+#: projects/models.py:28
+msgid "Task name"
+msgstr ""
+
+#: projects/models.py:30
+#, fuzzy
+#| msgid "Birthdate"
+msgid "Start date"
+msgstr "Birthdate"
+
+#: projects/models.py:31
+msgid "Complete date"
+msgstr ""
+
+#: projects/models.py:34
+msgid "Author"
+msgstr ""
+
+#: projects/models.py:41
+msgid "Executor"
+msgstr ""
+
+#: projects/models.py:46
+msgid "status"
+msgstr ""
+
+#: projects/templates/project_list.html:6 templates/nav.html:16
 msgid "Projects"
 msgstr "Projects"
 
-#: templates/nav.html:19
+#: projects/templates/project_list.html:14 templates/nav.html:19
 msgid "Tasks"
 msgstr "Tasks"
+
+#: projects/templates/project_list.html:15
+msgid "Completed"
+msgstr ""
+
+#: projects/templates/project_list.html:16
+msgid "Closed?"
+msgstr ""

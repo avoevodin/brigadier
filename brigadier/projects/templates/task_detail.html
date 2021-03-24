@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block container %}
+    <h1>{{ task.task_name }}</h1>
+    <hr>
+    <div class="mb-2">
+        <a href="{% url "projects:task_list" %}">{% trans "Back" %}</a>
+    </div>
+    <div class="card" style="max-width: 600px;">
+        <div class="card-body">
+            <div class="row">
+                <div class="col" style="">
+                    <b>{% trans "Project" %}</b>
+                </div>
+                <div class="col">
+                    {{ task.project.project_name }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <b>{% trans "Author" %}</b>
+                </div>
+                <div class="col">
+                    {{ task.author_full_name }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <b>{% trans "Executor" %}</b>
+                </div>
+                <div class="col">
+                    {{ task.executor_full_name }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <b>{% trans "Start date" %}</b>
+                </div>
+                <div class="col">
+                    {{ task.start_date }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <b>{% trans "Complete date" %}</b>
+                </div>
+                <div class="col">
+                    {{ task.complete_date }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <b>{% trans "Status" %}</b>
+                </div>
+                <div class="col">
+                    {{ task.status }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <b>{% trans "Description" %}</b>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {{ task.description }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

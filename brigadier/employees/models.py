@@ -32,3 +32,7 @@ class Employee(models.Model):
         """
         return f'{self.firstname} {self.middlename if self.middlename else ""} {self.surname}'
     full_name.short_description = _('Full name')
+
+    class Meta:
+        verbose_name = _('Employee')
+        verbose_name_plural = _('Employees')

@@ -13,10 +13,10 @@
                     <a class="nav-link active" aria-current="page" href="{% url 'home:home' %}">{% translate 'Home' %}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">{% translate 'Projects' %}</a>
+                    <a class="nav-link" href="{% url 'projects:list' %}">{% translate 'Projects' %}</a>
                 </li>
                  <li class="nav-item">
-                    <a class="nav-link" href="#">{% translate 'Tasks' %}</a>
+                    <a class="nav-link" href="{% url "projects:task_list" %}">{% translate "Tasks" %}</a>
                 </li>
                  <li class="nav-item">
                     <a class="nav-link" href="{% url 'employees:list' %}">{% translate 'Employees' %}</a>

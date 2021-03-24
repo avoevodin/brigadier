@@ -14,6 +14,12 @@ class Project(models.Model):
     deadline = models.DateTimeField(verbose_name=_('Deadline'))
     closed = models.BooleanField(verbose_name=_('Closed'))
 
+    def __str__(self):
+        """todo()
+
+        """
+        return f'{self.project_name}'
+
     class Meta:
         verbose_name = _('Project')
         verbose_name_plural = _('Projects')
@@ -48,6 +54,12 @@ class Task(models.Model):
         on_delete=models.SET_NULL
     )
     status = models.CharField(verbose_name=_('status'), max_length=20)
+
+    def __str__(self):
+        """todo()
+
+        """
+        return f'{self.task_name}'
 
     def author_full_name(self):
         """todo()

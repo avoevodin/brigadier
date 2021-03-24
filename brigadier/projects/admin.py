@@ -33,7 +33,7 @@ class ProjectAdmin(admin.ModelAdmin):
     """
     fieldsets = [
         (None, {
-            'fields': ['id', 'project_name', 'deadline', 'closed']
+            'fields': ['id', 'project_name', 'deadline', 'budget', 'closed']
         }),
         (_('Description'), {'fields': ['description']})
     ]
@@ -41,7 +41,7 @@ class ProjectAdmin(admin.ModelAdmin):
         'id'
     ]
     list_display = [
-       'id', 'project_name', 'deadline', 'closed'
+       'id', 'project_name', 'deadline', 'budget', 'closed'
     ]
     list_display_links = [
         'id', 'project_name'

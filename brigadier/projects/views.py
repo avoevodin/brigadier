@@ -75,3 +75,21 @@ class TaskCreateView(generic.CreateView):
     template_name = 'task_form.html'
     form_class = TaskModelForm
     success_url = reverse_lazy('projects:task_list')
+
+
+class TaskEditView(generic.UpdateView):
+    """todo()
+
+    """
+    model = Task
+    template_name = 'task_form.html'
+    form_class = TaskModelForm
+    success_url = reverse_lazy('projects:task_list')
+
+
+class TaskDeleteView(generic.DeleteView):
+    """todo()
+
+    """
+    model = Task
+    template_name = 'task_confirm_delete.html'

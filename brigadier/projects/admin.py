@@ -11,13 +11,13 @@ class TaskInLine(admin.StackedInline):
     model = Task
     extra = 3
     fields = [
-        'id', 'task_name', 'author', 'executor', 'start_date', 'complete_date', 'status'
+        'id', 'task_name', 'author', 'assignee', 'start_date', 'complete_date', 'status'
     ]
     readonly_fields = [
         'id'
     ]
     list_display = [
-        'id', 'task_name', 'author', 'executor', 'start_date', 'complete_date', 'status'
+        'id', 'task_name', 'author', 'assignee', 'start_date', 'complete_date', 'status'
     ]
     list_display_links = [
         'id', 'task_name'

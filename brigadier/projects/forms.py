@@ -41,11 +41,35 @@ class TaskModelForm(forms.ModelForm):
         model = Task
         fields = [
             'project', 'task_name', 'start_date', 'complete_date',
-            'author', 'executor', 'status', 'description'
+            'author', 'assignee', 'status', 'description'
         ]
         widgets = {
             'project': forms.Select(attrs={
-                'class': 'form-select',
-                'aria-label': 'Select a project',
-            })
+                'class': 'form-select mb-2',
+            }),
+            'task_name': forms.TextInput(attrs={
+                'class': 'form-control mb-2',
+                'placeholder': _('Task name')
+            }),
+            'start_date': forms.DateTimeInput(attrs={
+                'class': 'form-control mb-2',
+                'placeholder': _('Start date'),
+            }),
+            'complete_date': forms.DateTimeInput(attrs={
+                'class': 'form-control mb-2',
+                'placeholder': _('Complete date'),
+            }),
+            'author': forms.Select(attrs={
+                'class': 'form-select mb-2',
+            }),
+            'assignee': forms.Select(attrs={
+                'class': 'form-select mb-2',
+            }),
+            'status': forms.Select(attrs={
+                'class': 'form-select mb-2',
+            }),
+            'description': forms.TextInput(attrs={
+                'class': 'form-control mb-2',
+                'placeholder': _('Description')
+            }),
         }

@@ -4,8 +4,8 @@
 
 {% block container %}
     <h1>
-        {% if project %}
-            {{ project.project_name }}
+        {% if task %}
+            {{ task.task_name }}
         {% else %}
             {% translate 'Create task' %}
         {% endif %}
@@ -36,6 +36,9 @@
                             </div>
                         {% endfor %}
                     {% endif %}
+                    {% if field.widget_type == 'select' %}
+                        <label class="form-label">{{ field.label_tag }}</label>
+                     {% endif %}
                     {{ field }}
                 {% endfor %}
                 <button class="btn btn-primary" type="submit">

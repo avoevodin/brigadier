@@ -3,6 +3,25 @@ from django.utils.translation import gettext_lazy as _
 
 from employees.models import Employee
 
+NEW = 'new'
+COMPLETED = 'completed'
+PROCESSED = 'processed'
+STATUSES = [
+    (NEW, _('New')),
+    (COMPLETED, _('Completed')),
+    (PROCESSED, _('Processed')),
+]
+
+
+def get_full_name_of_employee(employee):
+    """todo()
+
+    """
+    if employee is None:
+        return ''
+    else:
+        return employee.full_name()
+
 
 class Project(models.Model):
     """todo()
@@ -32,8 +51,7 @@ class Task(models.Model):
     project = models.ForeignKey(
         Project,
         verbose_name=_('Project'),
-        null=True,
-        on_delete=models.SET_NULL
+        on_delete=models.CASCADE,
     )
     task_name = models.CharField(verbose_name=_('Task name'), max_length=80)
     description = models.CharField(verbose_name=_('Description'), max_length=400)
@@ -46,14 +64,19 @@ class Task(models.Model):
         null=True,
         on_delete=models.SET_NULL
     )
-    executor = models.ForeignKey(
+    assignee = models.ForeignKey(
         Employee,
-        verbose_name=_('Executor'),
-        related_name='employee_executor',
+        verbose_name=_('Assignee'),
+        related_name='employee_assignee',
         null=True,
         on_delete=models.SET_NULL
     )
-    status = models.CharField(verbose_name=_('status'), max_length=20)
+    status = models.CharField(
+        verbose_name=_('status'),
+        max_length=20,
+        choices=STATUSES,
+        default=NEW
+    )
 
     def __str__(self):
         """todo()
@@ -65,13 +88,13 @@ class Task(models.Model):
         """todo()
 
         """
-        return self.author.full_name()
+        return get_full_name_of_employee(self.author)
 
-    def executor_full_name(self):
+    def assignee_full_name(self):
         """todo()
 
         """
-        return self.executor.full_name()
+        return get_full_name_of_employee(self.assignee)
 
     class Meta:
         verbose_name = _('Task')

@@ -23,7 +23,7 @@
                     <b>{% trans "Tasks" %}</b>
                 </div>
                 <div class="col">
-
+                    {{ project.get_tasks_count.id__count }}
                 </div>
             </div>
             <div class="row">
@@ -38,7 +38,11 @@
                     <b>{% trans "Closed?" %}</b>
                 </div>
                 <div class="col">
-                    {{ project.closed }}
+                    {% if project.closed %}
+                        <i class="bi bi-check-circle" style="color:green"></i>
+                    {% else %}
+                        <i class="bi bi-dash-circle" style="color:coral"></i>
+                    {% endif %}
                 </div>
             </div>
             <div class="row">

@@ -55,7 +55,7 @@
                     <b>{% trans "Status" %}</b>
                 </div>
                 <div class="col">
-                    {{ task.status }}
+                    {{ task.get_status_repr }}
                 </div>
             </div>
             <div class="row">

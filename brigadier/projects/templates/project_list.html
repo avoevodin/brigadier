@@ -33,7 +33,7 @@
                 </td>
                 <td>{{ project.deadline }}</td>
                 <td>{{ project.budget }}</td>
-                <td></td>
+                <td>{{ project.get_tasks_count.id__count }}</td>
                 <td></td>
                 <td>
                     {% if project.closed %}

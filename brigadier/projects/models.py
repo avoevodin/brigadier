@@ -40,6 +40,12 @@ class Project(models.Model):
         """
         return f'{self.project_name}'
 
+    def get_tasks_count(self):
+        """todo()
+
+        """
+        return Task.objects.filter(project=self).aggregate(models.Count('id'))
+
     class Meta:
         verbose_name = _('Project')
         verbose_name_plural = _('Projects')
@@ -77,7 +83,6 @@ class Task(models.Model):
         max_length=20,
         choices=STATUSES,
         default=NEW,
-
     )
 
     def __str__(self):

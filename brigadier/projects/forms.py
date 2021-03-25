@@ -5,7 +5,8 @@ from .models import Project, Task
 
 
 class ProjectModelForm(forms.ModelForm):
-    """todo()
+    """Class describes the model form of the Project
+    class.
 
     """
 
@@ -33,7 +34,8 @@ class ProjectModelForm(forms.ModelForm):
 
 
 class TaskModelForm(forms.ModelForm):
-    """todo()
+    """Class describes the model form of the
+    Task class.
 
     """
 

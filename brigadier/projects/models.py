@@ -15,7 +15,7 @@ STATUSES_DICT = dict(STATUSES)
 
 
 def get_full_name_of_employee(employee):
-    """todo()
+    """Returns full name of the selected employee.
 
     """
     if employee is None:
@@ -25,7 +25,7 @@ def get_full_name_of_employee(employee):
 
 
 class Project(models.Model):
-    """todo()
+    """Class describes model of the Project entity.
 
     """
     project_name = models.CharField(verbose_name=_('Project name'), max_length=80)
@@ -35,13 +35,10 @@ class Project(models.Model):
     closed = models.BooleanField(verbose_name=_('Closed'))
 
     def __str__(self):
-        """todo()
-
-        """
         return f'{self.project_name}'
 
     def get_tasks_count(self):
-        """todo()
+        """Returns amount of tasks of the project.
 
         """
         return Task.objects.filter(project=self).aggregate(models.Count('id'))
@@ -52,7 +49,7 @@ class Project(models.Model):
 
 
 class Task(models.Model):
-    """todo()
+    """Class that purpose is describe task structure.
 
     """
     project = models.ForeignKey(
@@ -86,25 +83,22 @@ class Task(models.Model):
     )
 
     def __str__(self):
-        """todo()
-
-        """
         return f'{self.task_name}'
 
     def author_full_name(self):
-        """todo()
+        """Returns the full name of the author.
 
         """
         return get_full_name_of_employee(self.author)
 
     def assignee_full_name(self):
-        """todo()
+        """Returns the full name of the assignee.
 
         """
         return get_full_name_of_employee(self.assignee)
 
     def get_status_repr(self):
-        """todo()
+        """Returns string representation of the status.
 
         """
         return STATUSES_DICT[self.status]

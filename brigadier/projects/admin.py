@@ -5,7 +5,8 @@ from .models import Project, Task
 
 
 class TaskInLine(admin.StackedInline):
-    """todo()
+    """Class based on the inline model that serves for inline displaying of
+    tasks in projects.
 
     """
     model = Task
@@ -28,7 +29,8 @@ class TaskInLine(admin.StackedInline):
 
 
 class ProjectAdmin(admin.ModelAdmin):
-    """todo()
+    """Class based on the admin model. Its purpose is
+    displaying projects in the admin panel.
 
     """
     fieldsets = [

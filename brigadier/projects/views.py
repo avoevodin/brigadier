@@ -4,8 +4,9 @@ from django.urls import reverse_lazy
 from .models import Project, Task
 from .forms import  ProjectModelForm, TaskModelForm
 
+
 class ProjectListView(generic.ListView):
-    """todo()
+    """View displays the list of projects
 
     """
     model = Project
@@ -14,7 +15,7 @@ class ProjectListView(generic.ListView):
 
 
 class TaskListView(generic.ListView):
-    """todo()
+    """View displays the list of tasks.
 
     """
     model = Task
@@ -23,7 +24,7 @@ class TaskListView(generic.ListView):
 
 
 class ProjectDetailView(generic.DetailView):
-    """todo()
+    """View displays details of the selected project
 
     """
     model = Project
@@ -31,7 +32,8 @@ class ProjectDetailView(generic.DetailView):
 
 
 class TaskDetailView(generic.DetailView):
-    """todo()
+    """Vies displays detail of the selected
+    task.
 
     """
     model = Task
@@ -39,7 +41,7 @@ class TaskDetailView(generic.DetailView):
 
 
 class ProjectCreateView(generic.CreateView):
-    """todo()
+    """View displays creating form of the project.
 
     """
     model = Project
@@ -49,7 +51,7 @@ class ProjectCreateView(generic.CreateView):
 
 
 class ProjectEditView(generic.UpdateView):
-    """todo()
+    """View displays editing form of the project.
 
     """
     model = Project
@@ -59,7 +61,7 @@ class ProjectEditView(generic.UpdateView):
 
 
 class ProjectDeleteView(generic.DeleteView):
-    """todo()
+    """View displays deleting form of the project.
 
     """
     model = Project
@@ -68,7 +70,7 @@ class ProjectDeleteView(generic.DeleteView):
 
 
 class TaskCreateView(generic.CreateView):
-    """todo()
+    """View displays creating form of the task.
 
     """
     model = Task
@@ -78,7 +80,7 @@ class TaskCreateView(generic.CreateView):
 
 
 class TaskEditView(generic.UpdateView):
-    """todo()
+    """View displays editing form of the task.
 
     """
     model = Task
@@ -88,7 +90,7 @@ class TaskEditView(generic.UpdateView):
 
 
 class TaskDeleteView(generic.DeleteView):
-    """todo()
+    """View displays deleting form of the task.
 
     """
     model = Task

@@ -4,7 +4,8 @@ from .models import Employee
 
 
 class EmployeeAdmin(admin.ModelAdmin):
-    """todo()'
+    """Class that purpose is displaying of Employee in
+    the admin-panel.
 
     """
     fields = [

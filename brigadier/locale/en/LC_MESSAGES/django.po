@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-25 10:37+0300\n"
+"POT-Creation-Date: 2021-03-25 11:48+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Andrey Voevodin <avoevodin8888@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -129,40 +129,45 @@ msgstr "Actions"
 msgid "Home"
 msgstr "Home"
 
-#: projects/admin.py:38 projects/forms.py:30 projects/forms.py:73
-#: projects/models.py:32 projects/models.py:64
-#: projects/templates/project_detail.html:46
+#: projects/admin.py:40 projects/forms.py:31 projects/forms.py:75
+#: projects/models.py:32 projects/models.py:61
+#: projects/templates/project_detail.html:50
 #: projects/templates/task_detail.html:63
 msgid "Description"
 msgstr "Description"
 
-#: projects/forms.py:18 projects/models.py:31
+#: projects/apps.py:7 projects/models.py:48
+#: projects/templates/project_list.html:6 templates/nav.html:16
+msgid "Projects"
+msgstr "Projects"
+
+#: projects/forms.py:19 projects/models.py:31
 #, fuzzy
 #| msgid "Projects"
 msgid "Project name"
 msgstr "Project name"
 
-#: projects/forms.py:22 projects/models.py:34
+#: projects/forms.py:23 projects/models.py:34
 #: projects/templates/project_detail.html:15
 #: projects/templates/project_list.html:17
 msgid "Deadline"
 msgstr "Deadline"
 
-#: projects/forms.py:26 projects/models.py:33
+#: projects/forms.py:27 projects/models.py:33
 #: projects/templates/project_list.html:18
 msgid "Budget"
 msgstr "Budget"
 
-#: projects/forms.py:52 projects/models.py:63
+#: projects/forms.py:54 projects/models.py:60
 msgid "Task name"
 msgstr "Task name"
 
-#: projects/forms.py:56 projects/models.py:65
+#: projects/forms.py:58 projects/models.py:62
 #: projects/templates/task_detail.html:39 projects/templates/task_list.html:20
 msgid "Start date"
 msgstr "Start date"
 
-#: projects/forms.py:60 projects/models.py:66
+#: projects/forms.py:62 projects/models.py:63
 #: projects/templates/task_detail.html:47 projects/templates/task_list.html:21
 msgid "Complete date"
 msgstr "Complete date"
@@ -183,36 +188,31 @@ msgstr "Processed"
 msgid "Closed"
 msgstr "Closed"
 
-#: projects/models.py:50 projects/models.py:60
+#: projects/models.py:47 projects/models.py:57
 #: projects/templates/task_detail.html:15 projects/templates/task_list.html:16
 msgid "Project"
 msgstr "Project"
 
-#: projects/models.py:51 projects/templates/project_list.html:6
-#: templates/nav.html:16
-msgid "Projects"
-msgstr "Projects"
-
-#: projects/models.py:69 projects/templates/task_detail.html:23
+#: projects/models.py:66 projects/templates/task_detail.html:23
 #: projects/templates/task_list.html:18
 msgid "Author"
 msgstr "Author"
 
-#: projects/models.py:76 projects/templates/task_detail.html:31
+#: projects/models.py:73 projects/templates/task_detail.html:31
 #: projects/templates/task_list.html:19
 msgid "Assignee"
 msgstr "Assignee"
 
-#: projects/models.py:82 projects/templates/task_detail.html:55
+#: projects/models.py:79 projects/templates/task_detail.html:55
 #: projects/templates/task_list.html:22
 msgid "Status"
 msgstr "Status"
 
-#: projects/models.py:113
+#: projects/models.py:107
 msgid "Task"
 msgstr "Task"
 
-#: projects/models.py:114 projects/templates/project_detail.html:23
+#: projects/models.py:108 projects/templates/project_detail.html:23
 #: projects/templates/project_list.html:19 projects/templates/task_list.html:6
 #: templates/nav.html:19
 msgid "Tasks"

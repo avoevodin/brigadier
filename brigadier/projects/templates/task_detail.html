@@ -23,7 +23,7 @@
                     <b>{% trans "Author" %}</b>
                 </div>
                 <div class="col">
-                    {{ task.author_full_name }}
+                    {{ task.author.full_name }}
                 </div>
             </div>
             <div class="row">
@@ -31,7 +31,7 @@
                     <b>{% trans "Assignee" %}</b>
                 </div>
                 <div class="col">
-                    {{ task.assignee_full_name }}
+                    {{ task.assignee.full_name }}
                 </div>
             </div>
             <div class="row">

@@ -37,8 +37,8 @@
                         {{ task.task_name }}
                     </a>
                 </td>
-                <td>{{ task.author_full_name }}</td>
-                <td>{{ task.assignee_full_name }}</td>
+                <td>{{ task.author.full_name }}</td>
+                <td>{{ task.assignee.full_name }}</td>
                 <td>{{ task.start_date }}</td>
                 <td>{{ task.complete_date }}</td>
                 <td>{{ task.get_status_repr }}</td>

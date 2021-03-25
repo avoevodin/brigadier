@@ -32,10 +32,6 @@ __EOF__
 ```shell
 export (cat .env)
 ```
-* Create superuser:
-```shell
-./manage.py createsuperuser
-```
 * Compile messages:
 ```shell
 ./manage.py compilemessages
@@ -43,6 +39,10 @@ export (cat .env)
 * Migrate:
 ```shell
 ./manage.py migrate
+```
+* Create superuser:
+```shell
+./manage.py createsuperuser
 ```
 * Run server:
 ```shell

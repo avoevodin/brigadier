@@ -14,16 +14,6 @@ STATUSES = [
 STATUSES_DICT = dict(STATUSES)
 
 
-def get_full_name_of_employee(employee):
-    """Returns full name of the selected employee.
-
-    """
-    if employee is None:
-        return ''
-    else:
-        return employee.full_name()
-
-
 class Project(models.Model):
     """Class describes model of the Project entity.
 
@@ -89,13 +79,13 @@ class Task(models.Model):
         """Returns the full name of the author.
 
         """
-        return get_full_name_of_employee(self.author)
+        return self.author.full_name() if self.author else ''
 
     def assignee_full_name(self):
         """Returns the full name of the assignee.
 
         """
-        return get_full_name_of_employee(self.assignee)
+        return self.assignee.full_name() if self.assignee else ''
 
     def get_status_repr(self):
         """Returns string representation of the status.

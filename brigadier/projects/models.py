@@ -11,6 +11,7 @@ STATUSES = [
     (COMPLETED, _('Finished')),
     (PROCESSED, _('Processed')),
 ]
+STATUSES_DICT = dict(STATUSES)
 
 
 def get_full_name_of_employee(employee):
@@ -72,10 +73,11 @@ class Task(models.Model):
         on_delete=models.SET_NULL
     )
     status = models.CharField(
-        verbose_name=_('status'),
+        verbose_name=_('Status'),
         max_length=20,
         choices=STATUSES,
-        default=NEW
+        default=NEW,
+
     )
 
     def __str__(self):
@@ -95,6 +97,12 @@ class Task(models.Model):
 
         """
         return get_full_name_of_employee(self.assignee)
+
+    def get_status_repr(self):
+        """todo()
+
+        """
+        return STATUSES_DICT[self.status]
 
     class Meta:
         verbose_name = _('Task')

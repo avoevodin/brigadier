@@ -35,7 +35,7 @@
                 <td>{{ task.assignee_full_name }}</td>
                 <td>{{ task.start_date }}</td>
                 <td>{{ task.complete_date }}</td>
-                <td>{{ task.status }}</td>
+                <td>{{ task.get_status_repr }}</td>
                 <td>
                     <a class="btn btn-warning btn-sm" href="{% url 'projects:task_edit' task.id %}">
                         <i class="bi bi-pencil-fill"></i>

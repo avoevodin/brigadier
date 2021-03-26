@@ -32,9 +32,9 @@ __EOF__
 ```shell
 export $(cat .env)
 ```
-* Pull docker container with postgres, run it
+* Run docker container with postgres and download it
+if it hasn't been downloaded earlier.
 ```shell
-docker pull postgres:13.2-alpine
 docker run -d --name brigadier-postgres --hostname brigadier-postgres \
 -p 5433:5432 \
 --env-file .env \

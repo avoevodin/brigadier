@@ -5,11 +5,11 @@ from employees.models import Employee
 
 NEW = 'new'
 COMPLETED = 'completed'
-PROCESSED = 'processed'
+IN_PROGRESS = 'in_progress'
 STATUSES = [
     (NEW, _('New')),
     (COMPLETED, _('Finished')),
-    (PROCESSED, _('Processed')),
+    (IN_PROGRESS, _('In progress')),
 ]
 STATUSES_DICT = dict(STATUSES)
 

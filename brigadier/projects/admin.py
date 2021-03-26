@@ -84,7 +84,9 @@ class TaskAdmin(admin.ModelAdmin):
     search_fields = [
         'task_name'
     ]
-
+    list_filter = [
+        'start_date', 'complete_date'
+    ]
 
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(Task, TaskAdmin)

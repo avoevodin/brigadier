@@ -27,7 +27,7 @@ Book.objects.aggregate(Avg('price'))
 Book.objects.aggregate(Avg('price'), Min('price'), Max('price'))
 # Good practice:
 Book.objects.aggregate(avg_price=Avg('price'), min_price=Min('price'), max_price=Max('price'))
-# Agregate the last in chain. Because agregate isn't queryset, but dict
+# Aggregate is the last member of a chain, because aggregate returns dict instead of queryset
 Book.objects.filter(rating__gte=9).aggregate(avg_price=Avg('price'), min_price=Min('price'), max_price=Max('price'))
 Book.objects.aggregate(price_diff=Max('price') - Avg('price'))
 ```

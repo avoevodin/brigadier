@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% load i18n %}
 
@@ -39,7 +39,7 @@
                     {{ field }}
                 {% endfor %}
                 <button class="btn btn-primary" type="submit">
-                    {% translate 'Save' %}
+                    {% translate "Save" %}
                 </button>
                 <a class="btn btn-secondary" href="{% url "employees:list" %}">
                     {% translate "Cancel" %}

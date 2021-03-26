@@ -1,21 +1,21 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% load i18n %}
 
 {% block container %}
-    <h2>{% translate 'Deleting' %} </h2>
+    <h2>{% translate "Deleting" %} </h2>
     <h4>{{ employee }}</h4>
     <hr>
     <form method="post">{% csrf_token %}
         <div class="alert alert-danger">
-            {% translate 'Are you sure?' %}
+            {% translate "Are you sure?" %}
         </div>
         <div class="mt-3">
             <button class="btn btn-danger" type="submit">
-                {% translate 'Yes' %}
+                {% translate "Yes" %}
             </button>
-            <a class="btn btn-secondary" href="{% url 'employees:list' %}">
-                {% translate 'Cancel' %}
+            <a class="btn btn-secondary" href="{% url "employees:list" %}">
+                {% translate "Cancel" %}
             </a>
         </div>
     </form>

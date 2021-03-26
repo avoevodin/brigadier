@@ -88,5 +88,6 @@ class TaskAdmin(admin.ModelAdmin):
         'start_date', 'complete_date'
     ]
 
+
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(Task, TaskAdmin)

@@ -57,12 +57,18 @@
             </div>
         </div>
     </div>
-    <a class="btn btn-primary btn-lg" href="{% url "projects:edit" project.id %}">
-        <i class="bi bi-pencil-fill"></i>
-        {% translate "Edit" %}
-    </a>
-    <a class="btn btn-danger btn-lg" href="{% url "projects:delete" project.id %}">
-        <i class="bi bi-trash"></i>
-        {% translate "Delete" %}
-    </a>
+    <div class="row mt-2">
+        <div class="col-auto">
+            <a class="btn btn-primary btn-lg" href="{% url "projects:edit" project.id %}">
+                <i class="bi bi-pencil-fill"></i>
+                {% translate "Edit" %}
+            </a>
+        </div>
+        <div class="col-auto">
+            <a class="btn btn-danger btn-lg" href="{% url "projects:delete" project.id %}">
+                <i class="bi bi-trash"></i>
+                {% translate "Delete" %}
+            </a>
+        </div>
+    </div>
 {% endblock %}

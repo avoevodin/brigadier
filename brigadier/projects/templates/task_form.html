@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% load i18n %}
 
@@ -7,13 +7,13 @@
         {% if task %}
             {{ task.task_name }}
         {% else %}
-            {% translate 'Create task' %}
+            {% translate "Create task" %}
         {% endif %}
     </h1>
     <hr>
     <div class="mb-2">
         <a class="link link-primary" href="{% url "projects:task_list" %}">
-            {% translate 'Back' %}
+            {% translate "Back" %}
         </a>
     </div>
     <div class="card" style="max-width: 600px">
@@ -36,16 +36,16 @@
                             </div>
                         {% endfor %}
                     {% endif %}
-                    {% if field.widget_type == 'select' %}
+                    {% if field.widget_type == "select" %}
                         <label class="form-label">{{ field.label_tag }}</label>
                      {% endif %}
                     {{ field }}
                 {% endfor %}
                 <button class="btn btn-primary" type="submit">
-                    {% translate 'Save' %}
+                    {% translate "Save" %}
                 </button>
-                <a class="btn btn-secondary" href="{% url 'projects:task_list' %}">
-                    {% translate 'Cancel' %}
+                <a class="btn btn-secondary" href="{% url "projects:task_list" %}">
+                    {% translate "Cancel" %}
                 </a>
             </form>
         </div>

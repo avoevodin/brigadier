@@ -7,13 +7,13 @@
         {% if employee %}
             {{ employee.full_name }}
         {% else %}
-            {% translate 'Create' %}
+            {% translate "Create" %}
         {% endif %}
     </h1>
     <hr>
     <div class="mb-2">
-        <a class="link link-primary" href="{% url 'employees:list' %}">
-            {% translate 'Back' %}
+        <a class="link link-primary" href="{% url "employees:list" %}">
+            {% translate "Back" %}
         </a>
     </div>
     <div class="card" style="max-width: 600px">
@@ -41,8 +41,8 @@
                 <button class="btn btn-primary" type="submit">
                     {% translate 'Save' %}
                 </button>
-                <a class="btn btn-secondary" href="{% url 'employees:list' %}">
-                    {% translate 'Cancel' %}
+                <a class="btn btn-secondary" href="{% url "employees:list" %}">
+                    {% translate "Cancel" %}
                 </a>
             </form>
         </div>

@@ -7,13 +7,13 @@
         {% if project %}
             {{ project.project_name }}
         {% else %}
-            {% translate 'Create project' %}
+            {% translate "Create project" %}
         {% endif %}
     </h1>
     <hr>
     <div class="mb-2">
-        <a class="link link-primary" href="{% url 'projects:list' %}">
-            {% translate 'Back' %}
+        <a class="link link-primary" href="{% url "projects:list" %}">
+            {% translate "Back" %}
         </a>
     </div>
     <div class="card" style="max-width: 600px">
@@ -39,10 +39,10 @@
                     {{ field }}
                 {% endfor %}
                 <button class="btn btn-primary" type="submit">
-                    {% translate 'Save' %}
+                    {% translate "Save" %}
                 </button>
-                <a class="btn btn-secondary" href="{% url 'projects:list' %}">
-                    {% translate 'Cancel' %}
+                <a class="btn btn-secondary" href="{% url "projects:list" %}">
+                    {% translate "Cancel" %}
                 </a>
             </form>
         </div>

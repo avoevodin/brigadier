@@ -57,4 +57,34 @@ class ProjectAdmin(admin.ModelAdmin):
     inlines = [TaskInLine]
 
 
+class TaskAdmin(admin.ModelAdmin):
+    """Class based on the admin model. Its purpose is
+    displaying tasks in the admin panel.
+
+    """
+    model = Task
+    fieldsets = [
+        (None, {
+            'fields': ['id', 'task_name', 'author', 'assignee']
+        }),
+        (_('Terms and status'), {
+            'fields': ['start_date', 'complete_date', 'status']
+        }),
+        (_('Description'), {'fields': ['description']})
+    ]
+    readonly_fields = [
+        'id'
+    ]
+    list_display = [
+        'id', 'task_name', 'author', 'assignee', 'start_date', 'complete_date', 'status'
+    ]
+    list_display_links = [
+        'id', 'task_name'
+    ]
+    search_fields = [
+        'task_name'
+    ]
+
+
 admin.site.register(Project, ProjectAdmin)
+admin.site.register(Task, TaskAdmin)

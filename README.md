@@ -30,10 +30,19 @@ __EOF__
 ```
 * Export env vars from env-file:
 ```shell
-export (cat .env)
+export $(cat .env)
+```
+* Pull docker container with postgres, run it
+```shell
+docker pull postgres:13.2-alpine
+docker run -d --name brigadier-postgres --hostname brigadier-postgres \
+-p 5433:5432 \
+--env-file .env \
+postgres:13.2-alpine
 ```
 * Compile messages:
 ```shell
+cd brigadier
 ./manage.py compilemessages
 ```
 * Migrate:

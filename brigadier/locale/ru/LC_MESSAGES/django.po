@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-25 11:48+0300\n"
+"POT-Creation-Date: 2021-03-25 23:49+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Andrey Voevodin <avoevodin8888@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,43 +28,43 @@ msgstr "Английский"
 msgid "Russian"
 msgstr "Русский"
 
-#: employees/apps.py:7 employees/models.py:38
+#: employees/apps.py:7 employees/models.py:49
 #: employees/templates/employee_list.html:6 templates/nav.html:22
 msgid "Employees"
 msgstr "Сотрудники"
 
-#: employees/forms.py:20 employees/models.py:9
+#: employees/forms.py:20 employees/models.py:10
 #: employees/templates/employee_detail.html:13
 msgid "Firstname"
 msgstr "Имя"
 
-#: employees/forms.py:24 employees/models.py:11
+#: employees/forms.py:24 employees/models.py:14
 #: employees/templates/employee_detail.html:21
 msgid "Middlename"
 msgstr "Отчество"
 
-#: employees/forms.py:28 employees/models.py:16
+#: employees/forms.py:28 employees/models.py:20
 #: employees/templates/employee_detail.html:29
 msgid "Surname"
 msgstr "Фамилия"
 
-#: employees/forms.py:32 employees/models.py:17
+#: employees/forms.py:32 employees/models.py:23
 #: employees/templates/employee_detail.html:37
-#: employees/templates/employee_list.html:17
+#: employees/templates/employee_list.html:18
 msgid "Email"
 msgstr "Адрес электронной почты"
 
-#: employees/forms.py:36 employees/models.py:19
+#: employees/forms.py:36 employees/models.py:25
 #: employees/templates/employee_detail.html:45
-#: employees/templates/employee_list.html:18
+#: employees/templates/employee_list.html:19
 msgid "Birthdate"
 msgstr "Дата рождения"
 
-#: employees/models.py:34 employees/templates/employee_list.html:16
+#: employees/models.py:45 employees/templates/employee_list.html:17
 msgid "Full name"
 msgstr "ФИО"
 
-#: employees/models.py:37
+#: employees/models.py:48
 msgid "Employee"
 msgstr "Сотрудник"
 
@@ -104,10 +104,14 @@ msgid "Back"
 msgstr "Назад"
 
 #: employees/templates/employee_detail.html:55
+#: projects/templates/project_detail.html:62
+#: projects/templates/task_detail.html:75
 msgid "Edit"
 msgstr "Редактировать"
 
 #: employees/templates/employee_detail.html:59
+#: projects/templates/project_detail.html:66
+#: projects/templates/task_detail.html:79
 msgid "Delete"
 msgstr "Удалить"
 
@@ -122,53 +126,61 @@ msgstr "Создать"
 msgid "Save"
 msgstr "Сохранить"
 
-#: employees/templates/employee_list.html:19
-#: projects/templates/project_list.html:22 projects/templates/task_list.html:23
+#: employees/templates/employee_list.html:20
+#: projects/templates/project_list.html:23 projects/templates/task_list.html:24
 msgid "Actions"
 msgstr "Действия"
+
+#: employees/templates/employee_list.html:43
+msgid "No employees are available."
+msgstr "Нет доступных сотрудников."
 
 #: home/apps.py:7 home/templates/home.html:6 templates/nav.html:13
 msgid "Home"
 msgstr "Главная"
 
-#: projects/admin.py:40 projects/forms.py:31 projects/forms.py:75
-#: projects/models.py:32 projects/models.py:61
+#: projects/admin.py:40 projects/admin.py:73 projects/forms.py:31
+#: projects/forms.py:75 projects/models.py:22 projects/models.py:52
 #: projects/templates/project_detail.html:50
 #: projects/templates/task_detail.html:63
 msgid "Description"
 msgstr "Описание"
 
-#: projects/apps.py:7 projects/models.py:48
+#: projects/admin.py:70
+msgid "Terms and status"
+msgstr "Сроки и статус"
+
+#: projects/apps.py:7 projects/models.py:38
 #: projects/templates/project_list.html:6 templates/nav.html:16
 msgid "Projects"
 msgstr "Проекты"
 
-#: projects/forms.py:19 projects/models.py:31
+#: projects/forms.py:19 projects/models.py:21
 msgid "Project name"
 msgstr "Название проекта"
 
-#: projects/forms.py:23 projects/models.py:34
+#: projects/forms.py:23 projects/models.py:24
 #: projects/templates/project_detail.html:15
-#: projects/templates/project_list.html:17
+#: projects/templates/project_list.html:18
 msgid "Deadline"
 msgstr "Дэдлайн"
 
-#: projects/forms.py:27 projects/models.py:33
-#: projects/templates/project_list.html:18
+#: projects/forms.py:27 projects/models.py:23
+#: projects/templates/project_list.html:19
 msgid "Budget"
 msgstr "Бюджет"
 
-#: projects/forms.py:54 projects/models.py:60
+#: projects/forms.py:54 projects/models.py:50
 msgid "Task name"
 msgstr "Название задачи"
 
-#: projects/forms.py:58 projects/models.py:62
-#: projects/templates/task_detail.html:39 projects/templates/task_list.html:20
+#: projects/forms.py:58 projects/models.py:57
+#: projects/templates/task_detail.html:39 projects/templates/task_list.html:21
 msgid "Start date"
 msgstr "Дата начала"
 
-#: projects/forms.py:62 projects/models.py:63
-#: projects/templates/task_detail.html:47 projects/templates/task_list.html:21
+#: projects/forms.py:62 projects/models.py:58
+#: projects/templates/task_detail.html:47 projects/templates/task_list.html:22
 msgid "Complete date"
 msgstr "Дата завершения"
 
@@ -184,47 +196,47 @@ msgstr "Завершена"
 msgid "Processed"
 msgstr "На выполнении"
 
-#: projects/models.py:35
+#: projects/models.py:25
 msgid "Closed"
 msgstr "Закрыт"
 
-#: projects/models.py:47 projects/models.py:57
-#: projects/templates/task_detail.html:15 projects/templates/task_list.html:16
+#: projects/models.py:37 projects/models.py:47
+#: projects/templates/task_detail.html:15 projects/templates/task_list.html:17
 msgid "Project"
 msgstr "Проект"
 
-#: projects/models.py:66 projects/templates/task_detail.html:23
-#: projects/templates/task_list.html:18
+#: projects/models.py:61 projects/templates/task_detail.html:23
+#: projects/templates/task_list.html:19
 msgid "Author"
 msgstr "Автор"
 
-#: projects/models.py:73 projects/templates/task_detail.html:31
-#: projects/templates/task_list.html:19
+#: projects/models.py:69 projects/templates/task_detail.html:31
+#: projects/templates/task_list.html:20
 msgid "Assignee"
 msgstr "Исполнитель"
 
-#: projects/models.py:79 projects/templates/task_detail.html:55
-#: projects/templates/task_list.html:22
+#: projects/models.py:76 projects/templates/task_detail.html:55
+#: projects/templates/task_list.html:23
 msgid "Status"
 msgstr "Статус"
 
-#: projects/models.py:107
+#: projects/models.py:92
 msgid "Task"
 msgstr "Задача"
 
-#: projects/models.py:108 projects/templates/project_detail.html:23
-#: projects/templates/project_list.html:19 projects/templates/task_list.html:6
+#: projects/models.py:93 projects/templates/project_detail.html:23
+#: projects/templates/project_list.html:20 projects/templates/task_list.html:6
 #: templates/nav.html:19
 msgid "Tasks"
 msgstr "Задачи"
 
 #: projects/templates/project_detail.html:31
-#: projects/templates/project_list.html:20
+#: projects/templates/project_list.html:21
 msgid "Completed"
 msgstr "Завершен"
 
 #: projects/templates/project_detail.html:38
-#: projects/templates/project_list.html:21
+#: projects/templates/project_list.html:22
 msgid "Closed?"
 msgstr "Закрыт?"
 
@@ -232,10 +244,18 @@ msgstr "Закрыт?"
 msgid "Create project"
 msgstr "Создать проект"
 
-#: projects/templates/project_list.html:16 projects/templates/task_list.html:17
+#: projects/templates/project_list.html:17 projects/templates/task_list.html:18
 msgid "Name"
 msgstr "Имя"
+
+#: projects/templates/project_list.html:59
+msgid "No projects are available."
+msgstr "Нет доступных проектов."
 
 #: projects/templates/task_form.html:10
 msgid "Create task"
 msgstr "Создать задачу"
+
+#: projects/templates/task_list.html:59
+msgid "No tasks are available."
+msgstr "Нет доступных задач."

@@ -50,11 +50,19 @@
                     <b>{% trans "Description" %}</b>
                 </div>
             </div>
-             <div class="row">
+            <div class="row">
                 <div class="col">
                     {{ project.description }}
                 </div>
             </div>
         </div>
     </div>
+    <a class="btn btn-primary btn-lg" href="{% url 'projects:edit' project.id %}">
+        <i class="bi bi-pencil-fill"></i>
+        {% translate 'Edit' %}
+    </a>
+    <a class="btn btn-danger btn-lg" href="{% url 'projects:delete' project.id %}">
+        <i class="bi bi-trash"></i>
+        {% translate 'Delete' %}
+    </a>
 {% endblock %}

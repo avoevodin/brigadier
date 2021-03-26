@@ -19,10 +19,10 @@ class Project(models.Model):
 
     """
     project_name = models.CharField(verbose_name=_('Project name'), max_length=80)
-    description = models.CharField(verbose_name=_('Description'), max_length=400)
+    description = models.CharField(verbose_name=_('Description'), max_length=400, blank=True)
     budget = models.FloatField(verbose_name=_('Budget'))
     deadline = models.DateTimeField(verbose_name=_('Deadline'))
-    closed = models.BooleanField(verbose_name=_('Closed'))
+    closed = models.BooleanField(verbose_name=_('Closed'), null=False, blank=False)
 
     def __str__(self):
         return f'{self.project_name}'
@@ -48,7 +48,12 @@ class Task(models.Model):
         on_delete=models.CASCADE,
     )
     task_name = models.CharField(verbose_name=_('Task name'), max_length=80)
-    description = models.CharField(verbose_name=_('Description'), max_length=400)
+    description = models.CharField(
+        verbose_name=_('Description'),
+        max_length=400,
+        blank=True,
+        null=True
+    )
     start_date = models.DateTimeField(verbose_name=_('Start date'))
     complete_date = models.DateTimeField(verbose_name=_('Complete date'))
     author = models.ForeignKey(
@@ -56,6 +61,7 @@ class Task(models.Model):
         verbose_name=_('Author'),
         related_name='employee_author',
         null=True,
+        blank=True,
         on_delete=models.SET_NULL
     )
     assignee = models.ForeignKey(
@@ -63,6 +69,7 @@ class Task(models.Model):
         verbose_name=_('Assignee'),
         related_name='employee_assignee',
         null=True,
+        blank=True,
         on_delete=models.SET_NULL
     )
     status = models.CharField(
@@ -74,18 +81,6 @@ class Task(models.Model):
 
     def __str__(self):
         return f'{self.task_name}'
-
-    def author_full_name(self):
-        """Returns the full name of the author.
-
-        """
-        return self.author.full_name() if self.author else ''
-
-    def assignee_full_name(self):
-        """Returns the full name of the assignee.
-
-        """
-        return self.assignee.full_name() if self.assignee else ''
 
     def get_status_repr(self):
         """Returns string representation of the status.

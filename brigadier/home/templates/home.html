@@ -4,4 +4,176 @@
 
 {% block container %}
     <h1>{% translate "Home" %}</h1>
+    <hr>
+    <div class="row">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {% trans "Projects" %}
+                    </h5>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            {% trans "Total" %}
+                            <span class="badge bg-info rounded-pill float-xs-right"
+                                  style="float:right">
+                                {% if projects_statistics.total is not None %}
+                                    {{ projects_statistics.total }}
+                                {% else %}
+                                    0
+                                {% endif %}
+                            </span>
+                        </li>
+                        <li class="list-group-item">
+                            {% trans "In progress" %}
+                            <span class="badge bg-primary rounded-pill" style="float:right">
+                                {% if projects_statistics.in_progress is not None %}
+                                    {{ projects_statistics.in_progress }}
+                                {% else %}
+                                    0
+                                {% endif %}
+                            </span>
+                        </li>
+                        <li class="list-group-item">
+                            {% trans "Overdue" %}
+                            <span class="badge bg-danger rounded-pill" style="float:right">
+                            {% if projects_statistics.overdue is not None %}
+                                {{ projects_statistics.overdue }}
+                            {% else %}
+                                0
+                            {% endif %}
+                            </span>
+                        </li>
+                        <li class="list-group-item">
+                            {% trans "Concluded" %}
+                            <span class="badge bg-success rounded-pill" style="float:right">
+                                {% if projects_statistics.concluded is not None %}
+                                    {{ projects_statistics.concluded }}
+                                {% else %}
+                                    0
+                                {% endif %}
+                            </span>
+                        </li>
+                    </ul>
+                    <div class="mt-2">
+                        <a class="btn btn-primary btn-lg" href="{% url "projects:list" %}">
+                            {% translate "Open Projects" %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {% trans "Tasks" %}
+                    </h5>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            {% trans "Total" %}
+                            <span class="badge bg-info rounded-pill float-xs-right" style="float:right">
+                                {% if tasks_statistics.total is not None %}
+                                    {{ tasks_statistics.total }}
+                                {% else %}
+                                    0
+                                {% endif %}
+                            </span>
+                        </li>
+                        <li class="list-group-item">
+                            {% trans "In progress" %}
+                            <span class="badge bg-primary rounded-pill float-xs-right" style="float:right">
+                                {% if tasks_statistics.in_progress is not None %}
+                                    {{ tasks_statistics.in_progress }}
+                                {% else %}
+                                    0
+                                {% endif %}
+                            </span>
+                        </li>
+                        <li class="list-group-item">
+                            {% trans "Overdue" %}
+                            <span class="badge bg-danger rounded-pill" style="float:right">
+                                {% if tasks_statistics.overdue is not None %}
+                                    {{ tasks_statistics.overdue }}
+                                {% else %}
+                                    0
+                                {% endif %}
+                            </span>
+                        </li>
+                        <li class="list-group-item">
+                            {% trans "Concluded" %}
+                            <span class="badge bg-success rounded-pill" style="float:right">
+                                {% if tasks_statistics.concluded is not None %}
+                                    {{ projects_statistics.concluded }}
+                                {% else %}
+                                    0
+                                {% endif %}
+                            </span>
+                        </li>
+                    </ul>
+                    <div class="mt-2">
+                        <a class="btn btn-primary btn-lg" href="{% url "projects:task_list" %}">
+                            {% translate "Open Tasks" %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {% trans "Employees" %}
+                    </h5>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            {% trans "Total" %}
+                            <span class="badge bg-info rounded-pill float-xs-right" style="float:right">
+                                {% if employees_statistics.total is not None %}
+                                    {{ employees_statistics.total }}
+                                {% else %}
+                                    0
+                                {% endif %}
+                            </span>
+                        </li>
+                        <li class="list-group-item">
+                            {% trans "Occupied" %}
+                            <span class="badge bg-success rounded-pill" style="float:right">
+                                {% if employees_statistics.occupied is not None %}
+                                    {{ employees_statistics.occupied }}
+                                {% else %}
+                                    0
+                                {% endif %}
+                            </span>
+                        </li>
+                        <li class="list-group-item">
+                            {% trans "No tasks" %}
+                            <span class="badge bg-warning rounded-pill" style="float:right">
+                                {% if employees_statistics.no_tasks is not None %}
+                                    {{ employees_statistics.no_tasks }}
+                                {% else %}
+                                    0
+                                {% endif %}
+                            </span>
+                        </li>
+                        <li class="list-group-item">
+                            {% trans "With overdue tasks" %}
+                            <span class="badge bg-danger rounded-pill" style="float:right">
+                                 {% if employees_statistics.overdue_tasks is not None %}
+                                     {{ employees_statistics.overdue_tasks }}
+                                 {% else %}
+                                     0
+                                 {% endif %}
+                            </span>
+                        </li>
+                    </ul>
+                    <div class="mt-2">
+                        <a class="btn btn-primary btn-lg" href="{% url "employees:list" %}">
+                            {% translate "Open Employees" %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

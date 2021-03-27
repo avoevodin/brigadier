@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-26 10:33+0300\n"
+"POT-Creation-Date: 2021-03-27 23:15+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Andrey Voevodin <avoevodin8888@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,7 +27,8 @@ msgid "Russian"
 msgstr "Russian"
 
 #: employees/apps.py:7 employees/models.py:49
-#: employees/templates/employee_list.html:6 templates/nav.html:22
+#: employees/templates/employee_list.html:6 home/templates/home.html:93
+#: templates/nav.html:22
 msgid "Employees"
 msgstr "Employees"
 
@@ -100,15 +101,15 @@ msgstr "Cancel"
 msgid "Back"
 msgstr "Back"
 
-#: employees/templates/employee_detail.html:55
-#: projects/templates/project_detail.html:62
-#: projects/templates/task_detail.html:75
+#: employees/templates/employee_detail.html:57
+#: projects/templates/project_detail.html:64
+#: projects/templates/task_detail.html:77
 msgid "Edit"
 msgstr "Edit"
 
-#: employees/templates/employee_detail.html:59
-#: projects/templates/project_detail.html:66
-#: projects/templates/task_detail.html:79
+#: employees/templates/employee_detail.html:63
+#: projects/templates/project_detail.html:70
+#: projects/templates/task_detail.html:83
 msgid "Delete"
 msgstr "Delete"
 
@@ -130,11 +131,65 @@ msgstr "Actions"
 
 #: employees/templates/employee_list.html:43
 msgid "No employees are available."
-msgstr ""
+msgstr "No employees are available."
 
 #: home/apps.py:7 home/templates/home.html:6 templates/nav.html:13
 msgid "Home"
 msgstr "Home"
+
+#: home/templates/home.html:13 projects/apps.py:7 projects/models.py:38
+#: projects/templates/project_list.html:6 templates/nav.html:16
+msgid "Projects"
+msgstr "Projects"
+
+#: home/templates/home.html:17 home/templates/home.html:57
+#: home/templates/home.html:97
+msgid "Total"
+msgstr "Total"
+
+#: home/templates/home.html:23 home/templates/home.html:63
+#: projects/models.py:12
+msgid "In progress"
+msgstr "In progress"
+
+#: home/templates/home.html:29 home/templates/home.html:69
+msgid "Overdue"
+msgstr "Overdue"
+
+#: home/templates/home.html:35 home/templates/home.html:75
+msgid "Concluded"
+msgstr "Concluded"
+
+#: home/templates/home.html:43
+msgid "Open Projects"
+msgstr "Open Projects"
+
+#: home/templates/home.html:53 projects/models.py:93
+#: projects/templates/project_detail.html:23
+#: projects/templates/project_list.html:20 projects/templates/task_list.html:6
+#: templates/nav.html:19
+msgid "Tasks"
+msgstr "Tasks"
+
+#: home/templates/home.html:83
+msgid "Open Tasks"
+msgstr "Open Tasks"
+
+#: home/templates/home.html:103
+msgid "Occupied"
+msgstr "Occupied"
+
+#: home/templates/home.html:109
+msgid "No tasks"
+msgstr "No tasks"
+
+#: home/templates/home.html:115
+msgid "With overdue tasks"
+msgstr "With overdue tasks"
+
+#: home/templates/home.html:123
+msgid "Open Employees"
+msgstr "Open Employees"
 
 #: projects/admin.py:40 projects/admin.py:73 projects/forms.py:31
 #: projects/forms.py:75 projects/models.py:22 projects/models.py:52
@@ -147,14 +202,7 @@ msgstr "Description"
 msgid "Terms and status"
 msgstr "Terms and status"
 
-#: projects/apps.py:7 projects/models.py:38
-#: projects/templates/project_list.html:6 templates/nav.html:16
-msgid "Projects"
-msgstr "Projects"
-
 #: projects/forms.py:19 projects/models.py:21
-#, fuzzy
-#| msgid "Projects"
 msgid "Project name"
 msgstr "Project name"
 
@@ -191,10 +239,6 @@ msgstr "New"
 msgid "Finished"
 msgstr "Finished"
 
-#: projects/models.py:12
-msgid "In progress"
-msgstr "In progress"
-
 #: projects/models.py:25
 msgid "Closed"
 msgstr "Closed"
@@ -222,12 +266,6 @@ msgstr "Status"
 #: projects/models.py:92
 msgid "Task"
 msgstr "Task"
-
-#: projects/models.py:93 projects/templates/project_detail.html:23
-#: projects/templates/project_list.html:20 projects/templates/task_list.html:6
-#: templates/nav.html:19
-msgid "Tasks"
-msgstr "Tasks"
 
 #: projects/templates/project_detail.html:31
 #: projects/templates/project_list.html:21

@@ -2,7 +2,7 @@ from django.views import generic
 from django.urls import reverse_lazy
 
 from .models import Project, Task
-from .forms import  ProjectModelForm, TaskModelForm
+from .forms import ProjectModelForm, TaskModelForm
 
 
 class ProjectListView(generic.ListView):

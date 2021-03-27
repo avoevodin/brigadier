@@ -1,64 +1,71 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% load i18n %}
 
 {% block container %}
-    <h1>{{ employee.full_name }}</h1>
+    <h1>{{ project.project_name }}</h1>
     <hr>
-    <a href="{% url "employees:list" %}">{% translate "Back" %}</a>
+    <div class="mb-2">
+        <a href="{% url "projects:list" %}">{% trans "Back" %}</a>
+    </div>
     <div class="card" style="max-width: 600px;">
         <div class="card-body">
             <div class="row">
-                <div class="col">
-                    {% translate "Firstname" %}
+                <div class="col" style="">
+                    <b>{% trans "Deadline" %}</b>
                 </div>
                 <div class="col">
-                    {{ employee.firstname }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    {% translate "Middlename" %}
-                </div>
-                <div class="col">
-                    {{ employee.middlename|default_if_none:"-" }}
+                    {{ project.deadline }}
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    {% translate "Surname" %}
+                    <b>{% trans "Tasks" %}</b>
                 </div>
                 <div class="col">
-                    {{ employee.surname }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    {% translate "Email" %}
-                </div>
-                <div class="col">
-                    {{ employee.email }}
+                    {{ project.get_tasks_count.id__count }}
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    {% translate "Birthdate" %}
+                    <b>{% trans "Completed" %}</b>
                 </div>
                 <div class="col">
-                    {{ employee.birthdate }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <b>{% trans "Closed?" %}</b>
+                </div>
+                <div class="col">
+                    {% if project.closed %}
+                        <i class="bi bi-check-circle" style="color:green"></i>
+                    {% else %}
+                        <i class="bi bi-dash-circle" style="color:coral"></i>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <b>{% trans "Description" %}</b>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {{ project.description }}
                 </div>
             </div>
         </div>
     </div>
     <div class="row mt-2">
         <div class="col-auto">
-            <a class="btn btn-primary btn-lg" href="{% url "employees:edit" employee.id %}">
+            <a class="btn btn-primary btn-lg" href="{% url "projects:edit" project.id %}">
                 <i class="bi bi-pencil-fill"></i>
                 {% translate "Edit" %}
             </a>
         </div>
         <div class="col-auto">
-            <a class="btn btn-danger btn-lg" href="{% url "employees:delete" employee.id %}">
+            <a class="btn btn-danger btn-lg" href="{% url "projects:delete" project.id %}">
                 <i class="bi bi-trash"></i>
                 {% translate "Delete" %}
             </a>

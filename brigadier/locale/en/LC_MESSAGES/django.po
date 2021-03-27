@@ -8,113 +8,253 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-23 11:21+0000\n"
+"POT-Creation-Date: 2021-03-26 10:33+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Last-Translator: Andrey Voevodin <avoevodin8888@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: En \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: brigadier/settings.py:150
+#: brigadier/settings.py:151
 msgid "English"
 msgstr "English"
 
-#: brigadier/settings.py:151
+#: brigadier/settings.py:152
 msgid "Russian"
 msgstr "Russian"
 
-#: employees/apps.py:7 employees/templates/employee_list.html:6
-#: templates/nav.html:22
+#: employees/apps.py:7 employees/models.py:49
+#: employees/templates/employee_list.html:6 templates/nav.html:22
 msgid "Employees"
 msgstr "Employees"
 
-#: employees/forms.py:17 employees/models.py:9
+#: employees/forms.py:20 employees/models.py:10
 #: employees/templates/employee_detail.html:13
 msgid "Firstname"
 msgstr "Firstname"
 
-#: employees/forms.py:21 employees/models.py:11
+#: employees/forms.py:24 employees/models.py:14
 #: employees/templates/employee_detail.html:21
 msgid "Middlename"
 msgstr "Middlename"
 
-#: employees/forms.py:25 employees/models.py:16
+#: employees/forms.py:28 employees/models.py:20
 #: employees/templates/employee_detail.html:29
 msgid "Surname"
 msgstr "Surname"
 
-#: employees/forms.py:29 employees/models.py:17
+#: employees/forms.py:32 employees/models.py:23
 #: employees/templates/employee_detail.html:37
-#: employees/templates/employee_list.html:17
+#: employees/templates/employee_list.html:18
 msgid "Email"
 msgstr "Email"
 
-#: employees/forms.py:33 employees/models.py:19
+#: employees/forms.py:36 employees/models.py:25
 #: employees/templates/employee_detail.html:45
-#: employees/templates/employee_list.html:18
+#: employees/templates/employee_list.html:19
 msgid "Birthdate"
 msgstr "Birthdate"
 
-#: employees/models.py:34 employees/templates/employee_list.html:16
+#: employees/models.py:45 employees/templates/employee_list.html:17
 msgid "Full name"
 msgstr "Full name"
 
+#: employees/models.py:48
+msgid "Employee"
+msgstr "Employee"
+
 #: employees/templates/employee_confirm_delete.html:6
-#, fuzzy
-#| msgid "Deleting:"
+#: projects/templates/project_confirm_delete.html:6
+#: projects/templates/task_confirm_delete.html:6
 msgid "Deleting"
 msgstr "Deleting"
 
 #: employees/templates/employee_confirm_delete.html:11
+#: projects/templates/project_confirm_delete.html:11
 msgid "Are you sure?"
 msgstr "Are you sure?"
 
 #: employees/templates/employee_confirm_delete.html:15
+#: projects/templates/project_confirm_delete.html:15
+#: projects/templates/task_confirm_delete.html:15
 msgid "Yes"
 msgstr "Yes"
 
 #: employees/templates/employee_confirm_delete.html:18
-#: employees/templates/employee_form.html:46
+#: employees/templates/employee_form.html:45
+#: projects/templates/project_confirm_delete.html:18
+#: projects/templates/project_form.html:45
+#: projects/templates/task_confirm_delete.html:18
+#: projects/templates/task_form.html:48
 msgid "Cancel"
 msgstr "Cancel"
 
 #: employees/templates/employee_detail.html:8
 #: employees/templates/employee_form.html:16
+#: projects/templates/project_detail.html:9
+#: projects/templates/project_form.html:16
+#: projects/templates/task_detail.html:9 projects/templates/task_form.html:16
 msgid "Back"
 msgstr "Back"
 
 #: employees/templates/employee_detail.html:55
+#: projects/templates/project_detail.html:62
+#: projects/templates/task_detail.html:75
 msgid "Edit"
 msgstr "Edit"
 
 #: employees/templates/employee_detail.html:59
+#: projects/templates/project_detail.html:66
+#: projects/templates/task_detail.html:79
 msgid "Delete"
 msgstr "Delete"
 
 #: employees/templates/employee_form.html:10
 #: employees/templates/employee_list.html:10
+#: projects/templates/project_list.html:10 projects/templates/task_list.html:10
 msgid "Create"
 msgstr "Create"
 
-#: employees/templates/employee_form.html:43
+#: employees/templates/employee_form.html:42
+#: projects/templates/project_form.html:42 projects/templates/task_form.html:45
 msgid "Save"
 msgstr "Save"
 
-#: employees/templates/employee_list.html:19
+#: employees/templates/employee_list.html:20
+#: projects/templates/project_list.html:23 projects/templates/task_list.html:24
 msgid "Actions"
 msgstr "Actions"
+
+#: employees/templates/employee_list.html:43
+msgid "No employees are available."
+msgstr ""
 
 #: home/apps.py:7 home/templates/home.html:6 templates/nav.html:13
 msgid "Home"
 msgstr "Home"
 
-#: templates/nav.html:16
+#: projects/admin.py:40 projects/admin.py:73 projects/forms.py:31
+#: projects/forms.py:75 projects/models.py:22 projects/models.py:52
+#: projects/templates/project_detail.html:50
+#: projects/templates/task_detail.html:63
+msgid "Description"
+msgstr "Description"
+
+#: projects/admin.py:70
+msgid "Terms and status"
+msgstr "Terms and status"
+
+#: projects/apps.py:7 projects/models.py:38
+#: projects/templates/project_list.html:6 templates/nav.html:16
 msgid "Projects"
 msgstr "Projects"
 
+#: projects/forms.py:19 projects/models.py:21
+#, fuzzy
+#| msgid "Projects"
+msgid "Project name"
+msgstr "Project name"
+
+#: projects/forms.py:23 projects/models.py:24
+#: projects/templates/project_detail.html:15
+#: projects/templates/project_list.html:18
+msgid "Deadline"
+msgstr "Deadline"
+
+#: projects/forms.py:27 projects/models.py:23
+#: projects/templates/project_list.html:19
+msgid "Budget"
+msgstr "Budget"
+
+#: projects/forms.py:54 projects/models.py:50
+msgid "Task name"
+msgstr "Task name"
+
+#: projects/forms.py:58 projects/models.py:57
+#: projects/templates/task_detail.html:39 projects/templates/task_list.html:21
+msgid "Start date"
+msgstr "Start date"
+
+#: projects/forms.py:62 projects/models.py:58
+#: projects/templates/task_detail.html:47 projects/templates/task_list.html:22
+msgid "Complete date"
+msgstr "Complete date"
+
+#: projects/models.py:10
+msgid "New"
+msgstr "New"
+
+#: projects/models.py:11
+msgid "Finished"
+msgstr "Finished"
+
+#: projects/models.py:12
+msgid "In progress"
+msgstr "In progress"
+
+#: projects/models.py:25
+msgid "Closed"
+msgstr "Closed"
+
+#: projects/models.py:37 projects/models.py:47
+#: projects/templates/task_detail.html:15 projects/templates/task_list.html:17
+msgid "Project"
+msgstr "Project"
+
+#: projects/models.py:61 projects/templates/task_detail.html:23
+#: projects/templates/task_list.html:19
+msgid "Author"
+msgstr "Author"
+
+#: projects/models.py:69 projects/templates/task_detail.html:31
+#: projects/templates/task_list.html:20
+msgid "Assignee"
+msgstr "Assignee"
+
+#: projects/models.py:76 projects/templates/task_detail.html:55
+#: projects/templates/task_list.html:23
+msgid "Status"
+msgstr "Status"
+
+#: projects/models.py:92
+msgid "Task"
+msgstr "Task"
+
+#: projects/models.py:93 projects/templates/project_detail.html:23
+#: projects/templates/project_list.html:20 projects/templates/task_list.html:6
 #: templates/nav.html:19
 msgid "Tasks"
 msgstr "Tasks"
+
+#: projects/templates/project_detail.html:31
+#: projects/templates/project_list.html:21
+msgid "Completed"
+msgstr "Completed"
+
+#: projects/templates/project_detail.html:38
+#: projects/templates/project_list.html:22
+msgid "Closed?"
+msgstr "Closed?"
+
+#: projects/templates/project_form.html:10
+msgid "Create project"
+msgstr "Create project"
+
+#: projects/templates/project_list.html:17 projects/templates/task_list.html:18
+msgid "Name"
+msgstr "Name"
+
+#: projects/templates/project_list.html:59
+msgid "No projects are available."
+msgstr "No projects are available."
+
+#: projects/templates/task_form.html:10
+msgid "Create task"
+msgstr "Create task"
+
+#: projects/templates/task_list.html:59
+msgid "No tasks are available."
+msgstr "No tasks are available."

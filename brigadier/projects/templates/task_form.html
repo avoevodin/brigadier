@@ -4,15 +4,15 @@
 
 {% block container %}
     <h1>
-        {% if employee %}
-            {{ employee.full_name }}
+        {% if task %}
+            {{ task.task_name }}
         {% else %}
-            {% translate "Create" %}
+            {% translate "Create task" %}
         {% endif %}
     </h1>
     <hr>
     <div class="mb-2">
-        <a class="link link-primary" href="{% url "employees:list" %}">
+        <a class="link link-primary" href="{% url "projects:task_list" %}">
             {% translate "Back" %}
         </a>
     </div>
@@ -36,12 +36,15 @@
                             </div>
                         {% endfor %}
                     {% endif %}
+                    {% if field.widget_type == "select" %}
+                        <label class="form-label">{{ field.label_tag }}</label>
+                     {% endif %}
                     {{ field }}
                 {% endfor %}
                 <button class="btn btn-primary" type="submit">
                     {% translate "Save" %}
                 </button>
-                <a class="btn btn-secondary" href="{% url "employees:list" %}">
+                <a class="btn btn-secondary" href="{% url "projects:task_list" %}">
                     {% translate "Cancel" %}
                 </a>
             </form>

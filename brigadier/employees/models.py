@@ -6,14 +6,20 @@ class Employee(models.Model):
     """Class is used for model Employee (saving, updating, deleting).
 
     """
-    firstname = models.CharField(verbose_name=_('Firstname'), max_length=200)
+    firstname = models.CharField(
+        verbose_name=_('Firstname'),
+        max_length=200,
+    )
     middlename = models.CharField(
-            verbose_name=_('Middlename'),
-            max_length=200,
-            null=True,
-            blank=True,
-        )
-    surname = models.CharField(verbose_name=_('Surname'), max_length=200)
+        verbose_name=_('Middlename'),
+        max_length=200,
+        null=True,
+        blank=True,
+    )
+    surname = models.CharField(
+        verbose_name=_('Surname'),
+        max_length=200,
+    )
     email = models.EmailField(verbose_name=_('Email'), max_length=200)
     birthdate = models.DateField(
         verbose_name=_('Birthdate'),
@@ -22,7 +28,7 @@ class Employee(models.Model):
     )
 
     def __str__(self):
-        return f'{self.id}: {self.full_name()}'
+        return self.full_name()
 
     def full_name(self):
         """Returns full name of an employee. Contains from
@@ -30,5 +36,14 @@ class Employee(models.Model):
         that are separated with spaces.
 
         """
-        return f'{self.firstname} {self.middlename if self.middlename else ""} {self.surname}'
+        if self.firstname or self.middlename or self.surname:
+            return f'{self.firstname if self.firstname else ""} \
+                         {self.middlename if self.middlename else ""} \
+                         {self.surname if self.surname else ""}'.strip()
+        else:
+            return ''
     full_name.short_description = _('Full name')
+
+    class Meta:
+        verbose_name = _('Employee')
+        verbose_name_plural = _('Employees')

@@ -1,18 +1,18 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% load i18n %}
 
 {% block container %}
     <h1>
-        {% if employee %}
-            {{ employee.full_name }}
+        {% if project %}
+            {{ project.project_name }}
         {% else %}
-            {% translate "Create" %}
+            {% translate "Create project" %}
         {% endif %}
     </h1>
     <hr>
     <div class="mb-2">
-        <a class="link link-primary" href="{% url "employees:list" %}">
+        <a class="link link-primary" href="{% url "projects:list" %}">
             {% translate "Back" %}
         </a>
     </div>
@@ -41,7 +41,7 @@
                 <button class="btn btn-primary" type="submit">
                     {% translate "Save" %}
                 </button>
-                <a class="btn btn-secondary" href="{% url "employees:list" %}">
+                <a class="btn btn-secondary" href="{% url "projects:list" %}">
                     {% translate "Cancel" %}
                 </a>
             </form>

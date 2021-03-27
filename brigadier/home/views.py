@@ -15,9 +15,9 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         """Get context data for home page view:
-            - Statistics of the projects
-            - Statistics of the Tasks
-            - Statistics of the Employees
+            projects_statistics - statistics of the projects
+            tasks_statistics - statistics of the Tasks
+            employees_statistics - statistics of the Employees
 
         """
         projects_statistics = {

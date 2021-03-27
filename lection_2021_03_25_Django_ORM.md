@@ -48,7 +48,7 @@ stores_ex = Store.objects.annotate(
     min_price=Min('books__price'),
     max_price=Max('books__price')
 )
-stores.values()
+stores_ex.values()
 ```
 ---- 
 * F-expressions

@@ -31,9 +31,13 @@ class HomeView(TemplateView):
 
         tasks_statistics = {
             'total': Task.objects.count(),
-            'in_progress': Task.objects.filter(status=IN_PROGRESS).count(),
+            'in_progress': Task.objects.filter(
+                status=IN_PROGRESS,
+                start_date__gte=timezone.now(),
+            ).count(),
             'overdue': Task.objects.filter(
                 status=IN_PROGRESS,
+                start_date__gte=timezone.now(),
                 complete_date__lt=timezone.now(),
             ).count(),
             'concluded': Task.objects.filter(
@@ -42,7 +46,8 @@ class HomeView(TemplateView):
         }
 
         occupied_employees = Task.objects.filter(
-            status=IN_PROGRESS
+            status=IN_PROGRESS,
+            start_date__lte=timezone.now(),
         ).values('assignee').aggregate(
             occupied_employees=Count(
                 'assignee',
@@ -65,8 +70,9 @@ class HomeView(TemplateView):
             'no_tasks': total_employees - occupied_employees,
             'overdue_tasks': overdue_employees
             }
-        return {
-            'projects_statistics': projects_statistics,
-            'tasks_statistics': tasks_statistics,
-            'employees_statistics': employees_statistics,
-        }
+
+        context = super(HomeView, self).get_context_data(**kwargs)
+        context['projects_statistics'] = projects_statistics
+        context['tasks_statistics'] = tasks_statistics
+        context['employees_statistics'] = employees_statistics
+        return context

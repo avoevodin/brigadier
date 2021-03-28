@@ -6,7 +6,7 @@ from .forms import ProjectModelForm, TaskModelForm
 
 
 class ProjectListView(generic.ListView):
-    """View displays the list of projects
+    """View displays the list of projects.
 
     """
     model = Project
@@ -24,7 +24,7 @@ class TaskListView(generic.ListView):
 
 
 class ProjectDetailView(generic.DetailView):
-    """View displays details of the selected project
+    """View displays details of the selected project.
 
     """
     model = Project
@@ -32,7 +32,7 @@ class ProjectDetailView(generic.DetailView):
 
 
 class TaskDetailView(generic.DetailView):
-    """Vies displays detail of the selected
+    """Vies displays detail of the selected.
     task.
 
     """

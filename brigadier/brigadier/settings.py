@@ -15,9 +15,10 @@ from os import environ as env
 
 from django.utils.translation import gettext_lazy as _
 
+import pkgutil
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -31,7 +32,6 @@ DEBUG = env.get('DJANGO_DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = [
     '*'
 ]
-
 
 # Application definition
 
@@ -78,7 +78,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'brigadier.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -100,7 +99,6 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -135,7 +133,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
@@ -151,3 +148,11 @@ LANGUAGES = [
     ('en', _('English')),
     ('ru', _('Russian')),
 ]
+
+if DEBUG and pkgutil.find_loader('debug_toolbar'):
+    import debug_toolbar
+    INSTALLED_APPS += ['debug_toolbar']
+    MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
+    INTERNAL_IPS = [
+        '127.0.0.1'
+    ]

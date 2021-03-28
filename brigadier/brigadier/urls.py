@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+import pkgutil
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -22,3 +24,9 @@ urlpatterns = [
     path('employees/', include('employees.urls')),
     path('projects/', include('projects.urls'))
 ]
+
+if settings.DEBUG and pkgutil.find_loader('debug_toolbar'):
+    import debug_toolbar
+    urlpatterns += [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ]

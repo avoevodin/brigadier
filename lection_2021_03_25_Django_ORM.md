@@ -184,3 +184,28 @@ class ProjectCreateView(generic.CreateView):
         else:
             return reverse('employees:list')
 ```
+
+## Django debug toolbar
+> https://django-debug-toolbar.readthedocs.io/en/latest/installation.html
+ 
+```python
+import pkgutil
+```
+* settings.py
+```python
+if DEBUG and pkgutil.find_loader('debug_toolbar'):
+    import debug_toolbar
+    INSTALLED_APPS += ['debug_toolbar']
+    MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
+    INTERNAL_IPS = [
+        '127.0.0.1'
+    ]
+```
+* urls.py
+```python
+if settings.DEBUG and pkgutil.find_loader('debug_toolbar'):
+    import debug_toolbar
+    urlpatterns += [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ]
+```

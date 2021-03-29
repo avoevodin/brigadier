@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-27 23:15+0300\n"
+"POT-Creation-Date: 2021-03-29 19:07+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Andrey Voevodin <avoevodin8888@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,16 +20,16 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: brigadier/settings.py:151
+#: brigadier/settings.py:148
 msgid "English"
 msgstr "Английский"
 
-#: brigadier/settings.py:152
+#: brigadier/settings.py:149
 msgid "Russian"
 msgstr "Русский"
 
 #: employees/apps.py:7 employees/models.py:49
-#: employees/templates/employee_list.html:6 home/templates/home.html:93
+#: employees/templates/employee_list.html:6 home/templates/home.html:100
 #: templates/nav.html:22
 msgid "Employees"
 msgstr "Сотрудники"
@@ -139,62 +139,67 @@ msgstr "Нет доступных сотрудников."
 msgid "Home"
 msgstr "Главная"
 
-#: home/templates/home.html:13 projects/apps.py:7 projects/models.py:38
+#: home/templates/home.html:13 projects/apps.py:7 projects/models.py:58
 #: projects/templates/project_list.html:6 templates/nav.html:16
 msgid "Projects"
 msgstr "Проекты"
 
-#: home/templates/home.html:17 home/templates/home.html:57
-#: home/templates/home.html:97
+#: home/templates/home.html:17 home/templates/home.html:58
+#: home/templates/home.html:104
 msgid "Total"
 msgstr "Всего"
 
-#: home/templates/home.html:23 home/templates/home.html:63
-#: projects/models.py:12
+#: home/templates/home.html:24 home/templates/home.html:64
+#: projects/models.py:13
 msgid "In progress"
 msgstr "Выполняется"
 
-#: home/templates/home.html:29 home/templates/home.html:69
+#: home/templates/home.html:30 home/templates/home.html:70
 msgid "Overdue"
 msgstr "Просрочено"
 
-#: home/templates/home.html:35 home/templates/home.html:75
-msgid "Concluded"
-msgstr "Закончено"
+#: home/templates/home.html:36 home/templates/home.html:76
+msgid "Done"
+msgstr "Завершено"
 
-#: home/templates/home.html:43
+#: home/templates/home.html:44
 msgid "Open Projects"
 msgstr "Открыть Проекты"
 
-#: home/templates/home.html:53 projects/models.py:93
+#: home/templates/home.html:54 projects/models.py:113
 #: projects/templates/project_detail.html:23
 #: projects/templates/project_list.html:20 projects/templates/task_list.html:6
 #: templates/nav.html:19
 msgid "Tasks"
 msgstr "Задачи"
 
-#: home/templates/home.html:83
+#: home/templates/home.html:82
+msgctxt "Homepage_plural_r"
+msgid "New"
+msgstr "Новых"
+
+#: home/templates/home.html:90
 msgid "Open Tasks"
 msgstr "Открыть Задачи"
 
-#: home/templates/home.html:103
+#: home/templates/home.html:110
 msgid "Occupied"
 msgstr "Занятых"
 
-#: home/templates/home.html:109
+#: home/templates/home.html:116
 msgid "No tasks"
 msgstr "Без задач"
 
-#: home/templates/home.html:115
+#: home/templates/home.html:122
 msgid "With overdue tasks"
 msgstr "С просроченными задачами"
 
-#: home/templates/home.html:123
+#: home/templates/home.html:130
 msgid "Open Employees"
 msgstr "Открыть Сотрудники"
 
 #: projects/admin.py:40 projects/admin.py:73 projects/forms.py:31
-#: projects/forms.py:75 projects/models.py:22 projects/models.py:52
+#: projects/forms.py:75 projects/models.py:23 projects/models.py:72
 #: projects/templates/project_detail.html:50
 #: projects/templates/task_detail.html:63
 msgid "Description"
@@ -204,68 +209,68 @@ msgstr "Описание"
 msgid "Terms and status"
 msgstr "Сроки и статус"
 
-#: projects/forms.py:19 projects/models.py:21
+#: projects/forms.py:19 projects/models.py:22
 msgid "Project name"
 msgstr "Название проекта"
 
-#: projects/forms.py:23 projects/models.py:24
+#: projects/forms.py:23 projects/models.py:25
 #: projects/templates/project_detail.html:15
 #: projects/templates/project_list.html:18
 msgid "Deadline"
 msgstr "Дэдлайн"
 
-#: projects/forms.py:27 projects/models.py:23
+#: projects/forms.py:27 projects/models.py:24
 #: projects/templates/project_list.html:19
 msgid "Budget"
 msgstr "Бюджет"
 
-#: projects/forms.py:54 projects/models.py:50
+#: projects/forms.py:54 projects/models.py:70
 msgid "Task name"
 msgstr "Название задачи"
 
-#: projects/forms.py:58 projects/models.py:57
+#: projects/forms.py:58 projects/models.py:77
 #: projects/templates/task_detail.html:39 projects/templates/task_list.html:21
 msgid "Start date"
 msgstr "Дата начала"
 
-#: projects/forms.py:62 projects/models.py:58
+#: projects/forms.py:62 projects/models.py:78
 #: projects/templates/task_detail.html:47 projects/templates/task_list.html:22
 msgid "Complete date"
 msgstr "Дата завершения"
 
-#: projects/models.py:10
+#: projects/models.py:11
 msgid "New"
 msgstr "Новая"
 
-#: projects/models.py:11
+#: projects/models.py:12
 msgid "Finished"
 msgstr "Завершена"
 
-#: projects/models.py:25
+#: projects/models.py:26
 msgid "Closed"
 msgstr "Закрыт"
 
-#: projects/models.py:37 projects/models.py:47
+#: projects/models.py:57 projects/models.py:67
 #: projects/templates/task_detail.html:15 projects/templates/task_list.html:17
 msgid "Project"
 msgstr "Проект"
 
-#: projects/models.py:61 projects/templates/task_detail.html:23
+#: projects/models.py:81 projects/templates/task_detail.html:23
 #: projects/templates/task_list.html:19
 msgid "Author"
 msgstr "Автор"
 
-#: projects/models.py:69 projects/templates/task_detail.html:31
+#: projects/models.py:89 projects/templates/task_detail.html:31
 #: projects/templates/task_list.html:20
 msgid "Assignee"
 msgstr "Исполнитель"
 
-#: projects/models.py:76 projects/templates/task_detail.html:55
+#: projects/models.py:96 projects/templates/task_detail.html:55
 #: projects/templates/task_list.html:23
 msgid "Status"
 msgstr "Статус"
 
-#: projects/models.py:92
+#: projects/models.py:112
 msgid "Task"
 msgstr "Задача"
 
@@ -287,7 +292,7 @@ msgstr "Создать проект"
 msgid "Name"
 msgstr "Имя"
 
-#: projects/templates/project_list.html:59
+#: projects/templates/project_list.html:61
 msgid "No projects are available."
 msgstr "Нет доступных проектов."
 

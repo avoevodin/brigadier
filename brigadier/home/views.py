@@ -1,6 +1,6 @@
 from django.views.generic import TemplateView
 from django.utils import timezone
-from django.db.models import Count, Q
+from django.db.models import Count, Q, Case, When
 
 from projects.models import Project, Task, IN_PROGRESS, COMPLETED, NEW
 from employees.models import Employee
@@ -62,14 +62,15 @@ class HomeView(TemplateView):
                 ),
                 distinct=True
             ),
+            no_tasks=Count(Case(
+                When(
+                    tasks_assignee__status=IN_PROGRESS,
+                    tasks_assignee__start_date__lte=timezone.now(),
+                    then=None
+                ),
+                default=1
+            )),
         )
-        employees_total = employees_statistics.get('total')
-        employees_occupied = employees_statistics.get('occupied')
-        employees_statistics['no_tasks'] = (
-            (employees_total if employees_total else 0)
-            - (employees_occupied if employees_occupied else 0)
-        )
-
         context = super(HomeView, self).get_context_data(**kwargs)
         context['projects_statistics'] = projects_statistics
         context['tasks_statistics'] = tasks_statistics

@@ -27,12 +27,6 @@ class Project(models.Model):
     def __str__(self):
         return f'{self.project_name}'
 
-    def get_tasks_count(self):
-        """Returns amount of tasks of the project.
-
-        """
-        return Task.objects.filter(project=self).aggregate(models.Count('id'))
-
     class Meta:
         verbose_name = _('Project')
         verbose_name_plural = _('Projects')
@@ -59,7 +53,7 @@ class Task(models.Model):
     author = models.ForeignKey(
         Employee,
         verbose_name=_('Author'),
-        related_name='employee_author',
+        related_name='tasks_author',
         null=True,
         blank=True,
         on_delete=models.SET_NULL
@@ -67,7 +61,7 @@ class Task(models.Model):
     assignee = models.ForeignKey(
         Employee,
         verbose_name=_('Assignee'),
-        related_name='employee_assignee',
+        related_name='tasks_assignee',
         null=True,
         blank=True,
         on_delete=models.SET_NULL

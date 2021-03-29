@@ -32,7 +32,7 @@ class HomeView(TemplateView):
                 'id',
                 filter=Q(
                     status=IN_PROGRESS,
-                    start_date__gte=timezone.now()
+                    start_date__lte=timezone.now()
                 )
             ),
             overdue=Count(

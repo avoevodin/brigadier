@@ -1,7 +1,9 @@
 from django.views import generic
 from django.urls import reverse_lazy
+from django.db.models import Count, Q, FloatField
+from django.db.models.functions import Cast
 
-from .models import Project, Task
+from .models import Project, Task, COMPLETED
 from .forms import ProjectModelForm, TaskModelForm
 
 
@@ -9,9 +11,21 @@ class ProjectListView(generic.ListView):
     """View displays the list of projects.
 
     """
-    model = Project
     template_name = 'project_list.html'
-    ordering = 'deadline'
+
+    def get_queryset(self):
+        """todo()
+
+        """
+        return Project.objects.values(
+            'id', 'project_name', 'deadline', 'budget', 'closed',
+        ).annotate(
+            tasks_count=Count('task'),
+            percentage_completed=Cast(Count(
+                'task',
+                filter=Q(task__status=COMPLETED),
+            ), FloatField()) / Cast(Count('task'), FloatField()) * 100
+        ).order_by('deadline')
 
 
 class TaskListView(generic.ListView):

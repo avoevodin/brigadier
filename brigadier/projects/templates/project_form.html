@@ -36,7 +36,18 @@
                             </div>
                         {% endfor %}
                     {% endif %}
-                    {{ field }}
+                    {% if field.name == "closed" %}
+                        <div class="row mt-2 mb-2">
+                            <div class="col-1">
+                                {{ field }}
+                            </div>
+                            <div class="col">
+                                {% translate "Closed?" %}
+                            </div>
+                        </div>
+                    {% else %}
+                        {{ field }}
+                    {% endif %}
                 {% endfor %}
                 <button class="btn btn-primary" type="submit">
                     {% translate "Save" %}

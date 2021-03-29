@@ -7,6 +7,19 @@ from .models import Project, Task, COMPLETED
 from .forms import ProjectModelForm, TaskModelForm
 
 
+def annotate_completed_percentage(field_list):
+    """todo()
+
+    """
+    return Project.objects.values(*field_list).annotate(
+            tasks_count=Count('task'),
+            percentage_completed=Cast(Count(
+                'task',
+                filter=Q(task__status=COMPLETED),
+            ), FloatField()) / Cast(Count('task'), FloatField()) * 100
+        )
+
+
 class ProjectListView(generic.ListView):
     """View displays the list of projects.
 
@@ -17,14 +30,8 @@ class ProjectListView(generic.ListView):
         """todo()
 
         """
-        return Project.objects.values(
-            'id', 'project_name', 'deadline', 'budget', 'closed',
-        ).annotate(
-            tasks_count=Count('task'),
-            percentage_completed=Cast(Count(
-                'task',
-                filter=Q(task__status=COMPLETED),
-            ), FloatField()) / Cast(Count('task'), FloatField()) * 100
+        return annotate_completed_percentage(
+            ['id', 'project_name', 'deadline', 'budget', 'closed']
         ).order_by('deadline')
 
 
@@ -41,8 +48,15 @@ class ProjectDetailView(generic.DetailView):
     """View displays details of the selected project.
 
     """
-    model = Project
     template_name = 'project_detail.html'
+
+    def get_queryset(self):
+        """todo()
+
+        """
+        return annotate_completed_percentage(
+            ['id', 'project_name', 'deadline', 'budget', 'closed', 'description']
+        )
 
 
 class TaskDetailView(generic.DetailView):

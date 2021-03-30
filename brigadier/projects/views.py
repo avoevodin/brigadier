@@ -48,9 +48,19 @@ class ProjectDetailView(generic.DetailView):
     """View displays details of the selected project.
 
     """
+    model = Project
     template_name = 'project_detail.html'
 
-    def get_queryset(self):
+    def get_context_data(self, **kwargs):
+        """todo()
+
+        """
+        tasks = Task.objects.filter(project__id=self.kwargs['pk'])
+        context = super(ProjectDetailView, self).get_context_data(**kwargs)
+        context['task_list'] = tasks
+        return context
+
+    def get_queryset(self, **kwargs):
         """todo()
 
         """

@@ -10,7 +10,7 @@
         {% translate "Create" %}
     </a>
     {% if task_list %}
-        {% include "task_list_included.html" %}
+        {% include "task_list_included.html" with actions=True %}
     {% else %}
         <p>{% translate "No tasks are available." %}</p>
     {% endif %}

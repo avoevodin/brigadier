@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.db.models import Case, When, Count, Q, FloatField
+from django.db.models.functions import Cast
 
 from employees.models import Employee
 
@@ -14,6 +16,26 @@ STATUSES = [
 STATUSES_DICT = dict(STATUSES)
 
 
+class ProjectManager(models.Manager):
+    """todo()
+
+    """
+    def annotate_completed_percentage(self):
+        """todo()
+
+        """
+        return self.annotate(
+            tasks_count=Count('task'),
+            percentage_completed=Case(
+                When(tasks_count=0, then=0),
+                default=Cast(Count(
+                    'task',
+                    filter=Q(task__status=COMPLETED),
+                ), FloatField()) / Cast(Count('task'), FloatField()) * 100
+            )
+        )
+
+
 class Project(models.Model):
     """Class describes model of the Project entity.
 
@@ -23,6 +45,8 @@ class Project(models.Model):
     budget = models.FloatField(verbose_name=_('Budget'))
     deadline = models.DateTimeField(verbose_name=_('Deadline'))
     closed = models.BooleanField(verbose_name=_('Closed'), null=False, blank=False)
+
+    objects = ProjectManager()
 
     def __str__(self):
         return f'{self.project_name}'

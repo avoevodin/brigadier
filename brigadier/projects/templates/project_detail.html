@@ -3,7 +3,7 @@
 {% load i18n %}
 
 {% block container %}
-    <h1>{{ object.project_name }}</h1>
+    <h1>{{ project.project_name }}</h1>
     <hr>
     <div class="mb-2">
         <a href="{% url "projects:list" %}">{% trans "Back" %}</a>
@@ -15,7 +15,7 @@
                     <b>{% trans "Deadline" %}</b>
                 </div>
                 <div class="col">
-                    {{ object.deadline }}
+                    {{ project.deadline }}
                 </div>
             </div>
             <div class="row">
@@ -23,7 +23,7 @@
                     <b>{% trans "Tasks" %}</b>
                 </div>
                 <div class="col">
-                    {{ object.tasks_count }}
+                    {{ project.tasks_count }}
                 </div>
             </div>
             <div class="row">
@@ -33,9 +33,9 @@
                 <div class="col">
                     <div class="progress" style="height: auto">
                         <div class="progress-bar progress-bar-striped" role="progressbar"
-                             aria-valuenow="{{ object.percentage_completed|floatformat }}" aria-valuemin="0"
-                             aria-valuemax="100" style="width: {{ object.percentage_completed|floatformat }}%">
-                            {{ object.percentage_completed|floatformat }}%
+                             aria-valuenow="{{ project.percentage_completed|floatformat }}" aria-valuemin="0"
+                             aria-valuemax="100" style="width: {{ project.percentage_completed|floatformat }}%">
+                            {{ project.percentage_completed|floatformat }}%
                         </div>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
                     <b>{% trans "Closed?" %}</b>
                 </div>
                 <div class="col">
-                    {% if object.closed %}
+                    {% if project.closed %}
                         <i class="bi bi-check-circle" style="color:green"></i>
                     {% else %}
                         <i class="bi bi-dash-circle" style="color:coral"></i>
@@ -59,27 +59,31 @@
             </div>
             <div class="row">
                 <div class="col">
-                    {{ object.description }}
+                    {{ project.description }}
                 </div>
             </div>
         </div>
     </div>
     <div class="row mt-2">
         <div class="col-auto">
-            <a class="btn btn-primary btn-lg" href="{% url "projects:edit" object.id %}">
+            <a class="btn btn-primary btn-lg" href="{% url "projects:edit" project.id %}?next={{ next }}">
                 <i class="bi bi-pencil-fill"></i>
                 {% translate "Edit" %}
             </a>
         </div>
         <div class="col-auto">
-            <a class="btn btn-danger btn-lg" href="{% url "projects:delete" object.id %}">
+            <a class="btn btn-danger btn-lg" href="{% url "projects:delete" project.id %}">
                 <i class="bi bi-trash"></i>
                 {% translate "Delete" %}
             </a>
         </div>
     </div>
     <hr>
-    <h3 class="mt-3" >{% translate "Tasks" %}</h3>
+    <h3 class="mt-3">{% translate "Tasks" %}</h3>
     <hr>
-    {% include "task_list_included.html" %}
+    {% if task_list %}
+        {% include "task_list_included.html" %}
+    {% else %}
+        <p>{% translate "No tasks are available." %}</p>
+    {% endif %}
 {% endblock %}

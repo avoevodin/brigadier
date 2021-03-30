@@ -9,5 +9,9 @@
         <i class="bi bi-plus"></i>
         {% translate "Create" %}
     </a>
-    {% include "task_list_included.html" %}
+    {% if task_list %}
+        {% include "task_list_included.html" %}
+    {% else %}
+        <p>{% translate "No tasks are available." %}</p>
+    {% endif %}
 {% endblock %}

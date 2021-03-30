@@ -1,38 +1,33 @@
 from django.views import generic
 from django.urls import reverse_lazy
-from django.db.models import Count, Q, FloatField
-from django.db.models.functions import Cast
 
-from .models import Project, Task, COMPLETED
+from .models import Project, Task
 from .forms import ProjectModelForm, TaskModelForm
-
-
-def annotate_completed_percentage(field_list):
-    """todo()
-
-    """
-    return Project.objects.values(*field_list).annotate(
-            tasks_count=Count('task'),
-            percentage_completed=Cast(Count(
-                'task',
-                filter=Q(task__status=COMPLETED),
-            ), FloatField()) / Cast(Count('task'), FloatField()) * 100
-        )
 
 
 class ProjectListView(generic.ListView):
     """View displays the list of projects.
 
     """
+    model = Project
     template_name = 'project_list.html'
 
     def get_queryset(self):
         """todo()
 
         """
-        return annotate_completed_percentage(
-            ['id', 'project_name', 'deadline', 'budget', 'closed']
+        return Project.objects.annotate_completed_percentage().values(
+            'id', 'project_name', 'deadline', 'budget', 'closed',
+            'tasks_count', 'percentage_completed',
         ).order_by('deadline')
+
+    def get_context_data(self, **kwargs):
+        """todo()
+
+        """
+        context = super(ProjectListView, self).get_context_data(**kwargs)
+        context['next'] = reverse_lazy('projects:list')
+        return context
 
 
 class TaskListView(generic.ListView):
@@ -48,24 +43,34 @@ class ProjectDetailView(generic.DetailView):
     """View displays details of the selected project.
 
     """
-    model = Project
     template_name = 'project_detail.html'
+    context_object_name = 'project'
 
     def get_context_data(self, **kwargs):
         """todo()
 
         """
-        tasks = Task.objects.filter(project__id=self.kwargs['pk'])
+        project_id = self.kwargs['pk']
+        tasks = Task.objects.filter(
+            project__id=project_id
+        ).select_related(
+            'project', 'author', 'assignee'
+        )
         context = super(ProjectDetailView, self).get_context_data(**kwargs)
         context['task_list'] = tasks
+        context['next'] = reverse_lazy(
+            'projects:detail',
+            kwargs={'pk': project_id}
+        )
         return context
 
     def get_queryset(self, **kwargs):
         """todo()
 
         """
-        return annotate_completed_percentage(
-            ['id', 'project_name', 'deadline', 'budget', 'closed', 'description']
+        return Project.objects.annotate_completed_percentage().values(
+            'id', 'project_name', 'deadline', 'budget',
+            'closed', 'description', 'tasks_count', 'percentage_completed'
         )
 
 
@@ -95,7 +100,15 @@ class ProjectEditView(generic.UpdateView):
     model = Project
     template_name = 'project_form.html'
     form_class = ProjectModelForm
-    success_url = reverse_lazy('projects:list')
+
+    def get_success_url(self):
+        """todo()
+
+        """
+        if self.request.GET.get('next'):
+            return self.request.GET.get('next')
+        else:
+            reverse_lazy('projects:list')
 
 
 class ProjectDeleteView(generic.DeleteView):
@@ -104,7 +117,15 @@ class ProjectDeleteView(generic.DeleteView):
     """
     model = Project
     template_name = 'project_confirm_delete.html'
-    success_url = reverse_lazy('projects:list')
+
+    def get_success_url(self):
+        """todo()
+
+        """
+        if self.request.GET.get('next'):
+            return self.request.GET.get('next')
+        else:
+            reverse_lazy('projects:list')
 
 
 class TaskCreateView(generic.CreateView):

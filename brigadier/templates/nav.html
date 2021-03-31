@@ -2,7 +2,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-            <a class="navbar-brand" href="{% url "home:home" %}?nb=Brigadier">{% translate "Brigadier" %}</a>
+        <a class="navbar-brand" href="#">Brigadier</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -10,36 +10,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    {% if request.GET.nb == "Home" %}
-                        <a class="nav-link active" aria-current="page"
-                           href="{% url "home:home" %}?nb=Home">{% translate "Home" %}</a>
-                    {% else %}
-                        <a class="nav-link" aria-current="page"
-                           href="{% url "home:home" %}?nb=Home">{% translate "Home" %}</a>
-                    {% endif %}
+                    <a class="nav-link active" aria-current="page" href="{% url "home:home" %}">{% translate "Home" %}</a>
                 </li>
                 <li class="nav-item">
-                    {% if request.GET.nb == "Projects" %}
-                        <a class="nav-link active" href="{% url "projects:list" %}?nb=Projects">{% translate "Projects" %}</a>
-                    {% else %}
-                        <a class="nav-link" href="{% url "projects:list" %}?nb=Projects">{% translate "Projects" %}</a>
-                    {% endif %}
+                    <a class="nav-link" href="{% url "projects:list" %}">{% translate "Projects" %}</a>
                 </li>
-                <li class="nav-item">
-                    {% if request.GET.nb == "Tasks" %}
-                        <a class="nav-link active" href="{% url "projects:task_list" %}?nb=Tasks">{% translate "Tasks" %}</a>
-                    {% else %}
-                        <a class="nav-link" href="{% url "projects:task_list" %}?nb=Tasks">{% translate "Tasks" %}</a>
-                    {% endif %}
+                 <li class="nav-item">
+                    <a class="nav-link" href="{% url "projects:task_list" %}">{% translate "Tasks" %}</a>
                 </li>
-                <li class="nav-item">
-                    {% if request.GET.nb == "Employees" %}
-                        <a class="nav-link active"
-                           href="{% url "employees:list" %}?nb=Employees">{% translate "Employees" %}</a>
-                    {% else %}
-                        <a class="nav-link"
-                           href="{% url "employees:list" %}?nb=Employees">{% translate "Employees" %}</a>
-                    {% endif %}
+                 <li class="nav-item">
+                    <a class="nav-link" href="{% url "employees:list" %}">{% translate "Employees" %}</a>
                 </li>
             </ul>
             <form class="d-flex">

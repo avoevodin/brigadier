@@ -72,7 +72,7 @@
             </a>
         </div>
         <div class="col-auto">
-            <a class="btn btn-danger btn-lg" href="{% url "projects:delete" project.id %}">
+            <a class="btn btn-danger btn-lg" href="{% url "projects:delete" project.id %}?next={{ next }}">
                 <i class="bi bi-trash"></i>
                 {% translate "Delete" %}
             </a>

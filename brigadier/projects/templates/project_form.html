@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% load i18n %}
 
@@ -11,11 +11,19 @@
         {% endif %}
     </h1>
     <hr>
-    <div class="mb-2">
-        <a class="link link-primary" href="{% url "projects:list" %}">
-            {% translate "Back" %}
-        </a>
-    </div>
+    {% if request.GET.next %}
+        <div class="mb-2">
+            <a class="link link-primary" href="{{ request.GET.next }}">
+                {% translate "Back" %}
+            </a>
+        </div>
+    {% else %}
+        <div class="mb-2">
+            <a class="link link-primary" href="{% url "projects:list" %}">
+                {% translate "Back" %}
+            </a>
+        </div>
+    {% endif %}
     <div class="card" style="max-width: 600px">
         <div class="card-body">
             <form method="post">{% csrf_token %}
@@ -36,14 +44,31 @@
                             </div>
                         {% endfor %}
                     {% endif %}
-                    {{ field }}
+                    {% if field.name == "closed" %}
+                        <div class="row mt-2 mb-2">
+                            <div class="col-1">
+                                {{ field }}
+                            </div>
+                            <div class="col">
+                                {% translate "Closed?" %}
+                            </div>
+                        </div>
+                    {% else %}
+                        {{ field }}
+                    {% endif %}
                 {% endfor %}
                 <button class="btn btn-primary" type="submit">
                     {% translate "Save" %}
                 </button>
-                <a class="btn btn-secondary" href="{% url "projects:list" %}">
-                    {% translate "Cancel" %}
-                </a>
+                {% if request.GET.next %}
+                    <a class="btn btn-secondary" href="{{ request.GET.next }}">
+                        {% translate "Cancel" %}
+                    </a>
+                {% else %}
+                    <a class="btn btn-secondary" href="{% url "projects:list" %}">
+                        {% translate "Cancel" %}
+                    </a>
+                {% endif %}
             </form>
         </div>
     </div>

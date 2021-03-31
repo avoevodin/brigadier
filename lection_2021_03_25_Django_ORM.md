@@ -123,7 +123,9 @@ rate.values()
 ```
 * Q-expressions and type casts without error
 ```python
-from django.db.models import Count, Q, F, Cast, FloatField
+from django.db.models import Count, Q, F, FloatField
+from django.db.models.functions import Cast
+
 bestsellers = Store.objects.annotate(
     books_count = Cast(Count('books'), FloatField()),
     books_high_rating_count = Cast(Count('books', filter=Q(books__rating__gte=10)), FloatField())

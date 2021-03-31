@@ -10,16 +10,24 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url "home:home" %}">{% translate "Home" %}</a>
+                    {% url "home:home" as url_home %}
+                    <a class="nav-link {% if request.path == url_home %} active {% endif %}" aria-current="page"
+                       href="{{ url_home }}">{% translate "Home" %}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url "projects:list" %}">{% translate "Projects" %}</a>
+                    {% url "projects:list" as url_projects %}
+                    <a class="nav-link {% if request.path == url_projects %} active {% endif %}"
+                       href="{{ url_projects }}">{% translate "Projects" %}</a>
                 </li>
-                 <li class="nav-item">
-                    <a class="nav-link" href="{% url "projects:task_list" %}">{% translate "Tasks" %}</a>
+                <li class="nav-item">
+                    {% url "projects:task_list" as url_tasks %}
+                    <a class="nav-link {% if request.path == url_tasks %} active {% endif %}"
+                       href="{{ url_tasks }}">{% translate "Tasks" %}</a>
                 </li>
-                 <li class="nav-item">
-                    <a class="nav-link" href="{% url "employees:list" %}">{% translate "Employees" %}</a>
+                <li class="nav-item">
+                    {% url "employees:list" as url_employees %}
+                    <a class="nav-link {% if request.path == url_employees %} active {% endif %}"
+                       href="{{ url_employees }}">{% translate "Employees" %}</a>
                 </li>
             </ul>
             <form class="d-flex">

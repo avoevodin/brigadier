@@ -34,8 +34,16 @@
                     </td>
                     <td>{{ project.deadline }}</td>
                     <td>{{ project.budget }}</td>
-                    <td>{{ project.get_tasks_count.id__count }}</td>
-                    <td></td>
+                    <td>{{ project.tasks_count }}</td>
+                    <td>
+                        <div class="progress" style="height: auto">
+                            <div class="progress-bar progress-bar-striped" role="progressbar"
+                                 aria-valuenow="{{ project.percentage_completed|floatformat }}" aria-valuemin="0"
+                                 aria-valuemax="100" style="width: {{ project.percentage_completed|floatformat }}%">
+                                {{ project.percentage_completed|floatformat }}%
+                            </div>
+                        </div>
+                    </td>
                     <td>
                         {% if project.closed %}
                             <i class="bi bi-check-circle" style="color:green"></i>

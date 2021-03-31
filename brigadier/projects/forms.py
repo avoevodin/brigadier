@@ -12,7 +12,7 @@ class ProjectModelForm(forms.ModelForm):
 
     class Meta:
         model = Project
-        fields = ['project_name', 'deadline', 'budget', 'description']
+        fields = ['project_name', 'deadline', 'budget', 'closed', 'description']
         widgets = {
             'project_name': forms.TextInput(attrs={
                 'class': 'form-control mb-2',

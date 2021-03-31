@@ -23,7 +23,7 @@
                     <b>{% trans "Tasks" %}</b>
                 </div>
                 <div class="col">
-                    {{ project.get_tasks_count.id__count }}
+                    {{ project.tasks_count }}
                 </div>
             </div>
             <div class="row">
@@ -31,6 +31,13 @@
                     <b>{% trans "Completed" %}</b>
                 </div>
                 <div class="col">
+                    <div class="progress" style="height: auto">
+                        <div class="progress-bar progress-bar-striped" role="progressbar"
+                             aria-valuenow="{{ project.percentage_completed|floatformat }}" aria-valuemin="0"
+                             aria-valuemax="100" style="width: {{ project.percentage_completed|floatformat }}%">
+                            {{ project.percentage_completed|floatformat }}%
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -59,16 +66,24 @@
     </div>
     <div class="row mt-2">
         <div class="col-auto">
-            <a class="btn btn-primary btn-lg" href="{% url "projects:edit" project.id %}">
+            <a class="btn btn-primary btn-lg" href="{% url "projects:edit" project.id %}?next={{ next }}">
                 <i class="bi bi-pencil-fill"></i>
                 {% translate "Edit" %}
             </a>
         </div>
         <div class="col-auto">
-            <a class="btn btn-danger btn-lg" href="{% url "projects:delete" project.id %}">
+            <a class="btn btn-danger btn-lg" href="{% url "projects:delete" project.id %}?next={{ next }}">
                 <i class="bi bi-trash"></i>
                 {% translate "Delete" %}
             </a>
         </div>
     </div>
+    <hr>
+    <h3 class="mt-3">{% translate "Tasks" %}</h3>
+    <hr>
+    {% if task_list %}
+        {% include "task_list_included.html" %}
+    {% else %}
+        <p>{% translate "No tasks are available." %}</p>
+    {% endif %}
 {% endblock %}

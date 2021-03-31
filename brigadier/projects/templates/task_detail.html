@@ -84,4 +84,19 @@
             </a>
         </div>
     </div>
+    <hr>
+    {% if task.comments.count %}
+        <div class="list-group">
+            {% for comment in task.comments.all %}
+                <div class="list-group-item">
+                    <div class="d-flex w-100 justify-content-between">
+                        <figure class="text-left">{{ comment.text|linebreaks }}</figure>
+                        <small>{{ comment.created_date }}</small>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>{% translate "No comments are available." %}</p>
+    {% endif %}
 {% endblock %}

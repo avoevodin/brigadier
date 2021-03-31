@@ -41,7 +41,7 @@ class Project(models.Model):
 
     """
     project_name = models.CharField(verbose_name=_('Project name'), max_length=80)
-    description = models.CharField(verbose_name=_('Description'), max_length=400, blank=True)
+    description = models.TextField(verbose_name=_('Description'), max_length=400, blank=True)
     budget = models.FloatField(verbose_name=_('Budget'))
     deadline = models.DateTimeField(verbose_name=_('Deadline'))
     closed = models.BooleanField(verbose_name=_('Closed'), null=False, blank=False)
@@ -66,7 +66,7 @@ class Task(models.Model):
         on_delete=models.CASCADE,
     )
     task_name = models.CharField(verbose_name=_('Task name'), max_length=80)
-    description = models.CharField(
+    description = models.TextField(
         verbose_name=_('Description'),
         max_length=400,
         blank=True,
@@ -97,15 +97,36 @@ class Task(models.Model):
         default=NEW,
     )
 
-    def __str__(self):
-        return f'{self.task_name}'
-
     def get_status_repr(self):
         """Returns string representation of the status.
 
         """
         return STATUSES_DICT[self.status]
 
+    def __str__(self):
+        return f'{self.task_name}'
+
     class Meta:
         verbose_name = _('Task')
         verbose_name_plural = _('Tasks')
+
+
+class Comment(models.Model):
+    """todo
+
+    """
+    task = models.ForeignKey(
+        Task,
+        on_delete=models.CASCADE,
+        verbose_name=_('Task'),
+        related_name='comments',
+    )
+    created_date = models.DateTimeField(verbose_name=_('Date of creating'))
+    text = models.TextField(verbose_name=_('Text'), max_length=200)
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = _('Comment')
+        verbose_name_plural = _('Comments')

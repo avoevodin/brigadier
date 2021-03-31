@@ -9,7 +9,6 @@ class ProjectListView(generic.ListView):
     """View displays the list of projects.
 
     """
-    model = Project
     template_name = 'project_list.html'
 
     def get_queryset(self):
@@ -34,9 +33,15 @@ class TaskListView(generic.ListView):
     """View displays the list of tasks.
 
     """
-    model = Task
     template_name = 'task_list.html'
-    ordering = 'start_date'
+
+    def get_queryset(self):
+        """todo
+
+        """
+        return Task.objects.select_related(
+            'project', 'author', 'assignee'
+        ).order_by('start_date')
 
 
 class ProjectDetailView(generic.DetailView):
@@ -79,8 +84,14 @@ class TaskDetailView(generic.DetailView):
     task.
 
     """
-    model = Task
     template_name = 'task_detail.html'
+    context_object_name = 'task'
+
+    def get_queryset(self):
+        """todo
+
+        """
+        return Task.objects.select_related('project', 'author', 'assignee')
 
 
 class ProjectCreateView(generic.CreateView):

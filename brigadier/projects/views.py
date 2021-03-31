@@ -1,5 +1,5 @@
 from django.views import generic
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 
 from .models import Project, Task
 from .forms import ProjectModelForm, TaskModelForm
@@ -108,7 +108,7 @@ class ProjectEditView(generic.UpdateView):
         if self.request.GET.get('next'):
             return self.request.GET.get('next')
         else:
-            reverse_lazy('projects:list')
+            return reverse('projects:list')
 
 
 class ProjectDeleteView(generic.DeleteView):
@@ -125,7 +125,7 @@ class ProjectDeleteView(generic.DeleteView):
         if self.request.GET.get('next'):
             return self.request.GET.get('next')
         else:
-            reverse_lazy('projects:list')
+            return reverse('projects:list')
 
 
 class TaskCreateView(generic.CreateView):

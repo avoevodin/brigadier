@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from .models import Project, Task
+from .models import Project, Task, Comment
 
 
 class ProjectModelForm(forms.ModelForm):
@@ -74,4 +74,26 @@ class TaskModelForm(forms.ModelForm):
                 'class': 'form-control mb-2',
                 'placeholder': _('Description')
             }),
+        }
+
+
+class CommentModelForm(forms.ModelForm):
+    """todo
+
+    """
+    class Meta:
+        model = Comment
+        fields = [
+            'task', 'text',
+        ]
+        widgets = {
+            'task': forms.Select(attrs={
+                'class': 'form-select mb-2',
+                'readonly': False,
+            }),
+            'text': forms.TextInput(attrs={
+                'class': 'form-control mb-2',
+                'placeholder': _('Text your comment'),
+                'required': True,
+            })
         }

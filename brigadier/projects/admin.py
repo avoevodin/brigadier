@@ -38,7 +38,7 @@ class CommentInline(admin.TabularInline):
         'id', 'task', 'created_date', 'text'
     ]
     readonly_fields = [
-        'id'
+        'id', 'created_date'
     ]
     list_display = [
         'id', 'task', 'created_date', 'text'
@@ -99,7 +99,8 @@ class TaskAdmin(admin.ModelAdmin):
         'id'
     ]
     list_display = [
-        'id', 'task_name', 'author', 'assignee', 'start_date', 'complete_date', 'status'
+        'id', 'task_name', 'author', 'assignee',
+        'start_date', 'complete_date', 'status',
     ]
     list_display_links = [
         'id', 'task_name'
@@ -127,19 +128,19 @@ class CommentAdmin(admin.ModelAdmin):
         }),
     ]
     readonly_fields = [
-        'id'
+        'id', 'created_date',
     ]
     list_display = [
-        'id', 'task', 'created_date', 'text'
+        'id', 'task', 'created_date', 'text',
     ]
     list_display_links = [
-        'id', 'task'
+        'id', 'task',
     ]
     search_fields = [
-        'task', 'text'
+        'task', 'text',
     ]
     list_filter = [
-        'created_date'
+        'created_date',
     ]
 
 

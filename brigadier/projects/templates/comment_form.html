@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block container %}
+    <h1>
+        {% if comment %}
+            {{ comment.task }}
+        {% else %}
+            {% translate "Create comment" %}
+        {% endif %}
+    </h1>
+    <hr>
+    <div class="mb-2">
+        {% if request.GET.next %}
+            <a class="link link-primary" href="{{ request.GET.next }}">
+                {% translate "Back" %}
+            </a>
+        {% else %}
+            <a class="link link-primary" href="{% url "projects:task_list" %}">
+                {% translate "Back" %}
+            </a>
+        {% endif %}
+    </div>
+    <div class="card" style="max-width: 600px">
+        <div class="card-body">
+            <form method="post" initial="task={{ request.GET.task }}">{% csrf_token %}
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ form.non_field_errors }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        </button>
+                    </div>
+                {% endif %}
+                {% for field in form %}
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ error }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                </button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {{ field }}
+                {% endfor %}
+                <button class="btn btn-primary" type="submit">
+                    {% translate "Save" %}
+                </button>
+                {% if request.GET.next %}
+                    <a class="btn btn-secondary" href="{{ request.GET.next }}">
+                        {% translate "Cancel" %}
+                    </a>
+                {% else %}
+                    <a class="btn btn-secondary" href="{% url "projects:task_list" %}">
+                        {% translate "Cancel" %}
+                    </a>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+{% endblock %}

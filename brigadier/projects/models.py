@@ -123,7 +123,10 @@ class Comment(models.Model):
         verbose_name=_('Task'),
         related_name='comments',
     )
-    created_date = models.DateTimeField(verbose_name=_('Date of creating'))
+    created_date = models.DateTimeField(
+        verbose_name=_('Date of creating'),
+        auto_now_add=True,
+    )
     text = models.TextField(verbose_name=_('Text'), max_length=200)
 
     def __str__(self):

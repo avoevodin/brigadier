@@ -85,6 +85,10 @@
         </div>
     </div>
     <hr>
+    <a class="btn btn-info mb-3" href="{% url "projects:comment_create" %}?next={{ next }}?task={{ task }}">
+        <i class="bi bi-plus"></i>
+        {% translate "Create comment" %}
+    </a>
     {% if task.comments.count %}
         <div class="list-group">
             {% for comment in task.comments.all %}

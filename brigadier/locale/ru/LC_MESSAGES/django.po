@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-29 19:07+0300\n"
+"POT-Creation-Date: 2021-04-01 06:59+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Andrey Voevodin <avoevodin8888@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,7 +30,7 @@ msgstr "Русский"
 
 #: employees/apps.py:7 employees/models.py:49
 #: employees/templates/employee_list.html:6 home/templates/home.html:100
-#: templates/nav.html:22
+#: templates/nav.html:30
 msgid "Employees"
 msgstr "Сотрудники"
 
@@ -77,6 +77,7 @@ msgstr "Удаление"
 
 #: employees/templates/employee_confirm_delete.html:11
 #: projects/templates/project_confirm_delete.html:11
+#: projects/templates/task_confirm_delete.html:11
 msgid "Are you sure?"
 msgstr "Вы уверены?"
 
@@ -88,46 +89,58 @@ msgstr "Да"
 
 #: employees/templates/employee_confirm_delete.html:18
 #: employees/templates/employee_form.html:45
-#: projects/templates/project_confirm_delete.html:18
-#: projects/templates/project_form.html:45
-#: projects/templates/task_confirm_delete.html:18
-#: projects/templates/task_form.html:48
+#: projects/templates/comment_form.html:52
+#: projects/templates/comment_form.html:56
+#: projects/templates/project_confirm_delete.html:19
+#: projects/templates/project_confirm_delete.html:23
+#: projects/templates/project_form.html:65
+#: projects/templates/project_form.html:69
+#: projects/templates/task_confirm_delete.html:19
+#: projects/templates/task_confirm_delete.html:23
+#: projects/templates/task_form.html:55 projects/templates/task_form.html:59
 msgid "Cancel"
 msgstr "Отмена"
 
 #: employees/templates/employee_detail.html:8
 #: employees/templates/employee_form.html:16
+#: projects/templates/comment_form.html:17
+#: projects/templates/comment_form.html:21
 #: projects/templates/project_detail.html:9
-#: projects/templates/project_form.html:16
-#: projects/templates/task_detail.html:9 projects/templates/task_form.html:16
+#: projects/templates/project_form.html:17
+#: projects/templates/project_form.html:23
+#: projects/templates/task_detail.html:9 projects/templates/task_form.html:17
+#: projects/templates/task_form.html:21
 msgid "Back"
 msgstr "Назад"
 
 #: employees/templates/employee_detail.html:57
-#: projects/templates/project_detail.html:64
+#: projects/templates/project_detail.html:71
 #: projects/templates/task_detail.html:77
 msgid "Edit"
 msgstr "Редактировать"
 
 #: employees/templates/employee_detail.html:63
-#: projects/templates/project_detail.html:70
+#: projects/templates/project_detail.html:77
 #: projects/templates/task_detail.html:83
 msgid "Delete"
 msgstr "Удалить"
 
 #: employees/templates/employee_form.html:10
 #: employees/templates/employee_list.html:10
+#: projects/templates/project_detail.html:86
 #: projects/templates/project_list.html:10 projects/templates/task_list.html:10
 msgid "Create"
 msgstr "Создать"
 
 #: employees/templates/employee_form.html:42
-#: projects/templates/project_form.html:42 projects/templates/task_form.html:45
+#: projects/templates/comment_form.html:48
+#: projects/templates/project_form.html:61 projects/templates/task_form.html:51
 msgid "Save"
 msgstr "Сохранить"
 
 #: employees/templates/employee_list.html:20
-#: projects/templates/project_list.html:23 projects/templates/task_list.html:24
+#: projects/templates/project_list.html:23
+#: projects/templates/task_list_included.html:16
 msgid "Actions"
 msgstr "Действия"
 
@@ -135,12 +148,12 @@ msgstr "Действия"
 msgid "No employees are available."
 msgstr "Нет доступных сотрудников."
 
-#: home/apps.py:7 home/templates/home.html:6 templates/nav.html:13
+#: home/apps.py:7 home/templates/home.html:6 templates/nav.html:15
 msgid "Home"
 msgstr "Главная"
 
 #: home/templates/home.html:13 projects/apps.py:7 projects/models.py:58
-#: projects/templates/project_list.html:6 templates/nav.html:16
+#: projects/templates/project_list.html:6 templates/nav.html:20
 msgid "Projects"
 msgstr "Проекты"
 
@@ -150,7 +163,7 @@ msgid "Total"
 msgstr "Всего"
 
 #: home/templates/home.html:24 home/templates/home.html:64
-#: projects/models.py:13
+#: projects/models.py:14
 msgid "In progress"
 msgstr "Выполняется"
 
@@ -168,8 +181,9 @@ msgstr "Открыть Проекты"
 
 #: home/templates/home.html:54 projects/models.py:113
 #: projects/templates/project_detail.html:23
+#: projects/templates/project_detail.html:82
 #: projects/templates/project_list.html:20 projects/templates/task_list.html:6
-#: templates/nav.html:19
+#: templates/nav.html:25
 msgid "Tasks"
 msgstr "Задачи"
 
@@ -198,28 +212,32 @@ msgstr "С просроченными задачами"
 msgid "Open Employees"
 msgstr "Открыть Сотрудники"
 
-#: projects/admin.py:40 projects/admin.py:73 projects/forms.py:31
-#: projects/forms.py:75 projects/models.py:23 projects/models.py:72
-#: projects/templates/project_detail.html:50
+#: projects/admin.py:63 projects/admin.py:96 projects/forms.py:31
+#: projects/forms.py:75 projects/models.py:46 projects/models.py:72
+#: projects/templates/project_detail.html:57
 #: projects/templates/task_detail.html:63
 msgid "Description"
 msgstr "Описание"
 
-#: projects/admin.py:70
+#: projects/admin.py:93
 msgid "Terms and status"
 msgstr "Сроки и статус"
 
-#: projects/forms.py:19 projects/models.py:22
+#: projects/admin.py:125 projects/models.py:130
+msgid "Text"
+msgstr "Текст"
+
+#: projects/forms.py:19 projects/models.py:45
 msgid "Project name"
 msgstr "Название проекта"
 
-#: projects/forms.py:23 projects/models.py:25
+#: projects/forms.py:23 projects/models.py:48
 #: projects/templates/project_detail.html:15
 #: projects/templates/project_list.html:18
 msgid "Deadline"
 msgstr "Дэдлайн"
 
-#: projects/forms.py:27 projects/models.py:24
+#: projects/forms.py:27 projects/models.py:47
 #: projects/templates/project_list.html:19
 msgid "Budget"
 msgstr "Бюджет"
@@ -229,77 +247,108 @@ msgid "Task name"
 msgstr "Название задачи"
 
 #: projects/forms.py:58 projects/models.py:77
-#: projects/templates/task_detail.html:39 projects/templates/task_list.html:21
+#: projects/templates/task_detail.html:39
+#: projects/templates/task_list_included.html:12
 msgid "Start date"
 msgstr "Дата начала"
 
 #: projects/forms.py:62 projects/models.py:78
-#: projects/templates/task_detail.html:47 projects/templates/task_list.html:22
+#: projects/templates/task_detail.html:47
+#: projects/templates/task_list_included.html:13
 msgid "Complete date"
 msgstr "Дата завершения"
 
-#: projects/models.py:11
+#: projects/forms.py:96
+msgid "Text your comment"
+msgstr "Напишите свой комментарий"
+
+#: projects/models.py:12
 msgid "New"
 msgstr "Новая"
 
-#: projects/models.py:12
+#: projects/models.py:13
 msgid "Finished"
 msgstr "Завершена"
 
-#: projects/models.py:26
+#: projects/models.py:49
 msgid "Closed"
 msgstr "Закрыт"
 
 #: projects/models.py:57 projects/models.py:67
-#: projects/templates/task_detail.html:15 projects/templates/task_list.html:17
+#: projects/templates/task_detail.html:15
+#: projects/templates/task_list_included.html:8
 msgid "Project"
 msgstr "Проект"
 
 #: projects/models.py:81 projects/templates/task_detail.html:23
-#: projects/templates/task_list.html:19
+#: projects/templates/task_list_included.html:10
 msgid "Author"
 msgstr "Автор"
 
 #: projects/models.py:89 projects/templates/task_detail.html:31
-#: projects/templates/task_list.html:20
+#: projects/templates/task_list_included.html:11
 msgid "Assignee"
 msgstr "Исполнитель"
 
 #: projects/models.py:96 projects/templates/task_detail.html:55
-#: projects/templates/task_list.html:23
+#: projects/templates/task_list_included.html:14
 msgid "Status"
 msgstr "Статус"
 
-#: projects/models.py:112
+#: projects/models.py:112 projects/models.py:123
 msgid "Task"
 msgstr "Задача"
+
+#: projects/models.py:127
+msgid "Date of creating"
+msgstr "Дата создания"
+
+#: projects/models.py:136
+msgid "Comment"
+msgstr "Комментарий"
+
+#: projects/models.py:137
+msgid "Comments"
+msgstr "Комментарии"
+
+#: projects/templates/comment_form.html:10
+#: projects/templates/task_detail.html:90
+msgid "Create comment"
+msgstr "Создать комментарий"
 
 #: projects/templates/project_detail.html:31
 #: projects/templates/project_list.html:21
 msgid "Completed"
 msgstr "Завершен"
 
-#: projects/templates/project_detail.html:38
+#: projects/templates/project_detail.html:45
+#: projects/templates/project_form.html:53
 #: projects/templates/project_list.html:22
 msgid "Closed?"
 msgstr "Закрыт?"
+
+#: projects/templates/project_detail.html:91
+#: projects/templates/task_list.html:15
+msgid "No tasks are available."
+msgstr "Нет доступных задач."
 
 #: projects/templates/project_form.html:10
 msgid "Create project"
 msgstr "Создать проект"
 
-#: projects/templates/project_list.html:17 projects/templates/task_list.html:18
+#: projects/templates/project_list.html:17
+#: projects/templates/task_list_included.html:9
 msgid "Name"
 msgstr "Имя"
 
-#: projects/templates/project_list.html:61
+#: projects/templates/project_list.html:67
 msgid "No projects are available."
 msgstr "Нет доступных проектов."
+
+#: projects/templates/task_detail.html:104
+msgid "No comments are available."
+msgstr "Нет доступных комментариев."
 
 #: projects/templates/task_form.html:10
 msgid "Create task"
 msgstr "Создать задачу"
-
-#: projects/templates/task_list.html:59
-msgid "No tasks are available."
-msgstr "Нет доступных задач."

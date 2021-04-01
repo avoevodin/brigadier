@@ -1,8 +1,8 @@
 from django.views import generic
 from django.urls import reverse_lazy, reverse
 
-from .models import Project, Task
-from .forms import ProjectModelForm, TaskModelForm
+from .models import Project, Task, Comment
+from .forms import ProjectModelForm, TaskModelForm, CommentModelForm
 
 
 class ProjectListView(generic.ListView):
@@ -211,3 +211,21 @@ class TaskDeleteView(generic.DeleteView):
             return self.request.GET.get('next')
         else:
             return reverse('projects:task_list')
+
+
+class CommentCreateView(generic.CreateView):
+    """todo
+
+    """
+    model = Comment
+    template_name = 'comment_form.html'
+    form_class = CommentModelForm
+
+    def get_success_url(self):
+        """todo
+
+        """
+        if self.request.GET.get('next'):
+            return self.request.GET.get('next')
+        else:
+            return reverse('projects:task_detail')

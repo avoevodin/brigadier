@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from django.db.models import Case, When, Count, Q, FloatField
+from django.db.models import Case, When, Count, Q, FloatField, DecimalField
 from django.db.models.functions import Cast
 
 from employees.models import Employee
@@ -20,6 +20,7 @@ class ProjectManager(models.Manager):
     """todo()
 
     """
+
     def annotate_completed_percentage(self):
         """todo()
 
@@ -28,11 +29,12 @@ class ProjectManager(models.Manager):
             tasks_count=Count('task'),
             percentage_completed=Case(
                 When(tasks_count=0, then=0),
-                default=Cast(Count(
-                    'task',
-                    filter=Q(task__status=COMPLETED),
-                ), FloatField()) / Cast(Count('task'), FloatField()) * 100
-            )
+                default=Cast(
+                    Count(
+                        'task',
+                        filter=Q(task__status=COMPLETED),
+                    ), FloatField()) / Cast(Count('task'), FloatField()),
+            ) * 100
         )
 
 

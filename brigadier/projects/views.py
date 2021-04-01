@@ -43,6 +43,14 @@ class TaskListView(generic.ListView):
             'project', 'author', 'assignee'
         ).order_by('start_date')
 
+    def get_context_data(self, **kwargs):
+        """todo
+
+        """
+        context = super(TaskListView, self).get_context_data(**kwargs)
+        context['next'] = reverse_lazy('projects:task_list')
+        return context
+
 
 class ProjectDetailView(generic.DetailView):
     """View displays details of the selected project.
@@ -92,6 +100,18 @@ class TaskDetailView(generic.DetailView):
 
         """
         return Task.objects.select_related('project', 'author', 'assignee')
+
+    def get_context_data(self, **kwargs):
+        """todo()
+
+        """
+        task_id = self.kwargs['pk']
+        context = super(TaskDetailView, self).get_context_data(**kwargs)
+        context['next'] = reverse_lazy(
+            'projects:task_detail',
+            kwargs={'pk': task_id}
+        )
+        return context
 
 
 class ProjectCreateView(generic.CreateView):
@@ -146,7 +166,15 @@ class TaskCreateView(generic.CreateView):
     model = Task
     template_name = 'task_form.html'
     form_class = TaskModelForm
-    success_url = reverse_lazy('projects:task_list')
+
+    def get_success_url(self):
+        """todo
+
+        """
+        if self.request.GET.get('next'):
+            return self.request.GET.get('next')
+        else:
+            return reverse('projects:task_list')
 
 
 class TaskEditView(generic.UpdateView):
@@ -158,6 +186,15 @@ class TaskEditView(generic.UpdateView):
     form_class = TaskModelForm
     success_url = reverse_lazy('projects:task_list')
 
+    def get_success_url(self):
+        """todo
+
+        """
+        if self.request.GET.get('next'):
+            return self.request.GET.get('next')
+        else:
+            return reverse('projects:task_list')
+
 
 class TaskDeleteView(generic.DeleteView):
     """View displays deleting form of the task.
@@ -165,3 +202,12 @@ class TaskDeleteView(generic.DeleteView):
     """
     model = Task
     template_name = 'task_confirm_delete.html'
+
+    def get_success_url(self):
+        """todo
+
+        """
+        if self.request.GET.get('next'):
+            return self.request.GET.get('next')
+        else:
+            return reverse('projects:task_list')

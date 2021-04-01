@@ -72,13 +72,13 @@
     </div>
     <div class="row mt-2">
         <div class="col-auto">
-            <a class="btn btn-primary btn-lg" href="{% url "projects:task_edit" task.id %}">
+            <a class="btn btn-primary btn-lg" href="{% url "projects:task_edit" task.id %}?next={{ next }}">
                 <i class="bi bi-pencil-fill"></i>
                 {% translate "Edit" %}
             </a>
         </div>
         <div class="col-auto">
-            <a class="btn btn-danger btn-lg" href="{% url "projects:task_delete" task.id %}">
+            <a class="btn btn-danger btn-lg" href="{% url "projects:task_delete" task.id %}?next={{ next }}">
                 <i class="bi bi-trash"></i>
                 {% translate "Delete" %}
             </a>

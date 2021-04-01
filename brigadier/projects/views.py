@@ -1,8 +1,26 @@
 from django.views import generic
 from django.urls import reverse_lazy, reverse
+from django.shortcuts import get_object_or_404, redirect, render
 
 from .models import Project, Task, Comment
 from .forms import ProjectModelForm, TaskModelForm, CommentModelForm
+
+
+def add_comment_to_task(request, pk):
+    """todo
+
+    """
+    task = get_object_or_404(Task, pk=pk)
+    if request.method == "POST":
+        form = CommentModelForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.task = task
+            comment.save()
+            return redirect('projects:task_detail', pk=task.pk)
+    else:
+        form = CommentModelForm()
+    return render(request, 'add_comment_to_task.html', {'form': form})
 
 
 class ProjectListView(generic.ListView):

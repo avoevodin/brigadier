@@ -85,22 +85,21 @@
         </div>
     </div>
     <hr>
-    <a class="btn btn-info mb-3" href="{% url "projects:comment_create" %}?next={{ next }}?task={{ task }}">
-        <i class="bi bi-plus"></i>
-        {% translate "Create comment" %}
-    </a>
     {% if task.comments.count %}
         <div class="list-group">
             {% for comment in task.comments.all %}
                 <div class="list-group-item">
                     <div class="d-flex w-100 justify-content-between">
-                        <figure class="text-left">{{ comment.text|linebreaks }}</figure>
-                        <small style="font-weight: bold; color: royalblue">{{ comment.created_date }}</small>
+                        <small style="font-weight: bold;">{{ comment.created_date }}</small>
+                        <figure class="text-right">#{{ comment.id }}</figure>
                     </div>
+                    <hr>
+                    {{ comment.text }}
                 </div>
             {% endfor %}
         </div>
     {% else %}
         <p>{% translate "No comments are available." %}</p>
     {% endif %}
+    <a class="btn btn-default" href="{% url 'add_comment_to_task' pk=task.pk %}">Add comment</a>
 {% endblock %}

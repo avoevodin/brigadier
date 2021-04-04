@@ -2,6 +2,8 @@ import datetime
 
 from django.test import TestCase
 from django.utils import timezone
+from django.utils.translation import gettext as _
+from django.urls import reverse
 
 from .models import Employee
 
@@ -29,7 +31,7 @@ class EmployeeModelTest(TestCase):
         middlename = 'Bruce'
         surname = 'Mathers'
         email = 'mbm@example.com'
-        birthdate = timezone.now()
+        birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
         full_name = create_employee(**{
             'firstname': firstname,
             'middlename': middlename,
@@ -48,7 +50,7 @@ class EmployeeModelTest(TestCase):
         middlename = 'Bruce'
         surname = 'Mathers'
         email = 'mbm@example.com'
-        birthdate = timezone.now()
+        birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
         full_name = create_employee(**{
             'firstname': firstname,
             'middlename': middlename,
@@ -67,7 +69,7 @@ class EmployeeModelTest(TestCase):
         middlename = None
         surname = 'Mathers'
         email = 'mbm@example.com'
-        birthdate = timezone.now()
+        birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
         full_name = create_employee(**{
             'firstname': firstname,
             'middlename': middlename,
@@ -86,7 +88,7 @@ class EmployeeModelTest(TestCase):
         middlename = 'Bruce'
         surname = ''
         email = 'mbm@example.com'
-        birthdate = timezone.now()
+        birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
         full_name = create_employee(**{
             'firstname': firstname,
             'middlename': middlename,
@@ -106,7 +108,7 @@ class EmployeeModelTest(TestCase):
         middlename = None
         surname = ''
         email = 'mbm@example.com'
-        birthdate = timezone.now()
+        birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
         full_name = create_employee(**{
             'firstname': firstname,
             'middlename': middlename,
@@ -116,3 +118,70 @@ class EmployeeModelTest(TestCase):
         }).full_name()
         full_name_target = ''
         self.assertEqual(full_name, full_name_target)
+
+    def test_model_str(self):
+        """todo
+
+        """
+        firstname = 'Marshall'
+        middlename = 'Bruce'
+        surname = 'Mathers'
+        email = 'mbm@example.com'
+        birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
+        employee_str = create_employee(**{
+            'firstname': firstname,
+            'middlename': middlename,
+            'surname': surname,
+            'email': email,
+            'birthdate': birthdate,
+        }).__str__()
+        self.assertEqual(employee_str, 'Marshall Bruce Mathers')
+
+
+class EmployeeListView(TestCase):
+    """todo
+
+    """
+    def test_no_employees(self):
+        """todo
+
+        """
+        response = self.client.get(reverse('employees:list'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, _("No employees are available."))
+        self.assertQuerysetEqual(response.context['employee_list'], [])
+
+    def test_two_employees(self):
+        """todo
+
+        """
+        postfix = '_1'
+        firstname = 'Marshall' + postfix
+        middlename = 'Bruce' + postfix
+        surname = 'Mathers' + postfix
+        email = f'mbm{postfix}@example.com'
+        birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
+        create_employee(**{
+            'firstname': firstname,
+            'middlename': middlename,
+            'surname': surname,
+            'email': email,
+            'birthdate': birthdate,
+        })
+        postfix = '_2'
+        firstname = 'Marshall' + postfix
+        middlename = 'Bruce' + postfix
+        surname = 'Mathers' + postfix
+        email = f'mbm{postfix}@example.com'
+        birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
+        create_employee(**{
+            'firstname': firstname,
+            'middlename': middlename,
+            'surname': surname,
+            'email': email,
+            'birthdate': birthdate,
+        })
+        response = self.client.get(reverse('employees:list'))
+        self.assertEqual(response.status_code, 200)
+        self.assertQuerysetEqual(response.context['employee_list'], ['<Employee: Marshall_1 Bruce_1 Mathers_1>',
+                                                                     '<Employee: Marshall_2 Bruce_2 Mathers_2>'])

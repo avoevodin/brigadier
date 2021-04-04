@@ -1,6 +1,6 @@
 from django.views.generic import TemplateView
 from django.utils import timezone
-from django.db.models import Count, Q, Case, When
+from django.db.models import Count, Q, Case, When, F
 
 from projects.models import Project, Task, IN_PROGRESS, COMPLETED, NEW
 from employees.models import Employee
@@ -45,9 +45,9 @@ class HomeView(TemplateView):
             new=Count('id', filter=Q(status=NEW)),
         )
         employees_statistics = Employee.objects.aggregate(
-            total=Count('id'),
+            total=Count('id', distinct=True),
             occupied=Count(
-                'tasks_assignee',
+                'tasks_assignee__assignee',
                 filter=Q(
                     tasks_assignee__status=IN_PROGRESS,
                     tasks_assignee__start_date__lte=timezone.now()
@@ -55,21 +55,21 @@ class HomeView(TemplateView):
                 distinct=True
             ),
             overdue=Count(
-                'tasks_assignee',
+                'tasks_assignee__assignee',
                 filter=Q(
                     tasks_assignee__status=IN_PROGRESS,
                     tasks_assignee__complete_date__lte=timezone.now()
                 ),
                 distinct=True
             ),
-            no_tasks=Count(Case(
-                When(
+            no_tasks=Count('id', distinct=True) - Count(
+                'tasks_assignee__assignee',
+                filter=Q(
                     tasks_assignee__status=IN_PROGRESS,
-                    tasks_assignee__start_date__lte=timezone.now(),
-                    then=None
+                    tasks_assignee__start_date__lte=timezone.now()
                 ),
-                default=1
-            )),
+                distinct=True
+            ),
         )
         context = super(HomeView, self).get_context_data(**kwargs)
         context['projects_statistics'] = projects_statistics

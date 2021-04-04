@@ -88,7 +88,7 @@ class TaskAdmin(admin.ModelAdmin):
     model = Task
     fieldsets = [
         (None, {
-            'fields': ['id', 'task_name', 'author', 'assignee']
+            'fields': ['id', 'project', 'task_name', 'author', 'assignee']
         }),
         (_('Terms and status'), {
             'fields': ['start_date', 'complete_date', 'status']
@@ -99,7 +99,7 @@ class TaskAdmin(admin.ModelAdmin):
         'id'
     ]
     list_display = [
-        'id', 'task_name', 'author', 'assignee',
+        'id', 'project', 'task_name', 'author', 'assignee',
         'start_date', 'complete_date', 'status',
     ]
     list_display_links = [

@@ -91,7 +91,13 @@
                 <div class="list-group-item">
                     <div class="d-flex w-100 justify-content-between">
                         <small style="font-weight: bold; color: royalblue">{{ comment.created_date }}</small>
-                        <div class="text-left">#{{ comment.id }}</div>
+                        <div class="text-left">
+                            <a id="{{ comment.id }}">
+                                <a href="#{{ comment.id }}">
+                                    #{{ comment.id }}
+                                </a>
+                            </a>
+                        </div>
                     </div>
                     <hr>
                     <figure class="text-left mt-1 mb-2">{{ comment.text|linebreaks }}</figure>

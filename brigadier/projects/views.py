@@ -246,6 +246,6 @@ class CommentCreateView(generic.CreateView):
 
         """
         if self.request.GET.get('next'):
-            return self.request.GET.get('next')
+            return f"{self.request.GET.get('next')}#{self.object.id}"
         else:
             return reverse('projects:task_detail')

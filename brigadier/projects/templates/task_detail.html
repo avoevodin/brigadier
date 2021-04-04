@@ -72,13 +72,13 @@
     </div>
     <div class="row mt-2">
         <div class="col-auto">
-            <a class="btn btn-primary btn-lg" href="{% url "projects:task_edit" task.id %}?next={{ next }}">
+            <a class="btn btn-primary btn-lg" href="{% url "projects:task_edit" task.id %}?next={{ request.path }}">
                 <i class="bi bi-pencil-fill"></i>
                 {% translate "Edit" %}
             </a>
         </div>
         <div class="col-auto">
-            <a class="btn btn-danger btn-lg" href="{% url "projects:task_delete" task.id %}?next={{ next }}">
+            <a class="btn btn-danger btn-lg" href="{% url "projects:task_delete" task.id %}?next={{ request.path }}">
                 <i class="bi bi-trash"></i>
                 {% translate "Delete" %}
             </a>
@@ -109,7 +109,7 @@
     {% endif %}
     <div class="card" style="max-width: 600px; border: 0">
         <div class="card-body">
-            <form method="POST" action="{% url "projects:comment_add" %}?next={{ next }}">
+            <form method="POST" action="{% url "projects:comment_add" %}?next={{ request.path }}">
                 {% csrf_token %}
                 {% if form.non_field_errors %}
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">

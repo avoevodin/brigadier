@@ -1,26 +1,8 @@
 from django.views import generic
 from django.urls import reverse_lazy, reverse
-from django.shortcuts import get_object_or_404, redirect, render
 
 from .models import Project, Task, Comment
 from .forms import ProjectModelForm, TaskModelForm, CommentModelForm
-
-
-def add_comment_to_task(request, pk):
-    """todo
-
-    """
-    task = get_object_or_404(Task, pk=pk)
-    if request.method == "POST":
-        form = CommentModelForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.task = task
-            comment.save()
-            return redirect('projects:task_detail', pk=task.pk)
-    else:
-        form = CommentModelForm()
-    return render(request, 'add_comment_to_task.html', {'form': form})
 
 
 class ProjectListView(generic.ListView):
@@ -43,30 +25,6 @@ class ProjectListView(generic.ListView):
 
         """
         context = super(ProjectListView, self).get_context_data(**kwargs)
-        context['next'] = reverse_lazy('projects:list')
-        return context
-
-
-class TaskListView(generic.ListView):
-    """View displays the list of tasks.
-
-    """
-    template_name = 'task_list.html'
-
-    def get_queryset(self):
-        """todo
-
-        """
-        return Task.objects.select_related(
-            'project', 'author', 'assignee'
-        ).order_by('start_date')
-
-    def get_context_data(self, **kwargs):
-        """todo
-
-        """
-        context = super(TaskListView, self).get_context_data(**kwargs)
-        context['next'] = reverse_lazy('projects:task_list')
         return context
 
 
@@ -89,10 +47,6 @@ class ProjectDetailView(generic.DetailView):
         )
         context = super(ProjectDetailView, self).get_context_data(**kwargs)
         context['task_list'] = tasks
-        context['next'] = reverse_lazy(
-            'projects:detail',
-            kwargs={'pk': project_id}
-        )
         return context
 
     def get_queryset(self, **kwargs):
@@ -103,35 +57,6 @@ class ProjectDetailView(generic.DetailView):
             'id', 'project_name', 'deadline', 'budget',
             'closed', 'description', 'tasks_count', 'percentage_completed'
         )
-
-
-class TaskDetailView(generic.DetailView):
-    """Vies displays detail of the selected.
-    task.
-
-    """
-    template_name = 'task_detail.html'
-    context_object_name = 'task'
-
-    def get_queryset(self):
-        """todo
-
-        """
-        return Task.objects.select_related('project', 'author', 'assignee')
-
-    def get_context_data(self, **kwargs):
-        """todo()
-
-        """
-        task_id = self.kwargs['pk']
-        context = super(TaskDetailView, self).get_context_data(**kwargs)
-        context['next'] = reverse_lazy(
-            'projects:task_detail',
-            kwargs={'pk': task_id}
-        )
-        comment_form = CommentModelForm(initial={'task': self.object})
-        context['form'] = comment_form
-        return context
 
 
 class ProjectCreateView(generic.CreateView):
@@ -177,6 +102,45 @@ class ProjectDeleteView(generic.DeleteView):
             return self.request.GET.get('next')
         else:
             return reverse('projects:list')
+
+
+class TaskListView(generic.ListView):
+    """View displays the list of tasks.
+
+    """
+    template_name = 'task_list.html'
+
+    def get_queryset(self):
+        """todo
+
+        """
+        return Task.objects.select_related(
+            'project', 'author', 'assignee'
+        ).order_by('start_date')
+
+
+class TaskDetailView(generic.DetailView):
+    """Vies displays detail of the selected.
+    task.
+
+    """
+    template_name = 'task_detail.html'
+    context_object_name = 'task'
+
+    def get_queryset(self):
+        """todo
+
+        """
+        return Task.objects.select_related('project', 'author', 'assignee')
+
+    def get_context_data(self, **kwargs):
+        """todo()
+
+        """
+        context = super(TaskDetailView, self).get_context_data(**kwargs)
+        comment_form = CommentModelForm(initial={'task': self.object})
+        context['form'] = comment_form
+        return context
 
 
 class TaskCreateView(generic.CreateView):
@@ -248,4 +212,4 @@ class CommentCreateView(generic.CreateView):
         if self.request.GET.get('next'):
             return f"{self.request.GET.get('next')}#{self.object.id}"
         else:
-            return reverse('projects:task_detail')
+            return reverse('projects:task_list')

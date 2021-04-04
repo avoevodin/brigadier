@@ -47,7 +47,7 @@ class CommentInline(admin.TabularInline):
         'id', 'task'
     ]
     search_fields = [
-        'task', 'text'
+        'task__task_name', 'text'
     ]
 
 
@@ -137,7 +137,7 @@ class CommentAdmin(admin.ModelAdmin):
         'id', 'task',
     ]
     search_fields = [
-        'task', 'text',
+        'task__task_name', 'text',
     ]
     list_filter = [
         'created_date',

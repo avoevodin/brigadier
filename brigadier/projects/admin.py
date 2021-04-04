@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
-from .models import Project, Task
+from .models import Project, Task, Comment
 
 
 class TaskInLine(admin.StackedInline):
@@ -25,6 +25,29 @@ class TaskInLine(admin.StackedInline):
     ]
     search_fields = [
         'task_name'
+    ]
+
+
+class CommentInline(admin.TabularInline):
+    """todo
+
+    """
+    model = Comment
+    extra = 1
+    fields = [
+        'id', 'task', 'created_date', 'text'
+    ]
+    readonly_fields = [
+        'id', 'created_date'
+    ]
+    list_display = [
+        'id', 'task', 'created_date', 'text'
+    ]
+    list_display_links = [
+        'id', 'task'
+    ]
+    search_fields = [
+        'task__task_name', 'text'
     ]
 
 
@@ -65,7 +88,7 @@ class TaskAdmin(admin.ModelAdmin):
     model = Task
     fieldsets = [
         (None, {
-            'fields': ['id', 'task_name', 'author', 'assignee']
+            'fields': ['id', 'project', 'task_name', 'author', 'assignee']
         }),
         (_('Terms and status'), {
             'fields': ['start_date', 'complete_date', 'status']
@@ -76,7 +99,8 @@ class TaskAdmin(admin.ModelAdmin):
         'id'
     ]
     list_display = [
-        'id', 'task_name', 'author', 'assignee', 'start_date', 'complete_date', 'status'
+        'id', 'project', 'task_name', 'author', 'assignee',
+        'start_date', 'complete_date', 'status',
     ]
     list_display_links = [
         'id', 'task_name'
@@ -87,7 +111,39 @@ class TaskAdmin(admin.ModelAdmin):
     list_filter = [
         'start_date', 'complete_date'
     ]
+    inlines = [CommentInline]
+
+
+class CommentAdmin(admin.ModelAdmin):
+    """todo
+
+    """
+    model = Comment
+    fieldsets = [
+        (None, {
+            'fields': ['id', 'task', 'created_date']
+        }),
+        (_('Text'), {
+            'fields': ['text']
+        }),
+    ]
+    readonly_fields = [
+        'id', 'created_date',
+    ]
+    list_display = [
+        'id', 'task', 'created_date', 'text',
+    ]
+    list_display_links = [
+        'id', 'task',
+    ]
+    search_fields = [
+        'task__task_name', 'text',
+    ]
+    list_filter = [
+        'created_date',
+    ]
 
 
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(Task, TaskAdmin)
+admin.site.register(Comment, CommentAdmin)

@@ -1,15 +1,14 @@
 from django.views import generic
 from django.urls import reverse_lazy, reverse
 
-from .models import Project, Task
-from .forms import ProjectModelForm, TaskModelForm
+from .models import Project, Task, Comment
+from .forms import ProjectModelForm, TaskModelForm, CommentModelForm
 
 
 class ProjectListView(generic.ListView):
     """View displays the list of projects.
 
     """
-    model = Project
     template_name = 'project_list.html'
 
     def get_queryset(self):
@@ -26,17 +25,7 @@ class ProjectListView(generic.ListView):
 
         """
         context = super(ProjectListView, self).get_context_data(**kwargs)
-        context['next'] = reverse_lazy('projects:list')
         return context
-
-
-class TaskListView(generic.ListView):
-    """View displays the list of tasks.
-
-    """
-    model = Task
-    template_name = 'task_list.html'
-    ordering = 'start_date'
 
 
 class ProjectDetailView(generic.DetailView):
@@ -58,10 +47,6 @@ class ProjectDetailView(generic.DetailView):
         )
         context = super(ProjectDetailView, self).get_context_data(**kwargs)
         context['task_list'] = tasks
-        context['next'] = reverse_lazy(
-            'projects:detail',
-            kwargs={'pk': project_id}
-        )
         return context
 
     def get_queryset(self, **kwargs):
@@ -72,15 +57,6 @@ class ProjectDetailView(generic.DetailView):
             'id', 'project_name', 'deadline', 'budget',
             'closed', 'description', 'tasks_count', 'percentage_completed'
         )
-
-
-class TaskDetailView(generic.DetailView):
-    """Vies displays detail of the selected.
-    task.
-
-    """
-    model = Task
-    template_name = 'task_detail.html'
 
 
 class ProjectCreateView(generic.CreateView):
@@ -128,6 +104,45 @@ class ProjectDeleteView(generic.DeleteView):
             return reverse('projects:list')
 
 
+class TaskListView(generic.ListView):
+    """View displays the list of tasks.
+
+    """
+    template_name = 'task_list.html'
+
+    def get_queryset(self):
+        """todo
+
+        """
+        return Task.objects.select_related(
+            'project', 'author', 'assignee'
+        ).order_by('start_date')
+
+
+class TaskDetailView(generic.DetailView):
+    """Vies displays detail of the selected.
+    task.
+
+    """
+    template_name = 'task_detail.html'
+    context_object_name = 'task'
+
+    def get_queryset(self):
+        """todo
+
+        """
+        return Task.objects.select_related('project', 'author', 'assignee')
+
+    def get_context_data(self, **kwargs):
+        """todo()
+
+        """
+        context = super(TaskDetailView, self).get_context_data(**kwargs)
+        comment_form = CommentModelForm(initial={'task': self.object})
+        context['form'] = comment_form
+        return context
+
+
 class TaskCreateView(generic.CreateView):
     """View displays creating form of the task.
 
@@ -135,7 +150,15 @@ class TaskCreateView(generic.CreateView):
     model = Task
     template_name = 'task_form.html'
     form_class = TaskModelForm
-    success_url = reverse_lazy('projects:task_list')
+
+    def get_success_url(self):
+        """todo
+
+        """
+        if self.request.GET.get('next'):
+            return self.request.GET.get('next')
+        else:
+            return reverse('projects:task_list')
 
 
 class TaskEditView(generic.UpdateView):
@@ -147,6 +170,15 @@ class TaskEditView(generic.UpdateView):
     form_class = TaskModelForm
     success_url = reverse_lazy('projects:task_list')
 
+    def get_success_url(self):
+        """todo
+
+        """
+        if self.request.GET.get('next'):
+            return self.request.GET.get('next')
+        else:
+            return reverse('projects:task_list')
+
 
 class TaskDeleteView(generic.DeleteView):
     """View displays deleting form of the task.
@@ -154,3 +186,30 @@ class TaskDeleteView(generic.DeleteView):
     """
     model = Task
     template_name = 'task_confirm_delete.html'
+
+    def get_success_url(self):
+        """todo
+
+        """
+        if self.request.GET.get('next'):
+            return self.request.GET.get('next')
+        else:
+            return reverse('projects:task_list')
+
+
+class CommentCreateView(generic.CreateView):
+    """todo
+
+    """
+    model = Comment
+    template_name = 'task_detail.html'
+    form_class = CommentModelForm
+
+    def get_success_url(self):
+        """todo
+
+        """
+        if self.request.GET.get('next'):
+            return f"{self.request.GET.get('next')}#{self.object.id}"
+        else:
+            return reverse('projects:task_list')

@@ -36,7 +36,8 @@ class Employee(models.Model):
         that are separated with spaces.
 
         """
-        return " ".join([self.firstname, self.middlename, self.surname]).replace("  ", " ").strip()
+        return " ".join([self.firstname or '', self.middlename or '', self.surname or ''])\
+            .replace("  ", " ").strip()
     full_name.short_description = _('Full name')
 
     class Meta:

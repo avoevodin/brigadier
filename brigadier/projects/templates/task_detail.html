@@ -86,20 +86,48 @@
     </div>
     <hr>
     {% if task.comments.count %}
-        <div class="list-group">
+        <div class="list-group list-group-flush">
             {% for comment in task.comments.all %}
                 <div class="list-group-item">
                     <div class="d-flex w-100 justify-content-between">
-                        <small style="font-weight: bold;">{{ comment.created_date }}</small>
-                        <figure class="text-right">#{{ comment.id }}</figure>
+                        <small style="font-weight: bold; color: royalblue">{{ comment.created_date }}</small>
+                        <div class="text-left">#{{ comment.id }}</div>
                     </div>
                     <hr>
-                    {{ comment.text }}
+                    <figure class="text-left mt-1 mb-2">{{ comment.text|linebreaks }}</figure>
                 </div>
             {% endfor %}
         </div>
     {% else %}
         <p>{% translate "No comments are available." %}</p>
     {% endif %}
-    <a class="btn btn-default" href="{% url 'add_comment_to_task' pk=task.pk %}">Add comment</a>
+    <div class="card" style="max-width: 600px; border: 0">
+        <div class="card-body">
+            <form method="POST" action="{% url "projects:comment_add" %}?next={{ next }}">
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ form.non_field_errors }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        </button>
+                    </div>
+                {% endif %}
+                {% for field in form %}
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ error }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                </button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {{ field }}
+                {% endfor %}
+                <button class="btn btn-primary" type="submit">
+                    {% translate "Add comment" %}
+                </button>
+            </form>
+        </div>
+    </div>
 {% endblock %}

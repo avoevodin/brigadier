@@ -129,6 +129,8 @@ class TaskDetailView(generic.DetailView):
             'projects:task_detail',
             kwargs={'pk': task_id}
         )
+        comment_form = CommentModelForm(initial={'task': self.object})
+        context['form'] = comment_form
         return context
 
 
@@ -236,7 +238,7 @@ class CommentCreateView(generic.CreateView):
 
     """
     model = Comment
-    template_name = 'comment_form.html'
+    template_name = 'task_detail.html'
     form_class = CommentModelForm
 
     def get_success_url(self):

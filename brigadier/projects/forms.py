@@ -86,14 +86,13 @@ class CommentModelForm(forms.ModelForm):
         fields = [
             'task', 'text',
         ]
+
         widgets = {
-            'task': forms.Select(attrs={
-                'class': 'form-select mb-2',
-                'readonly': False,
-            }),
-            'text': forms.TextInput(attrs={
+            'task': forms.HiddenInput(),
+            'text': forms.Textarea(attrs={
                 'class': 'form-control mb-2',
                 'placeholder': _('Text your comment'),
                 'required': True,
+                'rows': 5,
             })
         }

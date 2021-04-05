@@ -185,3 +185,15 @@ class EmployeeListViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertQuerysetEqual(response.context['employee_list'], ['<Employee: Marshall_1 Bruce_1 Mathers_1>',
                                                                      '<Employee: Marshall_2 Bruce_2 Mathers_2>'])
+
+
+class EmployeeDetailViewTest(TestCase):
+    """todo
+
+    """
+    def test_not_existed_employee(self):
+        """todo
+
+        """
+        response = self.client.get(reverse('employees:detail', args=(1,)))
+        self.assertEqual(response.status_code, 404)

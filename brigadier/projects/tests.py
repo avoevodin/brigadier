@@ -401,6 +401,13 @@ class ProjectDetailViewTest(TestCase):
 
     """
 
+    def test_not_existed_project(self):
+        """todo
+
+        """
+        response = self.client.get(reverse('projects:detail', args=(1,)))
+        self.assertEqual(response.status_code, 404)
+
     def test_project_with_tasks(self):
         """todo
 
@@ -580,6 +587,75 @@ class ProjectCreateViewTest(TestCase):
 
     """
 
+    def test_create_project_without_next(self):
+        response = self.client.post(
+            reverse('projects:create'),
+            {
+                'project_name': 'project name',
+                'description': 'Project description',
+                'budget': 100000,
+                'deadline': timezone.now() + datetime.timedelta(days=32),
+                'closed': False,
+            }
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, '/projects/')
+        self.assertQuerysetEqual(Project.objects.all(), ['<Project: project name>'])
+
+
+class ProjectEditViewTest(TestCase):
+    """todo
+
+    """
+
+    def test_edit_project_without_next(self):
+        deadline = timezone.now() + datetime.timedelta(days=32)
+        project_1 = create_project(**{
+            'project_name': 'Project name',
+            'description': 'Project description',
+            'budget': 100000,
+            'deadline': deadline,
+            'closed': True,
+        })
+        response = self.client.post(
+            reverse('projects:edit', args=(project_1.id,)),
+            {
+                'project_name': 'Project name 1',
+                'description': 'Project description',
+                'budget': 100000,
+                'deadline': deadline,
+                'closed': True,
+            }
+        )
+        project_1.refresh_from_db()
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, '/projects/')
+        self.assertQuerysetEqual(Project.objects.all(), ['<Project: Project name 1>'])
+
+    def test_edit_project_with_next(self):
+        deadline = timezone.now() + datetime.timedelta(days=32)
+        project_1 = create_project(**{
+            'project_name': 'Project name',
+            'description': 'Project description',
+            'budget': 100000,
+            'deadline': deadline,
+            'closed': True,
+        })
+        response = self.client.post(
+            reverse('projects:edit', args=(project_1.id,))
+            + '?next=' + reverse('projects:detail', args=(project_1.id,)),
+            {
+                'project_name': 'Project name 1',
+                'description': 'Project description',
+                'budget': 100000,
+                'deadline': deadline,
+                'closed': True,
+            }
+        )
+        project_1.refresh_from_db()
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, f'/projects/{project_1.id}/')
+        self.assertQuerysetEqual(Project.objects.all(), ['<Project: Project name 1>'])
 
 
 class TaskModelTest(TestCase):
@@ -827,3 +903,10 @@ class TaskDetailViewTest(TestCase):
             task_1_1.comments.all().order_by('id'),
             ['<Comment: comment 1>', '<Comment: comment 2>', '<Comment: comment 3>']
         )
+
+    def test_not_existed_task(self):
+        """todo
+
+        """
+        response = self.client.get(reverse('projects:task_detail', args=(1,)))
+        self.assertEqual(response.status_code, 404)

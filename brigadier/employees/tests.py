@@ -138,7 +138,7 @@ class EmployeeModelTest(TestCase):
         self.assertEqual(employee_str, 'Marshall Bruce Mathers')
 
 
-class EmployeeListView(TestCase):
+class EmployeeListViewTest(TestCase):
     """todo
 
     """

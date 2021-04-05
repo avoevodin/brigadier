@@ -117,7 +117,8 @@ class ProjectListViewTest(TestCase):
         fields = list(response.context['project_list']._fields)
         fields.remove('id')
         self.assertEqual(response.status_code, 200)
-        self.assertQuerysetEqual(response.context['project_list'].values(*fields).order_by('id'), qs_target, transform=lambda x: x)
+        self.assertQuerysetEqual(response.context['project_list'].values(*fields).order_by('id'), qs_target,
+                                 transform=lambda x: x)
 
     def test_three_projects_with_zero_one_two_tasks(self):
         """todo
@@ -242,6 +243,8 @@ class ProjectListViewTest(TestCase):
         deadline = timezone.now() + datetime.timedelta(days=32)
 
         postfix = '_1'
+        start_date = timezone.now()
+        complete_date = timezone.now() + datetime.timedelta(days=8)
         firstname = 'Marshall' + postfix
         middlename = 'Bruce' + postfix
         surname = 'Mathers' + postfix
@@ -271,8 +274,6 @@ class ProjectListViewTest(TestCase):
             'deadline': deadline,
             'closed': False,
         })
-        start_date = timezone.now()
-        complete_date = timezone.now() + datetime.timedelta(days=8)
         postfix = ' 3'
         project_3 = create_project(**{
             'project_name': 'Project name' + postfix,
@@ -383,3 +384,185 @@ class ProjectListViewTest(TestCase):
             qs_target,
             transform=lambda x: x
         )
+
+
+class ProjectDetailViewTest(TestCase):
+    """todo
+
+    """
+
+    def test_project_with_tasks(self):
+        """todo
+
+        """
+        deadline = timezone.now() + datetime.timedelta(days=32)
+
+        postfix = '_1'
+        start_date = timezone.now()
+        complete_date = timezone.now() + datetime.timedelta(days=8)
+        firstname = 'Marshall' + postfix
+        middlename = 'Bruce' + postfix
+        surname = 'Mathers' + postfix
+        email = f'mbm{postfix}@example.com'
+        birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
+        employee = create_employee(**{
+            'firstname': firstname,
+            'middlename': middlename,
+            'surname': surname,
+            'email': email,
+            'birthdate': birthdate,
+        })
+
+        postfix = ' 1'
+        project_1 = create_project(**{
+            'project_name': 'Project name' + postfix,
+            'description': 'Project description' + postfix,
+            'budget': 100000,
+            'deadline': deadline,
+            'closed': True,
+        })
+        postfix = ' 1'
+        task_1_1 = create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee,
+            'assignee': employee,
+            'status': NEW,
+        })
+        postfix = ' 2'
+        task_1_2 = create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee,
+            'assignee': employee,
+            'status': NEW,
+        })
+        postfix = ' 3'
+        task_1_3 = create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee,
+            'assignee': employee,
+            'status': NEW,
+        })
+
+        response = self.client.get(reverse('projects:detail', args=(project_1.id,)))
+        self.assertEqual(response.status_code, 200)
+        self.assertQuerysetEqual(
+            response.context['task_list'].order_by('id'),
+            ["<Task: Task name 1>", "<Task: Task name 2>", "<Task: Task name 3>"]
+        )
+
+    def test_project_complete_percentage_without_tasks(self):
+        """todo
+
+        """
+        deadline = timezone.now() + datetime.timedelta(days=32)
+        postfix = ' 1'
+        project_1 = create_project(**{
+            'project_name': 'Project name' + postfix,
+            'description': 'Project description' + postfix,
+            'budget': 100000,
+            'deadline': deadline,
+            'closed': True,
+        })
+
+        response = self.client.get(reverse('projects:detail', args=(project_1.id,)))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, _("No tasks are available."))
+        self.assertQuerysetEqual(response.context['task_list'], [])
+        self.assertEqual(response.context['project']['percentage_completed'], 0.0)
+
+    def test_three_projects_percentage_completed(self):
+        """todo
+
+        """
+        deadline = timezone.now() + datetime.timedelta(days=32)
+
+        postfix = '_1'
+        start_date = timezone.now()
+        complete_date = timezone.now() + datetime.timedelta(days=8)
+        firstname = 'Marshall' + postfix
+        middlename = 'Bruce' + postfix
+        surname = 'Mathers' + postfix
+        email = f'mbm{postfix}@example.com'
+        birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
+        employee = create_employee(**{
+            'firstname': firstname,
+            'middlename': middlename,
+            'surname': surname,
+            'email': email,
+            'birthdate': birthdate,
+        })
+
+        postfix = ' 1'
+        project_1 = create_project(**{
+            'project_name': 'Project name' + postfix,
+            'description': 'Project description' + postfix,
+            'budget': 100000,
+            'deadline': deadline,
+            'closed': True,
+        })
+        postfix = ' 1'
+        task_1_1 = create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee,
+            'assignee': employee,
+            'status': NEW,
+        })
+        postfix = ' 2'
+        task_1_2 = create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee,
+            'assignee': employee,
+            'status': COMPLETED,
+        })
+        postfix = ' 3'
+        task_1_3 = create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee,
+            'assignee': employee,
+            'status': COMPLETED,
+        })
+        postfix = ' 4'
+        task_1_4 = create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee,
+            'assignee': employee,
+            'status': COMPLETED,
+        })
+
+        response = self.client.get(reverse('projects:detail', args=(project_1.id,)))
+        self.assertEqual(response.status_code, 200)
+        self.assertQuerysetEqual(
+            response.context['task_list'].order_by('id'),
+            ["<Task: Task name 1>", "<Task: Task name 2>",
+             "<Task: Task name 3>", "<Task: Task name 4>"]
+        )
+        self.assertEqual(response.context['project']['percentage_completed'], 75.0)
+

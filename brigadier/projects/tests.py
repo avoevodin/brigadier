@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.urls import reverse
 from django.utils.translation import gettext as _
 
-from .models import Project, Task, Comment, NEW, COMPLETED
+from .models import Project, Task, Comment, NEW, COMPLETED, IN_PROGRESS
 from employees.tests import create_employee
 
 
@@ -35,6 +35,16 @@ def create_task(**kwargs):
         author=kwargs.get('author'),
         assignee=kwargs.get('author'),
         status=kwargs.get('status'),
+    )
+
+
+def create_comment(**kwargs):
+    """todo
+
+    """
+    return Comment.objects.create(
+        task=kwargs.get('task'),
+        text=kwargs.get('text'),
     )
 
 
@@ -125,6 +135,8 @@ class ProjectListViewTest(TestCase):
 
         """
         deadline = timezone.now() + datetime.timedelta(days=32)
+        start_date = timezone.now()
+        complete_date = timezone.now() + datetime.timedelta(days=8)
 
         postfix = '_1'
         firstname = 'Marshall' + postfix
@@ -156,8 +168,6 @@ class ProjectListViewTest(TestCase):
             'deadline': deadline,
             'closed': False,
         })
-        start_date = timezone.now()
-        complete_date = timezone.now() + datetime.timedelta(days=8)
         postfix = ' 3'
         project_3 = create_project(**{
             'project_name': 'Project name' + postfix,
@@ -396,10 +406,10 @@ class ProjectDetailViewTest(TestCase):
 
         """
         deadline = timezone.now() + datetime.timedelta(days=32)
-
-        postfix = '_1'
         start_date = timezone.now()
         complete_date = timezone.now() + datetime.timedelta(days=8)
+
+        postfix = '_1'
         firstname = 'Marshall' + postfix
         middlename = 'Bruce' + postfix
         surname = 'Mathers' + postfix
@@ -421,7 +431,6 @@ class ProjectDetailViewTest(TestCase):
             'deadline': deadline,
             'closed': True,
         })
-        postfix = ' 1'
         task_1_1 = create_task(**{
             'project': project_1,
             'task_name': 'Task name' + postfix,
@@ -462,7 +471,7 @@ class ProjectDetailViewTest(TestCase):
             ["<Task: Task name 1>", "<Task: Task name 2>", "<Task: Task name 3>"]
         )
 
-    def test_project_complete_percentage_without_tasks(self):
+    def test_project_percentage_completed_without_tasks(self):
         """todo
 
         """
@@ -482,15 +491,15 @@ class ProjectDetailViewTest(TestCase):
         self.assertQuerysetEqual(response.context['task_list'], [])
         self.assertEqual(response.context['project']['percentage_completed'], 0.0)
 
-    def test_three_projects_percentage_completed(self):
+    def test_projects_percentage_completed_with_three_tasks(self):
         """todo
 
         """
         deadline = timezone.now() + datetime.timedelta(days=32)
-
-        postfix = '_1'
         start_date = timezone.now()
         complete_date = timezone.now() + datetime.timedelta(days=8)
+
+        postfix = '_1'
         firstname = 'Marshall' + postfix
         middlename = 'Bruce' + postfix
         surname = 'Mathers' + postfix
@@ -512,7 +521,6 @@ class ProjectDetailViewTest(TestCase):
             'deadline': deadline,
             'closed': True,
         })
-        postfix = ' 1'
         task_1_1 = create_task(**{
             'project': project_1,
             'task_name': 'Task name' + postfix,
@@ -566,3 +574,256 @@ class ProjectDetailViewTest(TestCase):
         )
         self.assertEqual(response.context['project']['percentage_completed'], 75.0)
 
+
+class ProjectCreateViewTest(TestCase):
+    """todo
+
+    """
+
+
+
+class TaskModelTest(TestCase):
+    """todo
+
+    """
+
+    def test_model_str(self):
+        """todo
+
+        """
+        deadline = timezone.now() + datetime.timedelta(days=32)
+        start_date = timezone.now()
+        complete_date = timezone.now() + datetime.timedelta(days=8)
+
+        postfix = ' 1'
+        project_1 = create_project(**{
+            'project_name': 'Project name' + postfix,
+            'description': 'Project description' + postfix,
+            'budget': 100000,
+            'deadline': deadline,
+            'closed': True,
+        })
+        task_1_1_str = create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': None,
+            'assignee': None,
+            'status': NEW,
+        }).__str__()
+        task_str_target = 'Task name 1'
+        self.assertEqual(task_1_1_str, task_str_target)
+
+    def test_get_status_repr(self):
+        """todo
+
+        """
+        deadline = timezone.now() + datetime.timedelta(days=32)
+        start_date = timezone.now()
+        complete_date = timezone.now() + datetime.timedelta(days=8)
+
+        postfix = ' 1'
+        project_1 = create_project(**{
+            'project_name': 'Project name' + postfix,
+            'description': 'Project description' + postfix,
+            'budget': 100000,
+            'deadline': deadline,
+            'closed': True,
+        })
+        task_1_1 = create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': None,
+            'assignee': None,
+            'status': NEW,
+        })
+        status_new = task_1_1.get_status_repr()
+        task_1_1.status = IN_PROGRESS
+        status_in_progress = task_1_1.get_status_repr()
+        task_1_1.status = COMPLETED
+        status_completed = task_1_1.get_status_repr()
+        status_new_target = _('New')
+        status_in_progress_target = _('In progress')
+        status_completed_target = _('Finished')
+        self.assertEqual(status_new, status_new_target)
+        self.assertEqual(status_in_progress, status_in_progress_target)
+        self.assertEqual(status_completed, status_completed_target)
+
+
+class TaskListViewTest(TestCase):
+    """todo
+
+    """
+
+    def test_no_tasks(self):
+        """todo
+
+        """
+        response = self.client.get(reverse('projects:task_list'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, _("No tasks are available."))
+        self.assertQuerysetEqual(response.context['task_list'], [])
+
+    def test_two_tasks(self):
+        """todo
+
+        """
+        postfix = '_1'
+        firstname = 'Marshall' + postfix
+        middlename = 'Bruce' + postfix
+        surname = 'Mathers' + postfix
+        email = f'mbm{postfix}@example.com'
+        birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
+        employee = create_employee(**{
+            'firstname': firstname,
+            'middlename': middlename,
+            'surname': surname,
+            'email': email,
+            'birthdate': birthdate,
+        })
+
+        deadline = timezone.now() + datetime.timedelta(days=32)
+        start_date = timezone.now()
+        complete_date = timezone.now() + datetime.timedelta(days=8)
+
+        postfix = ' 1'
+        project_1 = create_project(**{
+            'project_name': 'Project name' + postfix,
+            'description': 'Project description' + postfix,
+            'budget': 100000,
+            'deadline': deadline,
+            'closed': True,
+        })
+        task_1_1 = create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee,
+            'assignee': employee,
+            'status': NEW,
+        })
+        postfix = ' 2'
+        task_1_2 = create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee,
+            'assignee': employee,
+            'status': NEW,
+        })
+        response = self.client.get(reverse('projects:task_list'))
+        self.assertEqual(response.status_code, 200)
+        self.assertQuerysetEqual(
+            response.context['task_list'].order_by('id'),
+            ['<Task: Task name 1>', '<Task: Task name 2>']
+        )
+
+
+class TaskDetailViewTest(TestCase):
+    """todo
+
+    """
+
+    def test_task_without_comments(self):
+        """todo
+
+        """
+        postfix = '_1'
+        firstname = 'Marshall' + postfix
+        middlename = 'Bruce' + postfix
+        surname = 'Mathers' + postfix
+        email = f'mbm{postfix}@example.com'
+        birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
+        employee = create_employee(**{
+            'firstname': firstname,
+            'middlename': middlename,
+            'surname': surname,
+            'email': email,
+            'birthdate': birthdate,
+        })
+
+        deadline = timezone.now() + datetime.timedelta(days=32)
+        start_date = timezone.now()
+        complete_date = timezone.now() + datetime.timedelta(days=8)
+
+        postfix = ' 1'
+        project_1 = create_project(**{
+            'project_name': 'Project name' + postfix,
+            'description': 'Project description' + postfix,
+            'budget': 100000,
+            'deadline': deadline,
+            'closed': True,
+        })
+        task_1_1 = create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee,
+            'assignee': employee,
+            'status': NEW,
+        })
+        response = self.client.get(reverse('projects:task_detail', args=(task_1_1.id,)))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, _("No comments are available."))
+        self.assertQuerysetEqual(task_1_1.comments.all(), [])
+
+    def test_task_with_comments(self):
+        """todo
+
+        """
+        postfix = '_1'
+        firstname = 'Marshall' + postfix
+        middlename = 'Bruce' + postfix
+        surname = 'Mathers' + postfix
+        email = f'mbm{postfix}@example.com'
+        birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
+        employee = create_employee(**{
+            'firstname': firstname,
+            'middlename': middlename,
+            'surname': surname,
+            'email': email,
+            'birthdate': birthdate,
+        })
+
+        deadline = timezone.now() + datetime.timedelta(days=32)
+        start_date = timezone.now()
+        complete_date = timezone.now() + datetime.timedelta(days=8)
+
+        postfix = ' 1'
+        project_1 = create_project(**{
+            'project_name': 'Project name' + postfix,
+            'description': 'Project description' + postfix,
+            'budget': 100000,
+            'deadline': deadline,
+            'closed': True,
+        })
+        task_1_1 = create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee,
+            'assignee': employee,
+            'status': NEW,
+        })
+        Comment.objects.create(**{'task': task_1_1, 'text': 'comment 1'})
+        Comment.objects.create(**{'task': task_1_1, 'text': 'comment 2'})
+        Comment.objects.create(**{'task': task_1_1, 'text': 'comment 3'})
+        response = self.client.get(reverse('projects:task_detail', args=(task_1_1.id,)))
+        self.assertEqual(response.status_code, 200)
+        self.assertQuerysetEqual(
+            task_1_1.comments.all().order_by('id'),
+            ['<Comment: comment 1>', '<Comment: comment 2>', '<Comment: comment 3>']
+        )

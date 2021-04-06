@@ -62,7 +62,7 @@ class HomeViewTest(TestCase):
             transform=lambda x: x
         )
 
-    def test_project_statistics_without_any_project(self):
+    def test_statistics_without_any_object(self):
         """todo
 
         """
@@ -70,6 +70,16 @@ class HomeViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertQuerysetEqual(
             response.context['projects_statistics'].values(),
+            [0, 0, 0, 0],
+            transform=lambda x: x
+        )
+        self.assertQuerysetEqual(
+            response.context['tasks_statistics'].values(),
+            [0, 0, 0, 0, 0],
+            transform=lambda x: x
+        )
+        self.assertQuerysetEqual(
+            response.context['employees_statistics'].values(),
             [0, 0, 0, 0],
             transform=lambda x: x
         )
@@ -237,18 +247,6 @@ class HomeViewTest(TestCase):
         self.assertQuerysetEqual(
             response.context['tasks_statistics'].values(),
             [10, 2, 1, 3, 4],
-            transform=lambda x: x
-        )
-
-    def test_task_statistics_without_any_task(self):
-        """todo
-
-        """
-        response = self.client.get(reverse('home:home'))
-        self.assertEqual(response.status_code, 200)
-        self.assertQuerysetEqual(
-            response.context['tasks_statistics'].values(),
-            [0, 0, 0, 0, 0],
             transform=lambda x: x
         )
 
@@ -532,6 +530,6 @@ class HomeViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertQuerysetEqual(
             response.context['employees_statistics'].values(),
-            [10, 2, 1, 9],
+            [10, 2, 1, 8],
             transform=lambda x: x
         )

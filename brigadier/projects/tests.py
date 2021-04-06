@@ -35,7 +35,7 @@ def create_task(**kwargs):
         start_date=kwargs.get('start_date'),
         complete_date=kwargs.get('complete_date'),
         author=kwargs.get('author'),
-        assignee=kwargs.get('author'),
+        assignee=kwargs.get('assignee'),
         status=kwargs.get('status'),
     )
 

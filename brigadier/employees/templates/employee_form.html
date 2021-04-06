@@ -12,9 +12,15 @@
     </h1>
     <hr>
     <div class="mb-2">
-        <a class="link link-primary" href="{% url "employees:list" %}">
-            {% translate "Back" %}
-        </a>
+        {% if request.GET.next %}
+            <a class="link link-primary" href="{{ request.GET.next }}">
+                {% translate "Back" %}
+            </a>
+        {% else %}
+            <a class="link link-primary" href="{% url "employees:list" %}">
+                {% translate "Back" %}
+            </a>
+        {% endif %}
     </div>
     <div class="card" style="max-width: 600px">
         <div class="card-body">
@@ -41,9 +47,15 @@
                 <button class="btn btn-primary" type="submit">
                     {% translate "Save" %}
                 </button>
-                <a class="btn btn-secondary" href="{% url "employees:list" %}">
-                    {% translate "Cancel" %}
-                </a>
+                {% if request.GET.next %}
+                    <a class="btn btn-secondary" href="{{ request.GET.next }}">
+                        {% translate "Cancel" %}
+                    </a>
+                {% else %}
+                    <a class="btn btn-secondary" href="{% url "employees:list" %}">
+                        {% translate "Cancel" %}
+                    </a>
+                {% endif %}
             </form>
         </div>
     </div>

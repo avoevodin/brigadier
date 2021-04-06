@@ -23,7 +23,7 @@ class HomeView(TemplateView):
         projects_statistics = Project.objects.aggregate(
             total=Count('id'),
             in_progress=Count('id', filter=Q(closed=False)),
-            overdue=Count('id', filter=Q(deadline__lt=timezone.now())),
+            overdue=Count('id', filter=Q(closed=False, deadline__lt=timezone.now())),
             done=Count('id', filter=Q(closed=True)),
         )
         tasks_statistics = Task.objects.aggregate(

@@ -29,7 +29,7 @@ class TaskInLine(admin.StackedInline):
 
 
 class CommentInline(admin.TabularInline):
-    """todo
+    """Inline Comment model of admin-panel.
 
     """
     model = Comment
@@ -115,7 +115,7 @@ class TaskAdmin(admin.ModelAdmin):
 
 
 class CommentAdmin(admin.ModelAdmin):
-    """todo
+    """Comment model of admin-panel.
 
     """
     model = Comment

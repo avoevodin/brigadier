@@ -17,12 +17,13 @@ STATUSES_DICT = dict(STATUSES)
 
 
 class ProjectManager(models.Manager):
-    """todo()
+    """Manager for Project model.
 
     """
 
     def annotate_completed_percentage(self):
-        """todo()
+        """Method add annotate to Project model manager with
+        task count and percentage completed fields.
 
         """
         return self.annotate(
@@ -114,7 +115,7 @@ class Task(models.Model):
 
 
 class Comment(models.Model):
-    """todo
+    """Comment model. Comments are available to add to the Task instance.
 
     """
     task = models.ForeignKey(

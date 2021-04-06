@@ -17,6 +17,10 @@ source venv/bin/activate
 ```shell
 pip install -r requirements.txt
 ```
+* Open brigadier-project directory
+```shell
+cd brigadier
+```
 * Create the .env file. Example:
 ```shell
 cat > .env << __EOF__
@@ -46,14 +50,32 @@ cd brigadier
 ```
 * Migrate:
 ```shell
-./manage.py migrate
+./manage.py migrate --no-input
 ```
 * Create superuser:
 ```shell
 ./manage.py createsuperuser
 ```
+* Configure server
+    1. Create django-server configuration.
+    2. Point paths to django-project and its settings.
+    3. In mysite/settings.py configure ALLOWED_HOSTS with '*',
+        if it hasn't been done before.
 * Run server:
 ```shell
 ./manage.py runserver 0:8000
+```
+* Create objects from admin console.
+    1. Go to the browser and type '127.0.0.1:8000/admin'
+    2. Login
+    3. Create objects
+* Run tests with coverage: 
+```shell
+coverage run --source='.' manage.py test -v 2
+```
+* Get report in html of coverage tests:
+```shell
+coverage html
+open htmlcov/index.html
 ```
 * Profit

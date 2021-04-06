@@ -46,7 +46,7 @@ postgres:13.2-alpine
 * Compile messages:
 ```shell
 cd brigadier
-./manage.py compilemessages --no-input
+./manage.py compilemessages
 ```
 * Migrate:
 ```shell
@@ -71,7 +71,7 @@ cd brigadier
     3. Create objects
 * Run tests with coverage: 
 ```shell
-coverage run --source='.' manage.py test
+coverage run --source='.' manage.py test -v 2
 ```
 * Get report in html of coverage tests:
 ```shell

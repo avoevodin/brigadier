@@ -1,5 +1,5 @@
 from django.views import generic
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 
 from .forms import EmployeeModelForm
 
@@ -42,7 +42,15 @@ class EmployeeEditView(generic.UpdateView):
     template_name = 'employee_form.html'
     model = Employee
     form_class = EmployeeModelForm
-    success_url = reverse_lazy('employees:list')
+
+    def get_success_url(self):
+        """todo
+
+        """
+        if self.request.GET.get('next'):
+            return self.request.GET.get('next')
+        else:
+            return reverse('employees:list')
 
 
 class EmployeeDeleteView(generic.DeleteView):
@@ -51,4 +59,12 @@ class EmployeeDeleteView(generic.DeleteView):
     """
     template_name = 'employee_confirm_delete.html'
     model = Employee
-    success_url = reverse_lazy('employees:list')
+
+    def get_success_url(self):
+        """todo
+
+        """
+        if self.request.GET.get('next'):
+            return self.request.GET.get('next')
+        else:
+            return reverse('employees:list')

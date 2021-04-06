@@ -1141,9 +1141,9 @@ class TaskCreateViewTest(TestCase):
             'deadline': deadline,
             'closed': True,
         })
-        next = reverse('projects:detail', args=(project_1.id,))
+        next_url = reverse('projects:detail', args=(project_1.id,))
         response = self.client.post(
-            reverse('projects:task_create') + "?next=" + next,
+            reverse('projects:task_create') + "?next=" + next_url,
             {
                 'project': project_1.id,
                 'task_name': 'Task name 1',
@@ -1156,7 +1156,7 @@ class TaskCreateViewTest(TestCase):
             }
         )
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, next)
+        self.assertEqual(response.url, next_url)
 
         response = self.client.get(response.url)
         self.assertQuerysetEqual(response.context['task_list'], ['<Task: Task name 1>'])
@@ -1266,9 +1266,9 @@ class TaskEditViewTest(TestCase):
             'assignee': employee,
             'status': NEW,
         })
-        next = reverse('projects:detail', args=(project_1.id,))
+        next_url = reverse('projects:detail', args=(project_1.id,))
         response = self.client.post(
-            reverse('projects:task_edit', args=(task_1_1.id,)) + "?next=" + next,
+            reverse('projects:task_edit', args=(task_1_1.id,)) + "?next=" + next_url,
             {
                 'project': project_1.id,
                 'task_name': 'Task name 2',
@@ -1281,7 +1281,7 @@ class TaskEditViewTest(TestCase):
             }
         )
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, next)
+        self.assertEqual(response.url, next_url)
 
         response = self.client.get(response.url)
         self.assertQuerysetEqual(response.context['task_list'], ['<Task: Task name 2>'])
@@ -1332,12 +1332,12 @@ class TaskDeleteViewTest(TestCase):
             'assignee': employee,
             'status': NEW,
         })
-        next = reverse('projects:detail', args=(project_1.id,))
+        next_url = reverse('projects:detail', args=(project_1.id,))
         response = self.client.post(
-            reverse('projects:task_delete', args=(task_1_1.id,)) + "?next=" + next,
+            reverse('projects:task_delete', args=(task_1_1.id,)) + "?next=" + next_url,
         )
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, next)
+        self.assertEqual(response.url, next_url)
         self.assertQuerysetEqual(Task.objects.all(), [])
 
     def test_delete_task_without_next(self):
@@ -1499,16 +1499,16 @@ class CommentCreateView(TestCase):
         Comment.objects.create(**{'task': task_1_1, 'text': 'comment 2'})
         Comment.objects.create(**{'task': task_1_1, 'text': 'comment 3'})
 
-        next = reverse('projects:task_detail', args=(task_1_1.id,))
+        next_url = reverse('projects:task_detail', args=(task_1_1.id,))
         response = self.client.post(
-            reverse('projects:comment_add') + "?next=" + next,
+            reverse('projects:comment_add') + "?next=" + next_url,
             {
                 'task': task_1_1.id,
                 'text': 'comment 4'
             }
         )
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url[:response.url.index("#")], next)
+        self.assertEqual(response.url[:response.url.index("#")], next_url)
         self.assertQuerysetEqual(
             task_1_1.comments.all().order_by('id'),
             ['<Comment: comment 1>', '<Comment: comment 2>',

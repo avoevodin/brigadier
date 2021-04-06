@@ -54,7 +54,6 @@ class ProjectModelTest(TestCase):
     """todo
 
     """
-
     def test_model_str(self):
         """todo
 

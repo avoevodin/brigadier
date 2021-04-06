@@ -371,7 +371,7 @@ class EmployeeDeleteViewTest(TestCase):
         surname = 'Mathers' + postfix
         email = f'mbm{postfix}@example.com'
         birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
-        employee_2 = create_employee(**{
+        create_employee(**{
             'firstname': firstname,
             'middlename': middlename,
             'surname': surname,

@@ -160,7 +160,6 @@ class TaskEditView(generic.UpdateView):
     model = Task
     template_name = 'task_form.html'
     form_class = TaskModelForm
-    success_url = reverse_lazy('projects:task_list')
 
     def get_success_url(self):
         """todo
@@ -178,7 +177,15 @@ class TaskDeleteView(generic.DeleteView):
     """
     model = Task
     template_name = 'task_confirm_delete.html'
-    success_url = reverse_lazy('projects:task_list')
+
+    def get_success_url(self):
+        """todo
+
+        """
+        if self.request.GET.get('next'):
+            return self.request.GET.get('next')
+        else:
+            return reverse('projects:task_list')
 
 
 class CommentCreateView(generic.CreateView):

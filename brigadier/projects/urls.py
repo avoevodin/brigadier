@@ -19,7 +19,7 @@ urlpatterns = [
     path('<int:pk>/edit/', ProjectEditView.as_view(), name='edit'),
     path('<int:pk>/delete/', ProjectDeleteView.as_view(), name='delete'),
     path('tasks/add/', TaskCreateView.as_view(), name='task_create'),
-    path('tasks/<int:pk>/edit', TaskEditView.as_view(), name='task_edit'),
-    path('tasks/<int:pk>/delete', TaskDeleteView.as_view(), name='task_delete'),
+    path('tasks/<int:pk>/edit/', TaskEditView.as_view(), name='task_edit'),
+    path('tasks/<int:pk>/delete/', TaskDeleteView.as_view(), name='task_delete'),
     path('comments/add/', CommentCreateView.as_view(), name='comment_add'),
 ]

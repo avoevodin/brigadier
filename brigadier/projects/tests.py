@@ -8,6 +8,8 @@ from django.utils.translation import gettext as _
 from .models import Project, Task, Comment, NEW, COMPLETED, IN_PROGRESS
 from employees.tests import create_employee
 
+from .forms import TaskModelForm
+
 
 def create_project(**kwargs):
     """todo
@@ -588,19 +590,38 @@ class ProjectCreateViewTest(TestCase):
     """
 
     def test_create_project(self):
+        deadline = timezone.now() + datetime.timedelta(days=32)
         response = self.client.post(
             reverse('projects:create'),
             {
-                'project_name': 'project name',
+                'project_name': 'Project name',
                 'description': 'Project description',
                 'budget': 100000,
-                'deadline': timezone.now() + datetime.timedelta(days=32),
+                'deadline': deadline,
                 'closed': False,
             }
         )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, '/projects/')
-        self.assertQuerysetEqual(Project.objects.all(), ['<Project: project name>'])
+
+        qs_target = [
+            {
+                'project_name': 'Project name',
+                'deadline': deadline,
+                'budget': 100000.0,
+                'closed': False,
+                'tasks_count': 0,
+                'percentage_completed': 0.0
+            }
+        ]
+        response = self.client.get(response.url)
+        fields = list(response.context['project_list']._fields)
+        fields.remove('id')
+        self.assertQuerysetEqual(
+            response.context['project_list'].values(*fields).order_by('id'),
+            qs_target,
+            transform=lambda x: x
+        )
 
 
 class ProjectEditViewTest(TestCase):
@@ -609,6 +630,9 @@ class ProjectEditViewTest(TestCase):
     """
 
     def test_edit_project_without_next(self):
+        """todo
+
+        """
         deadline = timezone.now() + datetime.timedelta(days=32)
         project_1 = create_project(**{
             'project_name': 'Project name',
@@ -624,15 +648,35 @@ class ProjectEditViewTest(TestCase):
                 'description': 'Project description',
                 'budget': 100000,
                 'deadline': deadline,
-                'closed': True,
+                'closed': False,
             }
         )
-        project_1.refresh_from_db()
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, '/projects/')
-        self.assertQuerysetEqual(Project.objects.all(), ['<Project: Project name 1>'])
+
+        qs_target = [
+            {
+                'project_name': 'Project name 1',
+                'deadline': deadline,
+                'budget': 100000.0,
+                'closed': False,
+                'tasks_count': 0,
+                'percentage_completed': 0.0
+            }
+        ]
+        response = self.client.get(response.url)
+        fields = list(response.context['project_list']._fields)
+        fields.remove('id')
+        self.assertQuerysetEqual(
+            response.context['project_list'].values(*fields).order_by('id'),
+            qs_target,
+            transform=lambda x: x
+        )
 
     def test_edit_project_with_next(self):
+        """todo
+
+        """
         deadline = timezone.now() + datetime.timedelta(days=32)
         project_1 = create_project(**{
             'project_name': 'Project name',
@@ -654,13 +698,19 @@ class ProjectEditViewTest(TestCase):
         )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, f'/projects/{project_1.id}/')
-        self.assertQuerysetEqual(Project.objects.all(), ['<Project: Project name 1>'])
+
+        response = self.client.get(response.url)
+        self.assertEqual(
+            response.context['project']['project_name'],
+            'Project name 1'
+        )
 
 
 class ProjectDeleteViewTest(TestCase):
     """todo
 
     """
+
     def test_delete_project_with_next(self):
         """todo
 
@@ -687,7 +737,25 @@ class ProjectDeleteViewTest(TestCase):
         )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, f'/projects/')
-        self.assertQuerysetEqual(Project.objects.all(), ['<Project: Project name 2>'])
+
+        qs_target = [
+            {
+                'project_name': 'Project name 2',
+                'deadline': deadline,
+                'budget': 100000.0,
+                'closed': True,
+                'tasks_count': 0,
+                'percentage_completed': 0.0
+            }
+        ]
+        response = self.client.get(response.url)
+        fields = list(response.context['project_list']._fields)
+        fields.remove('id')
+        self.assertQuerysetEqual(
+            response.context['project_list'].values(*fields).order_by('id'),
+            qs_target,
+            transform=lambda x: x
+        )
 
     def test_delete_project_without_next(self):
         """todo
@@ -714,7 +782,25 @@ class ProjectDeleteViewTest(TestCase):
         )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, f'/projects/')
-        self.assertQuerysetEqual(Project.objects.all(), ['<Project: Project name 2>'])
+
+        qs_target = [
+            {
+                'project_name': 'Project name 2',
+                'deadline': deadline,
+                'budget': 100000.0,
+                'closed': True,
+                'tasks_count': 0,
+                'percentage_completed': 0.0
+            }
+        ]
+        response = self.client.get(response.url)
+        fields = list(response.context['project_list']._fields)
+        fields.remove('id')
+        self.assertQuerysetEqual(
+            response.context['project_list'].values(*fields).order_by('id'),
+            qs_target,
+            transform=lambda x: x
+        )
 
 
 class TaskModelTest(TestCase):
@@ -969,3 +1055,462 @@ class TaskDetailViewTest(TestCase):
         """
         response = self.client.get(reverse('projects:task_detail', args=(1,)))
         self.assertEqual(response.status_code, 404)
+
+
+class TaskCreateViewTest(TestCase):
+    """todo
+
+    """
+
+    def test_create_task_without_next(self):
+        """todo
+
+        """
+        deadline = timezone.now() + datetime.timedelta(days=32)
+        start_date = timezone.now()
+        complete_date = timezone.now() + datetime.timedelta(days=8)
+
+        postfix = '_1'
+        firstname = 'Marshall' + postfix
+        middlename = 'Bruce' + postfix
+        surname = 'Mathers' + postfix
+        email = f'mbm{postfix}@example.com'
+        birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
+        employee = create_employee(**{
+            'firstname': firstname,
+            'middlename': middlename,
+            'surname': surname,
+            'email': email,
+            'birthdate': birthdate,
+        })
+
+        postfix = ' 1'
+        project_1 = create_project(**{
+            'project_name': 'Project name' + postfix,
+            'description': 'Project description' + postfix,
+            'budget': 100000,
+            'deadline': deadline,
+            'closed': True,
+        })
+        response = self.client.post(
+            reverse('projects:task_create'),
+            {
+                'project': project_1.id,
+                'task_name': 'Task name 1',
+                'description': 'description',
+                'start_date': start_date,
+                'complete_date': complete_date,
+                'author': employee.id,
+                'assignee': employee.id,
+                'status': NEW,
+            }
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, '/projects/tasks/')
+
+        response = self.client.get(response.url)
+        self.assertQuerysetEqual(response.context['task_list'], ['<Task: Task name 1>'])
+
+    def test_create_task_with_next(self):
+        """todo
+
+        """
+        deadline = timezone.now() + datetime.timedelta(days=32)
+        start_date = timezone.now()
+        complete_date = timezone.now() + datetime.timedelta(days=8)
+
+        postfix = '_1'
+        firstname = 'Marshall' + postfix
+        middlename = 'Bruce' + postfix
+        surname = 'Mathers' + postfix
+        email = f'mbm{postfix}@example.com'
+        birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
+        employee = create_employee(**{
+            'firstname': firstname,
+            'middlename': middlename,
+            'surname': surname,
+            'email': email,
+            'birthdate': birthdate,
+        })
+
+        postfix = ' 1'
+        project_1 = create_project(**{
+            'project_name': 'Project name' + postfix,
+            'description': 'Project description' + postfix,
+            'budget': 100000,
+            'deadline': deadline,
+            'closed': True,
+        })
+        next = reverse('projects:detail', args=(project_1.id,))
+        response = self.client.post(
+            reverse('projects:task_create') + "?next=" + next,
+            {
+                'project': project_1.id,
+                'task_name': 'Task name 1',
+                'description': 'description',
+                'start_date': start_date,
+                'complete_date': complete_date,
+                'author': employee.id,
+                'assignee': employee.id,
+                'status': NEW,
+            }
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, next)
+
+        response = self.client.get(response.url)
+        self.assertQuerysetEqual(response.context['task_list'], ['<Task: Task name 1>'])
+
+
+class TaskEditViewTest(TestCase):
+    """todo
+
+    """
+
+    def test_edit_task_without_next(self):
+        """todo
+
+        """
+        deadline = timezone.now() + datetime.timedelta(days=32)
+        start_date = timezone.now()
+        complete_date = timezone.now() + datetime.timedelta(days=8)
+
+        postfix = '_1'
+        firstname = 'Marshall' + postfix
+        middlename = 'Bruce' + postfix
+        surname = 'Mathers' + postfix
+        email = f'mbm{postfix}@example.com'
+        birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
+        employee = create_employee(**{
+            'firstname': firstname,
+            'middlename': middlename,
+            'surname': surname,
+            'email': email,
+            'birthdate': birthdate,
+        })
+
+        postfix = ' 1'
+        project_1 = create_project(**{
+            'project_name': 'Project name' + postfix,
+            'description': 'Project description' + postfix,
+            'budget': 100000,
+            'deadline': deadline,
+            'closed': True,
+        })
+        task_1_1 = create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee,
+            'assignee': employee,
+            'status': NEW,
+        })
+        response = self.client.post(
+            reverse('projects:task_edit', args=(task_1_1.id,)),
+            {
+                'project': project_1.id,
+                'task_name': 'Task name 2',
+                'description': 'description',
+                'start_date': start_date,
+                'complete_date': complete_date,
+                'author': employee.id,
+                'assignee': employee.id,
+                'status': NEW,
+            }
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, '/projects/tasks/')
+
+        response = self.client.get(response.url)
+        self.assertQuerysetEqual(response.context['task_list'], ['<Task: Task name 2>'])
+
+    def test_edit_task_with_next(self):
+        """todo
+
+        """
+        deadline = timezone.now() + datetime.timedelta(days=32)
+        start_date = timezone.now()
+        complete_date = timezone.now() + datetime.timedelta(days=8)
+
+        postfix = '_1'
+        firstname = 'Marshall' + postfix
+        middlename = 'Bruce' + postfix
+        surname = 'Mathers' + postfix
+        email = f'mbm{postfix}@example.com'
+        birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
+        employee = create_employee(**{
+            'firstname': firstname,
+            'middlename': middlename,
+            'surname': surname,
+            'email': email,
+            'birthdate': birthdate,
+        })
+
+        postfix = ' 1'
+        project_1 = create_project(**{
+            'project_name': 'Project name' + postfix,
+            'description': 'Project description' + postfix,
+            'budget': 100000,
+            'deadline': deadline,
+            'closed': True,
+        })
+        task_1_1 = create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee,
+            'assignee': employee,
+            'status': NEW,
+        })
+        next = reverse('projects:detail', args=(project_1.id,))
+        response = self.client.post(
+            reverse('projects:task_edit', args=(task_1_1.id,)) + "?next=" + next,
+            {
+                'project': project_1.id,
+                'task_name': 'Task name 2',
+                'description': 'description',
+                'start_date': start_date,
+                'complete_date': complete_date,
+                'author': employee.id,
+                'assignee': employee.id,
+                'status': NEW,
+            }
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, next)
+
+        response = self.client.get(response.url)
+        self.assertQuerysetEqual(response.context['task_list'], ['<Task: Task name 2>'])
+
+
+class TaskDeleteViewTest(TestCase):
+    """todo
+
+    """
+
+    def test_delete_task_with_next(self):
+        """todo
+
+        """
+        deadline = timezone.now() + datetime.timedelta(days=32)
+        start_date = timezone.now()
+        complete_date = timezone.now() + datetime.timedelta(days=8)
+
+        postfix = '_1'
+        firstname = 'Marshall' + postfix
+        middlename = 'Bruce' + postfix
+        surname = 'Mathers' + postfix
+        email = f'mbm{postfix}@example.com'
+        birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
+        employee = create_employee(**{
+            'firstname': firstname,
+            'middlename': middlename,
+            'surname': surname,
+            'email': email,
+            'birthdate': birthdate,
+        })
+
+        postfix = ' 1'
+        project_1 = create_project(**{
+            'project_name': 'Project name' + postfix,
+            'description': 'Project description' + postfix,
+            'budget': 100000,
+            'deadline': deadline,
+            'closed': True,
+        })
+        task_1_1 = create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee,
+            'assignee': employee,
+            'status': NEW,
+        })
+        next = reverse('projects:detail', args=(project_1.id,))
+        response = self.client.post(
+            reverse('projects:task_delete', args=(task_1_1.id,)) + "?next=" + next,
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, next)
+        self.assertQuerysetEqual(Task.objects.all(), [])
+
+    def test_delete_task_without_next(self):
+        """todo
+
+        """
+        deadline = timezone.now() + datetime.timedelta(days=32)
+        start_date = timezone.now()
+        complete_date = timezone.now() + datetime.timedelta(days=8)
+
+        postfix = '_1'
+        firstname = 'Marshall' + postfix
+        middlename = 'Bruce' + postfix
+        surname = 'Mathers' + postfix
+        email = f'mbm{postfix}@example.com'
+        birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
+        employee = create_employee(**{
+            'firstname': firstname,
+            'middlename': middlename,
+            'surname': surname,
+            'email': email,
+            'birthdate': birthdate,
+        })
+
+        postfix = ' 1'
+        project_1 = create_project(**{
+            'project_name': 'Project name' + postfix,
+            'description': 'Project description' + postfix,
+            'budget': 100000,
+            'deadline': deadline,
+            'closed': True,
+        })
+        task_1_1 = create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee,
+            'assignee': employee,
+            'status': NEW,
+        })
+        response = self.client.post(
+            reverse('projects:task_delete', args=(task_1_1.id,)),
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, '/projects/tasks/')
+        self.assertQuerysetEqual(Task.objects.all(), [])
+
+
+class CommentCreateView(TestCase):
+    """todo
+
+    """
+    """todo
+    
+    """
+
+    def test_create_comment_without_next(self):
+        """todo
+
+        """
+        postfix = '_1'
+        firstname = 'Marshall' + postfix
+        middlename = 'Bruce' + postfix
+        surname = 'Mathers' + postfix
+        email = f'mbm{postfix}@example.com'
+        birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
+        employee = create_employee(**{
+            'firstname': firstname,
+            'middlename': middlename,
+            'surname': surname,
+            'email': email,
+            'birthdate': birthdate,
+        })
+
+        deadline = timezone.now() + datetime.timedelta(days=32)
+        start_date = timezone.now()
+        complete_date = timezone.now() + datetime.timedelta(days=8)
+
+        postfix = ' 1'
+        project_1 = create_project(**{
+            'project_name': 'Project name' + postfix,
+            'description': 'Project description' + postfix,
+            'budget': 100000,
+            'deadline': deadline,
+            'closed': True,
+        })
+        task_1_1 = create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee,
+            'assignee': employee,
+            'status': NEW,
+        })
+        Comment.objects.create(**{'task': task_1_1, 'text': 'comment 1'})
+        Comment.objects.create(**{'task': task_1_1, 'text': 'comment 2'})
+        Comment.objects.create(**{'task': task_1_1, 'text': 'comment 3'})
+
+        response = self.client.post(
+            reverse('projects:comment_add'),
+            {
+                'task': task_1_1.id,
+                'text': 'comment 4'
+            }
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, '/projects/tasks/')
+        self.assertQuerysetEqual(
+            task_1_1.comments.all().order_by('id'),
+            ['<Comment: comment 1>', '<Comment: comment 2>',
+             '<Comment: comment 3>', '<Comment: comment 4>']
+        )
+
+    def test_create_comment_with_next(self):
+        """todo
+
+        """
+        postfix = '_1'
+        firstname = 'Marshall' + postfix
+        middlename = 'Bruce' + postfix
+        surname = 'Mathers' + postfix
+        email = f'mbm{postfix}@example.com'
+        birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
+        employee = create_employee(**{
+            'firstname': firstname,
+            'middlename': middlename,
+            'surname': surname,
+            'email': email,
+            'birthdate': birthdate,
+        })
+
+        deadline = timezone.now() + datetime.timedelta(days=32)
+        start_date = timezone.now()
+        complete_date = timezone.now() + datetime.timedelta(days=8)
+
+        postfix = ' 1'
+        project_1 = create_project(**{
+            'project_name': 'Project name' + postfix,
+            'description': 'Project description' + postfix,
+            'budget': 100000,
+            'deadline': deadline,
+            'closed': True,
+        })
+        task_1_1 = create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee,
+            'assignee': employee,
+            'status': NEW,
+        })
+        Comment.objects.create(**{'task': task_1_1, 'text': 'comment 1'})
+        Comment.objects.create(**{'task': task_1_1, 'text': 'comment 2'})
+        Comment.objects.create(**{'task': task_1_1, 'text': 'comment 3'})
+
+        next = reverse('projects:task_detail', args=(task_1_1.id,))
+        response = self.client.post(
+            reverse('projects:comment_add') + "?next=" + next,
+            {
+                'task': task_1_1.id,
+                'text': 'comment 4'
+            }
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url[:response.url.index("#")], next)
+        self.assertQuerysetEqual(
+            task_1_1.comments.all().order_by('id'),
+            ['<Comment: comment 1>', '<Comment: comment 2>',
+             '<Comment: comment 3>', '<Comment: comment 4>']
+        )

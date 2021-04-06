@@ -8,8 +8,6 @@ from django.utils.translation import gettext as _
 from .models import Project, Task, Comment, NEW, COMPLETED, IN_PROGRESS
 from employees.tests import create_employee
 
-from .forms import TaskModelForm
-
 
 def create_project(**kwargs):
     """todo

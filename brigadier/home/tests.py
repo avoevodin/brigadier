@@ -14,7 +14,6 @@ class HomeViewTest(TestCase):
     """todo
 
     """
-
     def test_project_statistics(self):
         """todo
 
@@ -525,11 +524,62 @@ class HomeViewTest(TestCase):
             'assignee': employee_8,
             'status': COMPLETED,
         })
-        # total, occupied, overdue, no_task
+        postfix = ' 11'
+        start_date = timezone.now() + datetime.timedelta(days=-24)
+        complete_date = timezone.now() + datetime.timedelta(days=-1)
+        create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee_1,
+            'assignee': employee_9,
+            'status': IN_PROGRESS,
+        })
+        postfix = ' 11'
+        start_date = timezone.now() + datetime.timedelta(days=-21)
+        complete_date = timezone.now() + datetime.timedelta(days=-2)
+        create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee_1,
+            'assignee': employee_4,
+            'status': IN_PROGRESS,
+        })
+        postfix = ' 12'
+        start_date = timezone.now() + datetime.timedelta(days=4)
+        complete_date = timezone.now() + datetime.timedelta(days=6)
+        create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee_1,
+            'assignee': employee_3,
+            'status': IN_PROGRESS,
+        })
+        postfix = ' 13'
+        start_date = timezone.now() + datetime.timedelta(days=-3)
+        complete_date = timezone.now() + datetime.timedelta(days=8)
+        create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee_1,
+            'assignee': employee_7,
+            'status': IN_PROGRESS,
+        })
         response = self.client.get(reverse('home:home'))
         self.assertEqual(response.status_code, 200)
         self.assertQuerysetEqual(
             response.context['employees_statistics'].values(),
-            [10, 2, 1, 8],
+            [10, 4, 3, 6],
             transform=lambda x: x
         )

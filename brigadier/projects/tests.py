@@ -587,7 +587,7 @@ class ProjectCreateViewTest(TestCase):
 
     """
 
-    def test_create_project_without_next(self):
+    def test_create_project(self):
         response = self.client.post(
             reverse('projects:create'),
             {
@@ -652,10 +652,69 @@ class ProjectEditViewTest(TestCase):
                 'closed': True,
             }
         )
-        project_1.refresh_from_db()
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, f'/projects/{project_1.id}/')
         self.assertQuerysetEqual(Project.objects.all(), ['<Project: Project name 1>'])
+
+
+class ProjectDeleteViewTest(TestCase):
+    """todo
+
+    """
+    def test_delete_project_with_next(self):
+        """todo
+
+        """
+        deadline = timezone.now() + datetime.timedelta(days=32)
+        project_1 = create_project(**{
+            'project_name': 'Project name 1',
+            'description': 'Project description',
+            'budget': 100000,
+            'deadline': deadline,
+            'closed': True,
+        })
+        deadline = timezone.now() + datetime.timedelta(days=32)
+        create_project(**{
+            'project_name': 'Project name 2',
+            'description': 'Project description',
+            'budget': 100000,
+            'deadline': deadline,
+            'closed': True,
+        })
+        response = self.client.post(
+            reverse('projects:delete', args=(project_1.id,))
+            + '?next=' + reverse('projects:detail', args=(project_1.id,))
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, f'/projects/')
+        self.assertQuerysetEqual(Project.objects.all(), ['<Project: Project name 2>'])
+
+    def test_delete_project_without_next(self):
+        """todo
+
+        """
+        deadline = timezone.now() + datetime.timedelta(days=32)
+        project_1 = create_project(**{
+            'project_name': 'Project name 1',
+            'description': 'Project description',
+            'budget': 100000,
+            'deadline': deadline,
+            'closed': True,
+        })
+        deadline = timezone.now() + datetime.timedelta(days=32)
+        create_project(**{
+            'project_name': 'Project name 2',
+            'description': 'Project description',
+            'budget': 100000,
+            'deadline': deadline,
+            'closed': True,
+        })
+        response = self.client.post(
+            reverse('projects:delete', args=(project_1.id,))
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, f'/projects/')
+        self.assertQuerysetEqual(Project.objects.all(), ['<Project: Project name 2>'])
 
 
 class TaskModelTest(TestCase):

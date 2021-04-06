@@ -22,7 +22,7 @@
         <tr>
             <td>{{ task.id }}</td>
             <td>
-                <a href="{% url "projects:detail" task.project.id %}">
+                <a href="{% url "projects:detail" task.project.id %}?next={{ request.path }}">
                     {{ task.project.project_name }}
                 </a>
             </td>

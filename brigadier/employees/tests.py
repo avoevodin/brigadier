@@ -22,9 +22,12 @@ def create_employee(**kwargs):
 
 
 class EmployeeModelTest(TestCase):
+    """Tests for Employee model.
 
+    """
     def test_full_name(self):
-        """todo
+        """Test full name representation of employee with selected firstname,
+        middlename and surname.
 
         """
         firstname = 'Marshall'
@@ -43,7 +46,8 @@ class EmployeeModelTest(TestCase):
         self.assertEqual(full_name, full_name_target)
 
     def test_full_name_without_firstname(self):
-        """todo
+        """Test full name representation of employee with selected
+        middlename and surname.
 
         """
         firstname = ''
@@ -62,7 +66,8 @@ class EmployeeModelTest(TestCase):
         self.assertEqual(full_name, full_name_target)
 
     def test_full_name_without_middlename(self):
-        """todo
+        """Test full name representation of employee with selected firstname,
+        and surname.
 
         """
         firstname = 'Marshall'
@@ -81,7 +86,8 @@ class EmployeeModelTest(TestCase):
         self.assertEqual(full_name, full_name_target)
 
     def test_full_name_without_surname(self):
-        """todo
+        """Test full name representation of employee with selected firstname and
+        middlename.
 
         """
         firstname = 'Marshall'
@@ -101,7 +107,7 @@ class EmployeeModelTest(TestCase):
         self.assertEqual(full_name, full_name_target)
 
     def test_full_name_without_any_name(self):
-        """todo
+        """Test full name representation without any name.
 
         """
         firstname = ''
@@ -120,7 +126,7 @@ class EmployeeModelTest(TestCase):
         self.assertEqual(full_name, full_name_target)
 
     def test_model_str(self):
-        """todo
+        """Test model __str__ representation.
 
         """
         firstname = 'Marshall'
@@ -139,12 +145,12 @@ class EmployeeModelTest(TestCase):
 
 
 class EmployeeListViewTest(TestCase):
-    """todo
+    """Test for list view of Employee model.
 
     """
 
     def test_no_employees(self):
-        """todo
+        """Test for list view without any employee.
 
         """
         response = self.client.get(reverse('employees:list'))
@@ -153,7 +159,7 @@ class EmployeeListViewTest(TestCase):
         self.assertQuerysetEqual(response.context['employee_list'], [])
 
     def test_two_employees(self):
-        """todo
+        """Test for list view with two employees.
 
         """
         postfix = '_1'
@@ -189,12 +195,11 @@ class EmployeeListViewTest(TestCase):
 
 
 class EmployeeDetailViewTest(TestCase):
-    """todo
+    """Tests for detail view of Employee model.
 
     """
-
     def test_not_existed_employee(self):
-        """todo
+        """Test for detail view of not existed employee.
 
         """
         response = self.client.get(reverse('employees:detail', args=(1,)))
@@ -202,12 +207,12 @@ class EmployeeDetailViewTest(TestCase):
 
 
 class EmployeeCreateViewTest(TestCase):
-    """todo
+    """Tests for Employee create view.
 
     """
 
     def test_create_employee(self):
-        """todo
+        """Test of creating employee.
 
         """
         postfix = '_1'
@@ -234,12 +239,11 @@ class EmployeeCreateViewTest(TestCase):
 
 
 class EmployeeEditViewTest(TestCase):
-    """todo
+    """Test for Employee edit view.
 
     """
-
     def test_edit_employee_without_next(self):
-        """todo
+        """Test editing of Employee without next-hook.
 
         """
         postfix = '_1'
@@ -275,7 +279,7 @@ class EmployeeEditViewTest(TestCase):
         )
 
     def test_edit_employee_with_next(self):
-        """todo
+        """Test editing of Employee with next-hook
 
         """
         postfix = '_1'
@@ -314,11 +318,11 @@ class EmployeeEditViewTest(TestCase):
 
 
 class EmployeeDeleteViewTest(TestCase):
-    """todo
+    """Tests for delete view of Employee model.
 
     """
     def test_delete_employee_with_next(self):
-        """todo
+        """Test deleting employee with next-hook.
 
         """
         postfix = '_1'
@@ -349,7 +353,7 @@ class EmployeeDeleteViewTest(TestCase):
         )
 
     def test_delete_employee_without_next(self):
-        """todo
+        """Test deleting of employee without next-hook.
 
         """
         postfix = '_1'

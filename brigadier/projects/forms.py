@@ -78,7 +78,7 @@ class TaskModelForm(forms.ModelForm):
 
 
 class CommentModelForm(forms.ModelForm):
-    """todo
+    """Model form of Comment model.
 
     """
     class Meta:

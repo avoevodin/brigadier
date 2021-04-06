@@ -11,11 +11,34 @@ from employees.tests import create_employee
 
 
 class HomeViewTest(TestCase):
-    """todo
+    """Tests for home page view.
 
     """
+    def test_statistics_without_any_object(self):
+        """Test home page statistics without any objects of Project,
+        Task and Employee.
+
+        """
+        response = self.client.get(reverse('home:home'))
+        self.assertEqual(response.status_code, 200)
+        self.assertQuerysetEqual(
+            response.context['projects_statistics'].values(),
+            [0, 0, 0, 0],
+            transform=lambda x: x
+        )
+        self.assertQuerysetEqual(
+            response.context['tasks_statistics'].values(),
+            [0, 0, 0, 0, 0],
+            transform=lambda x: x
+        )
+        self.assertQuerysetEqual(
+            response.context['employees_statistics'].values(),
+            [0, 0, 0, 0],
+            transform=lambda x: x
+        )
+
     def test_project_statistics(self):
-        """todo
+        """Test projects statistics of home page.
 
         """
         deadline = timezone.now() + datetime.timedelta(days=32)
@@ -61,30 +84,8 @@ class HomeViewTest(TestCase):
             transform=lambda x: x
         )
 
-    def test_statistics_without_any_object(self):
-        """todo
-
-        """
-        response = self.client.get(reverse('home:home'))
-        self.assertEqual(response.status_code, 200)
-        self.assertQuerysetEqual(
-            response.context['projects_statistics'].values(),
-            [0, 0, 0, 0],
-            transform=lambda x: x
-        )
-        self.assertQuerysetEqual(
-            response.context['tasks_statistics'].values(),
-            [0, 0, 0, 0, 0],
-            transform=lambda x: x
-        )
-        self.assertQuerysetEqual(
-            response.context['employees_statistics'].values(),
-            [0, 0, 0, 0],
-            transform=lambda x: x
-        )
-
     def test_task_statistics(self):
-        """todo
+        """Test tasks statistics of home page view.
 
         """
         deadline = timezone.now() + datetime.timedelta(days=32)
@@ -250,7 +251,7 @@ class HomeViewTest(TestCase):
         )
 
     def test_employee_statistics(self):
-        """todo
+        """Test employees statistics of home page view.
 
         """
         deadline = timezone.now() + datetime.timedelta(days=32)

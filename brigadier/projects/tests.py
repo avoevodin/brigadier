@@ -10,7 +10,7 @@ from employees.tests import create_employee
 
 
 def create_project(**kwargs):
-    """todo
+    """Method creates Project instance with selected parameters.
 
     """
     return Project.objects.create(
@@ -23,7 +23,7 @@ def create_project(**kwargs):
 
 
 def create_task(**kwargs):
-    """todo
+    """Method creates Task instance with selected parameters.
 
     """
     return Task.objects.create(
@@ -39,7 +39,7 @@ def create_task(**kwargs):
 
 
 def create_comment(**kwargs):
-    """todo
+    """Method creates Comment instance with selected parameters.
 
     """
     return Comment.objects.create(
@@ -49,11 +49,11 @@ def create_comment(**kwargs):
 
 
 class ProjectModelTest(TestCase):
-    """todo
+    """Tests for Project model.
 
     """
     def test_model_str(self):
-        """todo
+        """Test Project model __str__ representation.
 
         """
         postfix = '_1'
@@ -69,12 +69,12 @@ class ProjectModelTest(TestCase):
 
 
 class ProjectListViewTest(TestCase):
-    """todo
+    """Tests for Project model list view.
 
     """
 
     def test_no_projects(self):
-        """todo
+        """Test list view without any project.
 
         """
         response = self.client.get(reverse('projects:list'))
@@ -83,7 +83,7 @@ class ProjectListViewTest(TestCase):
         self.assertQuerysetEqual(response.context['project_list'], [])
 
     def test_two_projects_without_tasks(self):
-        """todo
+        """Test list view with two projects and without any task.
 
         """
         deadline = timezone.now() + datetime.timedelta(days=32)
@@ -130,7 +130,8 @@ class ProjectListViewTest(TestCase):
                                  transform=lambda x: x)
 
     def test_three_projects_with_zero_one_two_tasks(self):
-        """todo
+        """Test list view with three projects with one, two
+        and three tasks respectively.
 
         """
         deadline = timezone.now() + datetime.timedelta(days=32)
@@ -246,7 +247,8 @@ class ProjectListViewTest(TestCase):
         )
 
     def test_three_projects_percentage_completed(self):
-        """todo
+        """Test list view for correct representation of percentage completed
+        for three different projects.
 
         """
         deadline = timezone.now() + datetime.timedelta(days=32)
@@ -396,19 +398,19 @@ class ProjectListViewTest(TestCase):
 
 
 class ProjectDetailViewTest(TestCase):
-    """todo
+    """Test for detail view of the Project model.
 
     """
 
     def test_not_existed_project(self):
-        """todo
+        """Test detail view of not existed project.
 
         """
         response = self.client.get(reverse('projects:detail', args=(1,)))
         self.assertEqual(response.status_code, 404)
 
     def test_project_with_tasks(self):
-        """todo
+        """Test detail view for the project with tasks.
 
         """
         deadline = timezone.now() + datetime.timedelta(days=32)
@@ -478,7 +480,8 @@ class ProjectDetailViewTest(TestCase):
         )
 
     def test_project_percentage_completed_without_tasks(self):
-        """todo
+        """Test correct representation of percentage completed for the
+        project without any task.
 
         """
         deadline = timezone.now() + datetime.timedelta(days=32)
@@ -498,7 +501,8 @@ class ProjectDetailViewTest(TestCase):
         self.assertEqual(response.context['project']['percentage_completed'], 0.0)
 
     def test_projects_percentage_completed_with_three_tasks(self):
-        """todo
+        """Test correct representation of percentage completed for the
+        project with three different tasks.
 
         """
         deadline = timezone.now() + datetime.timedelta(days=32)
@@ -582,11 +586,13 @@ class ProjectDetailViewTest(TestCase):
 
 
 class ProjectCreateViewTest(TestCase):
-    """todo
+    """Tests for create view of Project model.s
 
     """
-
     def test_create_project(self):
+        """Test creating of project.
+
+        """
         deadline = timezone.now() + datetime.timedelta(days=32)
         response = self.client.post(
             reverse('projects:create'),
@@ -622,12 +628,11 @@ class ProjectCreateViewTest(TestCase):
 
 
 class ProjectEditViewTest(TestCase):
-    """todo
+    """Test Project edit view.
 
     """
-
     def test_edit_project_without_next(self):
-        """todo
+        """Test editing project without next-hook.
 
         """
         deadline = timezone.now() + datetime.timedelta(days=32)
@@ -671,7 +676,7 @@ class ProjectEditViewTest(TestCase):
         )
 
     def test_edit_project_with_next(self):
-        """todo
+        """Test editing project with next-hook.
 
         """
         deadline = timezone.now() + datetime.timedelta(days=32)
@@ -704,12 +709,11 @@ class ProjectEditViewTest(TestCase):
 
 
 class ProjectDeleteViewTest(TestCase):
-    """todo
+    """Test delete view of the Project model.
 
     """
-
     def test_delete_project_with_next(self):
-        """todo
+        """Test deleting project with next-hook.
 
         """
         deadline = timezone.now() + datetime.timedelta(days=32)
@@ -755,7 +759,7 @@ class ProjectDeleteViewTest(TestCase):
         )
 
     def test_delete_project_without_next(self):
-        """todo
+        """Test deleting project without next-hook.
 
         """
         deadline = timezone.now() + datetime.timedelta(days=32)
@@ -801,12 +805,11 @@ class ProjectDeleteViewTest(TestCase):
 
 
 class TaskModelTest(TestCase):
-    """todo
+    """Tests for Task model.
 
     """
-
     def test_model_str(self):
-        """todo
+        """Test representation of Tasks __str__.
 
         """
         deadline = timezone.now() + datetime.timedelta(days=32)
@@ -835,7 +838,7 @@ class TaskModelTest(TestCase):
         self.assertEqual(task_1_1_str, task_str_target)
 
     def test_get_status_repr(self):
-        """todo
+        """Test status representation of Task.
 
         """
         deadline = timezone.now() + datetime.timedelta(days=32)
@@ -874,12 +877,11 @@ class TaskModelTest(TestCase):
 
 
 class TaskListViewTest(TestCase):
-    """todo
+    """Test for list view of the Task model.
 
     """
-
     def test_no_tasks(self):
-        """todo
+        """Test list view without any task.
 
         """
         response = self.client.get(reverse('projects:task_list'))
@@ -888,7 +890,7 @@ class TaskListViewTest(TestCase):
         self.assertQuerysetEqual(response.context['task_list'], [])
 
     def test_two_tasks(self):
-        """todo
+        """Test list view with two tasks.
 
         """
         postfix = '_1'
@@ -947,12 +949,11 @@ class TaskListViewTest(TestCase):
 
 
 class TaskDetailViewTest(TestCase):
-    """todo
+    """Tests for detail view of the Task model.
 
     """
-
     def test_task_without_comments(self):
-        """todo
+        """Test for detail view without any comment.
 
         """
         postfix = '_1'
@@ -997,7 +998,7 @@ class TaskDetailViewTest(TestCase):
         self.assertQuerysetEqual(task_1_1.comments.all(), [])
 
     def test_task_with_comments(self):
-        """todo
+        """Test task detail view with comments.
 
         """
         postfix = '_1'
@@ -1047,7 +1048,7 @@ class TaskDetailViewTest(TestCase):
         )
 
     def test_not_existed_task(self):
-        """todo
+        """Test the task detail view for not existed task.
 
         """
         response = self.client.get(reverse('projects:task_detail', args=(1,)))
@@ -1055,12 +1056,11 @@ class TaskDetailViewTest(TestCase):
 
 
 class TaskCreateViewTest(TestCase):
-    """todo
+    """Tests for create view of Task model.
 
     """
-
     def test_create_task_without_next(self):
-        """todo
+        """Test of creating task without next-hook.
 
         """
         deadline = timezone.now() + datetime.timedelta(days=32)
@@ -1109,7 +1109,7 @@ class TaskCreateViewTest(TestCase):
         self.assertQuerysetEqual(response.context['task_list'], ['<Task: Task name 1>'])
 
     def test_create_task_with_next(self):
-        """todo
+        """Test of creating task with next-hook.
 
         """
         deadline = timezone.now() + datetime.timedelta(days=32)
@@ -1160,12 +1160,11 @@ class TaskCreateViewTest(TestCase):
 
 
 class TaskEditViewTest(TestCase):
-    """todo
+    """Test for edit view of the Task model.
 
     """
-
     def test_edit_task_without_next(self):
-        """todo
+        """Test of editing task without next-hook.
 
         """
         deadline = timezone.now() + datetime.timedelta(days=32)
@@ -1224,7 +1223,7 @@ class TaskEditViewTest(TestCase):
         self.assertQuerysetEqual(response.context['task_list'], ['<Task: Task name 2>'])
 
     def test_edit_task_with_next(self):
-        """todo
+        """Test for editing task with next-hook.
 
         """
         deadline = timezone.now() + datetime.timedelta(days=32)
@@ -1285,12 +1284,11 @@ class TaskEditViewTest(TestCase):
 
 
 class TaskDeleteViewTest(TestCase):
-    """todo
+    """Tests for delete view of the Task model.
 
     """
-
     def test_delete_task_with_next(self):
-        """todo
+        """Test of deleting task with next-hook.
 
         """
         deadline = timezone.now() + datetime.timedelta(days=32)
@@ -1338,7 +1336,7 @@ class TaskDeleteViewTest(TestCase):
         self.assertQuerysetEqual(Task.objects.all(), [])
 
     def test_delete_task_without_next(self):
-        """todo
+        """Test of deleting task without next-hook.
 
         """
         deadline = timezone.now() + datetime.timedelta(days=32)
@@ -1386,15 +1384,11 @@ class TaskDeleteViewTest(TestCase):
 
 
 class CommentCreateView(TestCase):
-    """todo
+    """Tests for the Comment model create view.
 
     """
-    """todo
-    
-    """
-
     def test_create_comment_without_next(self):
-        """todo
+        """Test of creating comment without next-hook.
 
         """
         postfix = '_1'
@@ -1453,7 +1447,7 @@ class CommentCreateView(TestCase):
         )
 
     def test_create_comment_with_next(self):
-        """todo
+        """Test for creating comment with next-hook.
 
         """
         postfix = '_1'

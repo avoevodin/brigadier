@@ -12,20 +12,14 @@ class ProjectListView(generic.ListView):
     template_name = 'project_list.html'
 
     def get_queryset(self):
-        """todo()
+        """Get objects of Project model with annotating percentage completed,
+        selected values and ordered by the deadline field.
 
         """
         return Project.objects.annotate_completed_percentage().values(
             'id', 'project_name', 'deadline', 'budget', 'closed',
             'tasks_count', 'percentage_completed',
         ).order_by('deadline')
-
-    def get_context_data(self, **kwargs):
-        """todo()
-
-        """
-        context = super(ProjectListView, self).get_context_data(**kwargs)
-        return context
 
 
 class ProjectDetailView(generic.DetailView):
@@ -36,7 +30,7 @@ class ProjectDetailView(generic.DetailView):
     context_object_name = 'project'
 
     def get_context_data(self, **kwargs):
-        """todo()
+        """Extends context data with tasks list of the project.
 
         """
         project_id = self.kwargs['pk']
@@ -50,7 +44,8 @@ class ProjectDetailView(generic.DetailView):
         return context
 
     def get_queryset(self, **kwargs):
-        """todo()
+        """Get object of Project model with annotating percentage completed and
+        selected values.
 
         """
         return Project.objects.annotate_completed_percentage().values(
@@ -78,7 +73,7 @@ class ProjectEditView(generic.UpdateView):
     form_class = ProjectModelForm
 
     def get_success_url(self):
-        """todo()
+        """Method returns success url depends of existing next-hook.
 
         """
         if self.request.GET.get('next'):
@@ -103,7 +98,8 @@ class TaskListView(generic.ListView):
     template_name = 'task_list.html'
 
     def get_queryset(self):
-        """todo
+        """Extends queryset with related project, author and assignee
+        objects. Order queryset by start date.
 
         """
         return Task.objects.select_related(
@@ -120,13 +116,13 @@ class TaskDetailView(generic.DetailView):
     context_object_name = 'task'
 
     def get_queryset(self):
-        """todo
+        """Extends objects query-set with related project, author and assignee.
 
         """
         return Task.objects.select_related('project', 'author', 'assignee')
 
     def get_context_data(self, **kwargs):
-        """todo()
+        """Extends context of detail view with comment model form.
 
         """
         context = super(TaskDetailView, self).get_context_data(**kwargs)
@@ -144,7 +140,7 @@ class TaskCreateView(generic.CreateView):
     form_class = TaskModelForm
 
     def get_success_url(self):
-        """todo
+        """Method returns success url depends of existing next-hook.
 
         """
         if self.request.GET.get('next'):
@@ -162,7 +158,7 @@ class TaskEditView(generic.UpdateView):
     form_class = TaskModelForm
 
     def get_success_url(self):
-        """todo
+        """Method returns success url depends of existing next-hook.
 
         """
         if self.request.GET.get('next'):
@@ -179,7 +175,7 @@ class TaskDeleteView(generic.DeleteView):
     template_name = 'task_confirm_delete.html'
 
     def get_success_url(self):
-        """todo
+        """Method returns success url depends of existing next-hook.
 
         """
         if self.request.GET.get('next'):
@@ -189,7 +185,7 @@ class TaskDeleteView(generic.DeleteView):
 
 
 class CommentCreateView(generic.CreateView):
-    """todo
+    """Create view of Comment model.
 
     """
     model = Comment
@@ -197,7 +193,7 @@ class CommentCreateView(generic.CreateView):
     form_class = CommentModelForm
 
     def get_success_url(self):
-        """todo
+        """Method returns success url depends of existing next-hook.
 
         """
         if self.request.GET.get('next'):

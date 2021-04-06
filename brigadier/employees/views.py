@@ -44,7 +44,7 @@ class EmployeeEditView(generic.UpdateView):
     form_class = EmployeeModelForm
 
     def get_success_url(self):
-        """todo
+        """Method returns success url depends of existing next-hook.
 
         """
         if self.request.GET.get('next'):

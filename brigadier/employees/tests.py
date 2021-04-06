@@ -311,3 +311,81 @@ class EmployeeEditViewTest(TestCase):
             'Marshall_1 New',
             transform=lambda x: x
         )
+
+
+class EmployeeDeleteViewTest(TestCase):
+    """todo
+
+    """
+    def test_delete_employee_with_next(self):
+        """todo
+
+        """
+        postfix = '_1'
+        firstname = 'Marshall' + postfix
+        middlename = 'Bruce' + postfix
+        surname = 'Mathers' + postfix
+        email = f'mbm{postfix}@example.com'
+        birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
+        employee_1 = create_employee(**{
+            'firstname': firstname,
+            'middlename': middlename,
+            'surname': surname,
+            'email': email,
+            'birthdate': birthdate,
+        })
+        next_url = reverse('employees:detail', args=(employee_1.id,))
+        response = self.client.post(
+            reverse('employees:delete', args=(employee_1.id,)) + "?next=" + next_url,
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse('employees:list'))
+
+        response = self.client.get(response.url)
+        self.assertContains(response, _("No employees are available."))
+        self.assertQuerysetEqual(
+            response.context['employee_list'],
+            []
+        )
+
+    def test_delete_employee_without_next(self):
+        """todo
+
+        """
+        postfix = '_1'
+        firstname = 'Marshall' + postfix
+        middlename = 'Bruce' + postfix
+        surname = 'Mathers' + postfix
+        email = f'mbm{postfix}@example.com'
+        birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
+        employee_1 = create_employee(**{
+            'firstname': firstname,
+            'middlename': middlename,
+            'surname': surname,
+            'email': email,
+            'birthdate': birthdate,
+        })
+        postfix = '_2'
+        firstname = 'Marshall' + postfix
+        middlename = 'Bruce' + postfix
+        surname = 'Mathers' + postfix
+        email = f'mbm{postfix}@example.com'
+        birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
+        employee_2 = create_employee(**{
+            'firstname': firstname,
+            'middlename': middlename,
+            'surname': surname,
+            'email': email,
+            'birthdate': birthdate,
+        })
+        response = self.client.post(
+            reverse('employees:delete', args=(employee_1.id,)),
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse('employees:list'))
+
+        response = self.client.get(response.url)
+        self.assertQuerysetEqual(
+            response.context['employee_list'],
+            ['<Employee: Marshall_2 Bruce_2 Mathers_2>']
+        )

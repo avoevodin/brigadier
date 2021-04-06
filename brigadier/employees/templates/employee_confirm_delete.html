@@ -14,9 +14,15 @@
             <button class="btn btn-danger" type="submit">
                 {% translate "Yes" %}
             </button>
-            <a class="btn btn-secondary" href="{% url "employees:list" %}">
-                {% translate "Cancel" %}
-            </a>
+            {% if request.GET.next %}
+                <a class="btn btn-secondary" href="{{ request.GET.next }}">
+                    {% translate "Cancel" %}
+                </a>
+            {% else %}
+                <a class="btn btn-secondary" href="{% url "employees:list" %}">
+                    {% translate "Cancel" %}
+                </a>
+            {% endif %}
         </div>
     </form>
 {% endblock %}

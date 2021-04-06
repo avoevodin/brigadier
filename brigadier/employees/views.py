@@ -59,12 +59,4 @@ class EmployeeDeleteView(generic.DeleteView):
     """
     template_name = 'employee_confirm_delete.html'
     model = Employee
-
-    def get_success_url(self):
-        """todo
-
-        """
-        if self.request.GET.get('next'):
-            return self.request.GET.get('next')
-        else:
-            return reverse('employees:list')
+    success_url = reverse_lazy('employees:list')

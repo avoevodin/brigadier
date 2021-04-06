@@ -73,3 +73,170 @@ class HomeViewTest(TestCase):
             [0, 0, 0, 0],
             transform=lambda x: x
         )
+
+    def test_task_statistics(self):
+        """todo
+
+        """
+        deadline = timezone.now() + datetime.timedelta(days=32)
+        postfix = ' 1'
+        project_1 = create_project(**{
+            'project_name': 'Project name' + postfix,
+            'description': 'Project description' + postfix,
+            'budget': 100000,
+            'deadline': deadline,
+            'closed': False,
+        })
+
+        postfix = '_1'
+        firstname = 'Marshall' + postfix
+        middlename = 'Bruce' + postfix
+        surname = 'Mathers' + postfix
+        email = f'mbm{postfix}@example.com'
+        birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
+        employee_1 = create_employee(**{
+            'firstname': firstname,
+            'middlename': middlename,
+            'surname': surname,
+            'email': email,
+            'birthdate': birthdate,
+        })
+
+        postfix = ' 1'
+        start_date = timezone.now()
+        complete_date = timezone.now() + datetime.timedelta(days=8)
+        create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee_1,
+            'assignee': employee_1,
+            'status': NEW,
+        })
+        postfix = ' 2'
+        start_date = timezone.now() - datetime.timedelta(days=4)
+        complete_date = timezone.now() + datetime.timedelta(days=8)
+        create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee_1,
+            'assignee': employee_1,
+            'status': NEW,
+        })
+        postfix = ' 3'
+        start_date = timezone.now() - datetime.timedelta(days=-4)
+        complete_date = timezone.now() + datetime.timedelta(days=8)
+        create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee_1,
+            'assignee': employee_1,
+            'status': NEW,
+        })
+        postfix = ' 4'
+        start_date = timezone.now() - datetime.timedelta(days=-14)
+        complete_date = timezone.now() + datetime.timedelta(days=-6)
+        create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee_1,
+            'assignee': employee_1,
+            'status': NEW,
+        })
+        postfix = ' 5'
+        start_date = timezone.now() - datetime.timedelta(days=-4)
+        complete_date = timezone.now() + datetime.timedelta(days=10)
+        create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee_1,
+            'assignee': employee_1,
+            'status': IN_PROGRESS,
+        })
+        postfix = ' 6'
+        start_date = timezone.now() - datetime.timedelta(days=-8)
+        complete_date = timezone.now() + datetime.timedelta(days=-4)
+        create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee_1,
+            'assignee': employee_1,
+            'status': IN_PROGRESS,
+        })
+        postfix = ' 7'
+        start_date = timezone.now() - datetime.timedelta(days=8)
+        complete_date = timezone.now() + datetime.timedelta(days=14)
+        create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee_1,
+            'assignee': employee_1,
+            'status': IN_PROGRESS,
+        })
+        postfix = ' 8'
+        start_date = timezone.now() - datetime.timedelta(days=8)
+        complete_date = timezone.now() + datetime.timedelta(days=14)
+        create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee_1,
+            'assignee': employee_1,
+            'status': COMPLETED,
+        })
+        postfix = ' 9'
+        start_date = timezone.now() - datetime.timedelta(days=-8)
+        complete_date = timezone.now() + datetime.timedelta(days=14)
+        create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee_1,
+            'assignee': employee_1,
+            'status': COMPLETED,
+        })
+        postfix = ' 10'
+        start_date = timezone.now() - datetime.timedelta(days=-14)
+        complete_date = timezone.now() + datetime.timedelta(days=-6)
+        create_task(**{
+            'project': project_1,
+            'task_name': 'Task name' + postfix,
+            'description': 'description',
+            'start_date': start_date,
+            'complete_date': complete_date,
+            'author': employee_1,
+            'assignee': employee_1,
+            'status': COMPLETED,
+        })
+
+        response = self.client.get(reverse('home:home'))
+        self.assertEqual(response.status_code, 200)
+        self.assertQuerysetEqual(
+            response.context['tasks_statistics'].values(),
+            [10, 1, 1, 3, 4],
+            transform=lambda x: x
+        )

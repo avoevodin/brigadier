@@ -93,15 +93,7 @@ class ProjectDeleteView(generic.DeleteView):
     """
     model = Project
     template_name = 'project_confirm_delete.html'
-
-    def get_success_url(self):
-        """todo()
-
-        """
-        if self.request.GET.get('next'):
-            return self.request.GET.get('next')
-        else:
-            return reverse('projects:list')
+    success_url = reverse_lazy('projects:list')
 
 
 class TaskListView(generic.ListView):
@@ -186,15 +178,7 @@ class TaskDeleteView(generic.DeleteView):
     """
     model = Task
     template_name = 'task_confirm_delete.html'
-
-    def get_success_url(self):
-        """todo
-
-        """
-        if self.request.GET.get('next'):
-            return self.request.GET.get('next')
-        else:
-            return reverse('projects:task_list')
+    success_url = reverse_lazy('projects:task_list')
 
 
 class CommentCreateView(generic.CreateView):

@@ -52,6 +52,10 @@ cd brigadier
 ```shell
 ./manage.py migrate --no-input
 ```
+* Collect static:
+```shell
+python3 manage.py collectstatic --no-input
+```
 * Create superuser:
 ```shell
 ./manage.py createsuperuser

@@ -64,7 +64,10 @@ python3 manage.py collectstatic --no-input
     2. Point paths to django-project and its settings.
     3. In mysite/settings.py configure ALLOWED_HOSTS with '*',
         if it hasn't been done before.
-* Run server:
+
+### Run server from the terminal
+
+* Run server from the terminal:
 ```shell
 ./manage.py runserver 0:8000
 ```
@@ -81,4 +84,56 @@ coverage run --source='.' manage.py test -v 2
 coverage html
 open htmlcov/index.html
 ```
-* Profit
+### Run server from the docker container with uwsgi:
+* Settings for uwsgi in uwsgi.ini:
+```ini
+[uwsgi]
+http-socket=0.0.0.0:8000
+chdir=%d
+workers=%k
+threads=%k
+module=brigadier.wsgi:application
+master=True
+
+;pidfile=%duwsgi-master.pid
+;daemonize=%duwsgi.log
+
+env DJANGO_DEBUG=False
+env DJANGO_SETTINGS_MODULE=brigadier.settings
+
+plugins = python3,http
+
+offload-threads = %k
+static-map=/static=%dstatic
+check-static=%dstatic
+static-expires=%dstatic/* 86400
+```
+* Dockerfile:
+```dockerfile
+FROM alpine:3.13
+
+RUN apk add python3 py3-pip py3-psycopg2 uwsgi uwsgi-python3 uwsgi-http gettext
+
+COPY requirements_docker.txt /app/requirements.txt
+
+RUN pip install -r /app/requirements.txt
+
+COPY brigadier/ /app/brigadier/
+WORKDIR /app/brigadier/
+
+RUN python3 manage.py collectstatic --no-input
+RUN python3 manage.py compilemessages
+
+CMD uwsgi --ini uwsgi.ini
+```
+* 
+* Create the docker-image from the Dockerfile:
+```shell
+docker build -f Dockerfile -t brigadier-uwsgi ./
+```
+* Run container based on the created docker-image:
+```shell
+docker run --name brigadier-uwsgi --hostname brigadier-uwsgi \
+-d -p 8000:8000 --env-file .env-docker --link brigadier-postgres \
+brigadier-uwsgi
+```

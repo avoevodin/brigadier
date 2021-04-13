@@ -14,4 +14,3 @@ urlpatterns = [
     path('<int:pk>/edit/', EmployeeEditView.as_view(), name='edit'),
     path('<int:pk>/delete/', EmployeeDeleteView.as_view(), name='delete'),
 ]
-

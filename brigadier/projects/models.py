@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from django.db.models import Case, When, Count, Q, FloatField, DecimalField
+from django.db.models import Case, When, Count, Q, FloatField
 from django.db.models.functions import Cast
 
 from employees.models import Employee

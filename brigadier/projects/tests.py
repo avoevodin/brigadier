@@ -177,7 +177,7 @@ class ProjectListViewTest(TestCase):
             'closed': False,
         })
         postfix = ' 1'
-        task_2_1 = create_task(**{
+        create_task(**{
             'project': project_2,
             'task_name': 'Task name' + postfix,
             'description': 'description',
@@ -188,7 +188,7 @@ class ProjectListViewTest(TestCase):
             'status': NEW,
         })
         postfix = ' 2'
-        task_3_1 = create_task(**{
+        create_task(**{
             'project': project_3,
             'task_name': 'Task name' + postfix,
             'description': 'description',
@@ -199,7 +199,7 @@ class ProjectListViewTest(TestCase):
             'status': NEW,
         })
         postfix = ' 3'
-        task_3_2 = create_task(**{
+        create_task(**{
             'project': project_3,
             'task_name': 'Task name' + postfix,
             'description': 'description',
@@ -294,7 +294,7 @@ class ProjectListViewTest(TestCase):
             'closed': False,
         })
         postfix = ' 1'
-        task_2_1 = create_task(**{
+        create_task(**{
             'project': project_2,
             'task_name': 'Task name' + postfix,
             'description': 'description',
@@ -305,7 +305,7 @@ class ProjectListViewTest(TestCase):
             'status': NEW,
         })
         postfix = ' 2'
-        task_3_1 = create_task(**{
+        create_task(**{
             'project': project_3,
             'task_name': 'Task name' + postfix,
             'description': 'description',
@@ -316,7 +316,7 @@ class ProjectListViewTest(TestCase):
             'status': NEW,
         })
         postfix = ' 3'
-        task_3_2 = create_task(**{
+        create_task(**{
             'project': project_3,
             'task_name': 'Task name' + postfix,
             'description': 'description',
@@ -327,7 +327,7 @@ class ProjectListViewTest(TestCase):
             'status': NEW,
         })
         postfix = ' 4'
-        task_1_1 = create_task(**{
+        create_task(**{
             'project': project_1,
             'task_name': 'Task name' + postfix,
             'description': 'description',
@@ -338,7 +338,7 @@ class ProjectListViewTest(TestCase):
             'status': COMPLETED,
         })
         postfix = ' 5'
-        task_2_2 = create_task(**{
+        create_task(**{
             'project': project_2,
             'task_name': 'Task name' + postfix,
             'description': 'description',
@@ -349,7 +349,7 @@ class ProjectListViewTest(TestCase):
             'status': COMPLETED,
         })
         postfix = ' 6'
-        task_3_3 = create_task(**{
+        create_task(**{
             'project': project_3,
             'task_name': 'Task name' + postfix,
             'description': 'description',
@@ -439,7 +439,7 @@ class ProjectDetailViewTest(TestCase):
             'deadline': deadline,
             'closed': True,
         })
-        task_1_1 = create_task(**{
+        create_task(**{
             'project': project_1,
             'task_name': 'Task name' + postfix,
             'description': 'description',
@@ -450,7 +450,7 @@ class ProjectDetailViewTest(TestCase):
             'status': NEW,
         })
         postfix = ' 2'
-        task_1_2 = create_task(**{
+        create_task(**{
             'project': project_1,
             'task_name': 'Task name' + postfix,
             'description': 'description',
@@ -461,7 +461,7 @@ class ProjectDetailViewTest(TestCase):
             'status': NEW,
         })
         postfix = ' 3'
-        task_1_3 = create_task(**{
+        create_task(**{
             'project': project_1,
             'task_name': 'Task name' + postfix,
             'description': 'description',
@@ -531,7 +531,7 @@ class ProjectDetailViewTest(TestCase):
             'deadline': deadline,
             'closed': True,
         })
-        task_1_1 = create_task(**{
+        create_task(**{
             'project': project_1,
             'task_name': 'Task name' + postfix,
             'description': 'description',
@@ -542,7 +542,7 @@ class ProjectDetailViewTest(TestCase):
             'status': NEW,
         })
         postfix = ' 2'
-        task_1_2 = create_task(**{
+        create_task(**{
             'project': project_1,
             'task_name': 'Task name' + postfix,
             'description': 'description',
@@ -553,7 +553,7 @@ class ProjectDetailViewTest(TestCase):
             'status': COMPLETED,
         })
         postfix = ' 3'
-        task_1_3 = create_task(**{
+        create_task(**{
             'project': project_1,
             'task_name': 'Task name' + postfix,
             'description': 'description',
@@ -564,7 +564,7 @@ class ProjectDetailViewTest(TestCase):
             'status': COMPLETED,
         })
         postfix = ' 4'
-        task_1_4 = create_task(**{
+        create_task(**{
             'project': project_1,
             'task_name': 'Task name' + postfix,
             'description': 'description',
@@ -919,7 +919,7 @@ class TaskListViewTest(TestCase):
             'deadline': deadline,
             'closed': True,
         })
-        task_1_1 = create_task(**{
+        create_task(**{
             'project': project_1,
             'task_name': 'Task name' + postfix,
             'description': 'description',
@@ -930,7 +930,7 @@ class TaskListViewTest(TestCase):
             'status': NEW,
         })
         postfix = ' 2'
-        task_1_2 = create_task(**{
+        create_task(**{
             'project': project_1,
             'task_name': 'Task name' + postfix,
             'description': 'description',

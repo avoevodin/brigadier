@@ -130,3 +130,7 @@ dmypy.json
 
 # idea
 /.idea
+
+# Etc
+/brigadier/static/
+/.env-uwsgi

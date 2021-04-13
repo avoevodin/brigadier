@@ -97,6 +97,7 @@ POSTGRES_USER=brigadier
 POSTGRES_PASSWORD=secret
 POSTGRES_HOST=0.0.0.0:8000
 POSTGRES_PORT=5433
+DJANGO_DEBUG=True
 __EOF__
 ```
 * Create and run PostgreSQL docker container:
@@ -208,6 +209,7 @@ POSTGRES_PASSWORD=secret
 POSTGRES_PORT=5432
 POSTGRES_USER=brigadier
 PS1=%n@%m %~ %%
+DJANGO_DEBUG=True
 __EOF__
 ```
 * Run container based on the created docker-image:

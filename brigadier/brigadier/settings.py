@@ -150,7 +150,6 @@ LANGUAGES = [
 ]
 
 if DEBUG and pkgutil.find_loader('debug_toolbar'):
-    import debug_toolbar
     INSTALLED_APPS += ['debug_toolbar']
     MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
     INTERNAL_IPS = [

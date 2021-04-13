@@ -1,11 +1,14 @@
-# Basic tools
+# Django ORM tutorial. Tutorial for the Django Debug Toolbar.
+
+## Basic tools
+* Connection and queries
 ```python
 from django.db import connection as conn
 conn.queries
 >[]
 print(conn.queries[-1]['sql'])
 ```
-
+* Filters, values, all, count.
 ```python
 Book.objects.all().filter(publisher_id__in=[2,3])
 Book.objects.all().filter(name__startwith='война')
@@ -40,8 +43,7 @@ book.values('id', 'name', 'num_authors', 'num_stores') # multiple error
 book = Book.objects.annotate(num_authors=Count('authors', distinct=True), num_stores=Count('store', distinct=True))
 ```
 
------
-
+----
 * Join 
 ```python
 stores_ex = Store.objects.annotate(
@@ -50,6 +52,7 @@ stores_ex = Store.objects.annotate(
 )
 stores_ex.values()
 ```
+
 ---- 
 * F-expressions
 ```python
@@ -57,7 +60,8 @@ from django.db.models import F
 book_diff = stores_ex.annotate(book_diff=F('max_price')-F('min_price'))
 book_diff.values()
 ```
------
+
+----
 * Type conversion
 ```python
 stores_ex1 = store.objects.annotate(
@@ -77,6 +81,7 @@ stores_ex1 = store.objects.annotate(
 stores_ex1.annotate(
     books_avg_pr=F('books_sum_pr') / F('books_count')
 ```
+
 -----
 * Case
 ```python
@@ -91,6 +96,7 @@ stores_ex1.annotate(
         default=F('books_sum_pr') / F('books_count')
     )
 ```
+
 ----
 * Filter and order annotations
 ```python
@@ -189,14 +195,14 @@ class ProjectCreateView(generic.CreateView):
 
 ## Django debug toolbar
 > https://django-debug-toolbar.readthedocs.io/en/latest/installation.html
- 
-```python
-import pkgutil
-```
+---
 * settings.py
 ```python
+import pkgutil
+#
+# settings of the project...
+#
 if DEBUG and pkgutil.find_loader('debug_toolbar'):
-    import debug_toolbar
     INSTALLED_APPS += ['debug_toolbar']
     MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware']
     INTERNAL_IPS = [
@@ -205,6 +211,10 @@ if DEBUG and pkgutil.find_loader('debug_toolbar'):
 ```
 * urls.py
 ```python
+import pkgutil
+#
+# urls settings of the project...
+#
 if settings.DEBUG and pkgutil.find_loader('debug_toolbar'):
     import debug_toolbar
     urlpatterns += [

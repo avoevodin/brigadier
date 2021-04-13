@@ -133,4 +133,4 @@ dmypy.json
 
 # Etc
 /brigadier/static/
-/.env-docker
+/.env-uwsgi

@@ -22,7 +22,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
     path('employees/', include('employees.urls')),
-    path('projects/', include('projects.urls'))
+    path('projects/', include('projects.urls')),
+    path('accounts/', include('accounts.urls')),
 ]
 
 if settings.DEBUG and pkgutil.find_loader('debug_toolbar'):

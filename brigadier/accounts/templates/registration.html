@@ -3,8 +3,17 @@
 {% load i18n %}
 
 {% block container %}
-    <div class="card" style="max-width: 600px">
+    <div class="card mx-auto mt-5" style="max-width: 600px">
         <div class="card-body">
+            <figure class="text-center">
+                <h3>
+                    Create a Brigadier account
+                </h3>
+                <p class="text-secondary">
+                    {% translate "If you've already had an account, please " %}
+                    <a href="accounts:login">{% translate "log in" %}</a>.
+                </p>
+            </figure>
             <form method="post" action="{% url 'accounts:registration' %}">
                 {% csrf_token %}
                 {% for field in form %}
@@ -19,9 +28,11 @@
                     {% endif %}
                     {{ field }}
                 {% endfor %}
-                <button class="btn btn-primary" type="submit">
-                    {% translate "sing in" %}
-                </button>
+                <div class="d-grid col-6 mx-auto">
+                    <button class="btn btn-primary" type="submit">
+                        {% translate "Create account" %}
+                    </button>
+                </div>
                 <input type="hidden" name="next" value="{{ next }}">
             </form>
             </form>

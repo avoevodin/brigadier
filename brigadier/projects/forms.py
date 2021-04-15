@@ -9,7 +9,6 @@ class ProjectModelForm(forms.ModelForm):
     class.
 
     """
-
     class Meta:
         model = Project
         fields = ['project_name', 'deadline', 'budget', 'closed', 'description']

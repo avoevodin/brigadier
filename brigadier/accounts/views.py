@@ -1,5 +1,6 @@
-from django.contrib.auth.views import FormView, LoginView
+from django.contrib.auth.views import FormView, LoginView, TemplateView
 from django.contrib.auth.models import Group
+from django.urls import reverse_lazy
 from .forms import AccountRegistrationForm, AccountLoginForm
 from django.conf import settings
 
@@ -10,7 +11,7 @@ class AccountRegistrationView(FormView):
     """
     form_class = AccountRegistrationForm
     template_name = 'registration.html'
-    success_url = settings.LOGIN_URL
+    success_url = reverse_lazy("accounts:registration_done")
 
     def form_valid(self, form):
         response = super(AccountRegistrationView, self).form_valid(form)
@@ -22,6 +23,13 @@ class AccountRegistrationView(FormView):
         if group_public is not None:
             user.groups.add(group_public)
         return response
+
+
+class AccountRegistrationDoneView(TemplateView):
+    """todo
+
+    """
+    template_name = 'registration_done.html'
 
 
 class AccountLoginView(LoginView):

@@ -14,6 +14,7 @@ from pathlib import Path
 from os import environ as env
 
 from django.utils.translation import gettext_lazy as _
+from django.urls import reverse_lazy
 
 import pkgutil
 
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'employees.apps.EmployeesConfig',
     'projects.apps.ProjectsConfig',
+    'accounts.apps.AccountsConfig',
 ]
 
 MIDDLEWARE = [
@@ -148,6 +150,10 @@ LANGUAGES = [
     ('en', _('English')),
     ('ru', _('Russian')),
 ]
+
+LOGIN_URL = reverse_lazy('accounts:login')
+LOGOUT_URL = reverse_lazy('accounts:logout')
+LOGIN_REDIRECT_URL = reverse_lazy('home:home')
 
 if DEBUG and pkgutil.find_loader('debug_toolbar'):
     INSTALLED_APPS += ['debug_toolbar']

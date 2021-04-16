@@ -1,4 +1,4 @@
-from django.contrib.auth.views import FormView, LoginView, TemplateView
+from django.contrib.auth.views import FormView, LoginView, TemplateView, LogoutView
 from django.contrib.auth.models import Group
 from django.urls import reverse_lazy
 from .forms import AccountRegistrationForm, AccountLoginForm
@@ -39,3 +39,10 @@ class AccountLoginView(LoginView):
     form_class = AccountLoginForm
     template_name = 'login.html'
     success_url = settings.LOGIN_REDIRECT_URL
+
+
+class AccountLogoutView(LogoutView):
+    """todo
+
+    """
+    success_url = settings.LOGIN_URL

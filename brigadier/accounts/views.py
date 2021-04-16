@@ -47,7 +47,7 @@ class AccountLogoutView(LogoutView):
     """todo
 
     """
-    success_url = settings.LOGIN_URL
+    next_page = settings.LOGIN_URL
 
 
 class AccountPasswordChangeView(PasswordChangeView):

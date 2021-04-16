@@ -51,7 +51,12 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                       <li>
+                        <li>
+                            <a class="dropdown-item" href="{% url "accounts:password_change" %}">
+                                {% translate "Change password" %}
+                            </a>
+                        </li>
+                        <li>
                             <a class="dropdown-item" href="{% url "accounts:logout" %}">
                                 {% translate "Logout" %}
                             </a>

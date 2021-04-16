@@ -1,7 +1,9 @@
-from django.contrib.auth.views import FormView, LoginView, TemplateView, LogoutView
+from django.contrib.auth.views import (FormView, LoginView,
+                                       TemplateView, LogoutView,
+                                       PasswordChangeView, PasswordChangeDoneView)
 from django.contrib.auth.models import Group
 from django.urls import reverse_lazy
-from .forms import AccountRegistrationForm, AccountLoginForm
+from .forms import AccountRegistrationForm, AccountLoginForm, AccountPasswordChangeForm
 from django.conf import settings
 
 
@@ -46,3 +48,19 @@ class AccountLogoutView(LogoutView):
 
     """
     success_url = settings.LOGIN_URL
+
+
+class AccountPasswordChangeView(PasswordChangeView):
+    """todo
+
+    """
+    form_class = AccountPasswordChangeForm
+    template_name = 'password_change.html'
+    success_url = reverse_lazy('accounts:password_change_done')
+
+
+class AccountPasswordChangeDoneView(PasswordChangeDoneView):
+    """todo
+
+    """
+    template_name = 'password_change_done.html'

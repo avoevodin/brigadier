@@ -1,7 +1,9 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField
+from django.contrib.auth.forms import (UserCreationForm, AuthenticationForm,
+                                       UsernameField, PasswordChangeForm)
 from django.contrib.auth.models import User
+from django.contrib.auth import password_validation
 
 
 class AccountRegistrationForm(UserCreationForm):
@@ -16,7 +18,7 @@ class AccountRegistrationForm(UserCreationForm):
         })
     )
     password1 = forms.CharField(
-        label=_('Enter password'),
+        strip=False,
         widget=forms.PasswordInput(attrs={
             'class': 'form-control mb-2',
             'required': 'true',
@@ -24,7 +26,7 @@ class AccountRegistrationForm(UserCreationForm):
         })
     )
     password2 = forms.CharField(
-        label=_('Confirm password'),
+        strip=False,
         widget=forms.PasswordInput(attrs={
             'class': 'form-control mb-2',
             'required': 'true',
@@ -49,7 +51,7 @@ class AccountLoginForm(AuthenticationForm):
         })
     )
     password = forms.CharField(
-        label=_('Enter password'),
+        strip=False,
         widget=forms.PasswordInput(attrs={
             'class': 'form-control mb-2',
             'required': 'true',
@@ -66,3 +68,38 @@ class AccountLoginForm(AuthenticationForm):
                 'placeholder': _('Username'),
             }),
         }
+
+
+class AccountPasswordChangeForm(PasswordChangeForm):
+    """todo
+
+    """
+    old_password = forms.CharField(
+        strip=False,
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control mb-2',
+            'required': 'true',
+            'placeholder': _('Old password'),
+            'autocomplete': 'current-password',
+            'autofocus': True
+        }),
+    )
+    new_password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control mb-2',
+            'required': 'true',
+            'placeholder': _('New password'),
+            'autocomplete': 'new-password',
+        }),
+        strip=False,
+        help_text=password_validation.password_validators_help_text_html(),
+    )
+    new_password2 = forms.CharField(
+        strip=False,
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control mb-2',
+            'required': 'true',
+            'placeholder': _('Confirm password'),
+            'autocomplete': 'new-password',
+        }),
+    )

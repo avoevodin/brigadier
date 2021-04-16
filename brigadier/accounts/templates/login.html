@@ -12,6 +12,9 @@
                 <p class="text-secondary">
                     {% translate "Don't have an account?" %}
                     <a href="{% url "accounts:registration" %}">{% translate "Sing up" %}</a>.
+                    <br>
+                    {% translate "Or go to the " %}
+                    <a href="{% url "home:home" %}">{% translate "Home page" %}</a>.
                 </p>
             </figure>
             <form method="post" action="{% url "accounts:login" %}">

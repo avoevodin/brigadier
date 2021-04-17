@@ -21,7 +21,7 @@ class AccountRegistrationViewTest(TestCase):
             }
         )
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, reverse('home:home'))
+        self.assertEqual(response.url, reverse('accounts:registration_done'))
 
         user = User.objects.first()
         self.assertQuerysetEqual(user.groups.all(), [group_public], transform=lambda x: x)
@@ -39,7 +39,7 @@ class AccountRegistrationViewTest(TestCase):
             }
         )
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, reverse('home:home'))
+        self.assertEqual(response.url, reverse('accounts:registration_done'))
 
         user = User.objects.first()
         self.assertQuerysetEqual(user.groups.all(), [], transform=lambda x: x)

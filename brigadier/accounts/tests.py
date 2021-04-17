@@ -1,10 +1,9 @@
 from django.test import TestCase
-from .views import RegistrationView
 from django.contrib.auth.models import Group, User
 from django.urls import reverse
 
 
-class RegistrationViewTest(TestCase):
+class AccountRegistrationViewTest(TestCase):
     """todo
 
     """

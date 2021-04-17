@@ -19,6 +19,13 @@
             </figure>
             <form method="post" action="{% url "accounts:registration" %}">
                 {% csrf_token %}
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ form.non_field_errors }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        </button>
+                    </div>
+                {% endif %}
                 {% for field in form %}
                     {% if field.errors %}
                         {% for error in field.errors %}

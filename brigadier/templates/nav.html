@@ -39,15 +39,24 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li>
-                            <a class="dropdown-item" href="{% url "accounts:login" %}">
-                                {% translate "Login" %}
-                            </a>
+                            {% if user %}
+                                <a class="dropdown-item" href="#">
+                                    <i class="bi bi-person"></i>
+                                    {{ user }}
+                                </a>
+                            {% else %}
+                                <a class="dropdown-item" href="{% url "accounts:login" %}">
+                                    {% translate "Login" %}
+                                </a>
+                            {% endif %}
                         </li>
-                        <li>
-                            <a class="dropdown-item" href="{% url "accounts:registration" %}">
-                                {% translate "Create an account" %}
-                            </a>
-                        </li>
+                        {% if not user %}
+                            <li>
+                                <a class="dropdown-item" href="{% url "accounts:registration" %}">
+                                    {% translate "Create an account" %}
+                                </a>
+                            </li>
+                        {% endif %}
                         <li>
                             <hr class="dropdown-divider">
                         </li>

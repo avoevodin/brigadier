@@ -1,10 +1,9 @@
 from django.test import TestCase
-from .views import RegistrationView
 from django.contrib.auth.models import Group, User
 from django.urls import reverse
 
 
-class RegistrationViewTest(TestCase):
+class AccountRegistrationViewTest(TestCase):
     """todo
 
     """
@@ -22,7 +21,7 @@ class RegistrationViewTest(TestCase):
             }
         )
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, reverse('home:home'))
+        self.assertEqual(response.url, reverse('accounts:registration_done'))
 
         user = User.objects.first()
         self.assertQuerysetEqual(user.groups.all(), [group_public], transform=lambda x: x)
@@ -40,7 +39,7 @@ class RegistrationViewTest(TestCase):
             }
         )
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, reverse('home:home'))
+        self.assertEqual(response.url, reverse('accounts:registration_done'))
 
         user = User.objects.first()
         self.assertQuerysetEqual(user.groups.all(), [], transform=lambda x: x)

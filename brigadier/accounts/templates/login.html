@@ -7,17 +7,17 @@
         <div class="card-body">
             <figure class="text-center">
                 <h3>
-                    {% translate "Create a Brigadier account" %}
+                    {% translate "Login to a Brigadier account" %}
                 </h3>
                 <p class="text-secondary">
-                    {% translate "Have an account?" %}
-                    <a href="{% url "accounts:login" %}">{% translate "Log in" %}</a>.
+                    {% translate "Don't have an account?" %}
+                    <a href="{% url "accounts:registration" %}">{% translate "Sing up" %}</a>.
                     <br>
                     {% translate "Go to the " %}
                     <a href="{% url "home:home" %}">{% translate "Home page" %}</a>.
                 </p>
             </figure>
-            <form method="post" action="{% url "accounts:registration" %}">
+            <form method="post" action="{% url "accounts:login" %}">
                 {% csrf_token %}
                 {% if form.non_field_errors %}
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -40,11 +40,10 @@
                 {% endfor %}
                 <div class="d-grid col-6 mx-auto">
                     <button class="btn btn-primary" type="submit">
-                        {% translate "Create account" %}
+                        {% translate "Login" %}
                     </button>
                 </div>
                 <input type="hidden" name="next" value="{{ next }}">
-            </form>
             </form>
         </div>
     </div>

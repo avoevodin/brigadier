@@ -4,6 +4,7 @@ from django.test import TestCase
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.urls import reverse
+from django.contrib.auth.models import User, Permission
 
 from .models import Employee
 
@@ -153,6 +154,13 @@ class EmployeeListViewTest(TestCase):
         """Test for list view without any employee.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['view_employee'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         response = self.client.get(reverse('employees:list'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, _("No employees are available."))
@@ -162,6 +170,13 @@ class EmployeeListViewTest(TestCase):
         """Test for list view with two employees.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['view_employee'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         postfix = '_1'
         firstname = 'Marshall' + postfix
         middlename = 'Bruce' + postfix
@@ -202,6 +217,13 @@ class EmployeeDetailViewTest(TestCase):
         """Test for detail view of not existed employee.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['view_employee'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         response = self.client.get(reverse('employees:detail', args=(1,)))
         self.assertEqual(response.status_code, 404)
 
@@ -210,11 +232,67 @@ class EmployeeCreateViewTest(TestCase):
     """Tests for Employee create view.
 
     """
+    def test_create_employee_without_login(self):
+        """todo
+
+        """
+        postfix = '_1'
+        firstname = 'Marshall' + postfix
+        middlename = 'Bruce' + postfix
+        surname = 'Mathers' + postfix
+        email = f'mbm{postfix}@example.com'
+        birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
+        response = self.client.post(
+            reverse('employees:create'),
+            {
+                'firstname': firstname,
+                'middlename': middlename,
+                'surname': surname,
+                'email': email,
+                'birthdate': birthdate.strftime("%m/%d/%Y"),
+            }
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, '/accounts/login/?next=/employees/add/')
+
+    def test_create_employee_without_perms(self):
+        """Test of creating employee.
+
+        """
+        username = 'test'
+        password = 'test'
+        User.objects.create_user(username=username, password=password)
+        self.client.login(username=username, password=password)
+
+        postfix = '_1'
+        firstname = 'Marshall' + postfix
+        middlename = 'Bruce' + postfix
+        surname = 'Mathers' + postfix
+        email = f'mbm{postfix}@example.com'
+        birthdate = timezone.now() + datetime.timedelta(days=-365 * 30)
+        response = self.client.post(
+            reverse('employees:create'),
+            {
+                'firstname': firstname,
+                'middlename': middlename,
+                'surname': surname,
+                'email': email,
+                'birthdate': birthdate.strftime("%m/%d/%Y"),
+            }
+        )
+        self.assertEqual(response.status_code, 403)
 
     def test_create_employee(self):
         """Test of creating employee.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['view_employee', 'add_employee'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         postfix = '_1'
         firstname = 'Marshall' + postfix
         middlename = 'Bruce' + postfix
@@ -246,6 +324,13 @@ class EmployeeEditViewTest(TestCase):
         """Test editing of Employee without next-hook.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['view_employee', 'change_employee'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         postfix = '_1'
         firstname = 'Marshall' + postfix
         middlename = 'Bruce' + postfix
@@ -282,6 +367,13 @@ class EmployeeEditViewTest(TestCase):
         """Test editing of Employee with next-hook
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['change_employee', 'view_employee'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         postfix = '_1'
         firstname = 'Marshall' + postfix
         middlename = 'Bruce' + postfix
@@ -325,6 +417,13 @@ class EmployeeDeleteViewTest(TestCase):
         """Test deleting employee with next-hook.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['delete_employee', 'view_employee'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         postfix = '_1'
         firstname = 'Marshall' + postfix
         middlename = 'Bruce' + postfix
@@ -356,6 +455,13 @@ class EmployeeDeleteViewTest(TestCase):
         """Test deleting of employee without next-hook.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['delete_employee', 'view_employee'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         postfix = '_1'
         firstname = 'Marshall' + postfix
         middlename = 'Bruce' + postfix

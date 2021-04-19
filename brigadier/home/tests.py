@@ -4,6 +4,8 @@ from django.test import TestCase
 from django.utils import timezone
 from django.urls import reverse
 
+from django.contrib.auth.models import User
+
 from projects.models import Project, Task, NEW, COMPLETED, IN_PROGRESS
 
 from projects.tests import create_project, create_task
@@ -19,6 +21,11 @@ class HomeViewTest(TestCase):
         Task and Employee.
 
         """
+        username = 'test'
+        password = 'test'
+        User.objects.create_user(username=username, password=password)
+        self.client.login(username=username, password=password)
+
         response = self.client.get(reverse('home:home'))
         self.assertEqual(response.status_code, 200)
         self.assertQuerysetEqual(
@@ -41,6 +48,11 @@ class HomeViewTest(TestCase):
         """Test projects statistics of home page.
 
         """
+        username = 'test'
+        password = 'test'
+        User.objects.create_user(username=username, password=password)
+        self.client.login(username=username, password=password)
+
         deadline = timezone.now() + datetime.timedelta(days=32)
         postfix = ' 1'
         create_project(**{
@@ -88,6 +100,11 @@ class HomeViewTest(TestCase):
         """Test tasks statistics of home page view.
 
         """
+        username = 'test'
+        password = 'test'
+        User.objects.create_user(username=username, password=password)
+        self.client.login(username=username, password=password)
+
         deadline = timezone.now() + datetime.timedelta(days=32)
         postfix = ' 1'
         project_1 = create_project(**{
@@ -254,6 +271,11 @@ class HomeViewTest(TestCase):
         """Test employees statistics of home page view.
 
         """
+        username = 'test'
+        password = 'test'
+        User.objects.create_user(username=username, password=password)
+        self.client.login(username=username, password=password)
+
         deadline = timezone.now() + datetime.timedelta(days=32)
         postfix = ' 1'
         project_1 = create_project(**{

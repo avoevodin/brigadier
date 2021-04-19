@@ -50,18 +50,24 @@
             </div>
         </div>
     </div>
-    <div class="row mt-2">
-        <div class="col-auto">
-            <a class="btn btn-primary btn-lg" href="{% url "employees:edit" employee.id %}">
-                <i class="bi bi-pencil-fill"></i>
-                {% translate "Edit" %}
-            </a>
+    {% if perms.employees.change_employee or perms.employee.delete_employee %}
+        <div class="row mt-2">
+            {% if perms.employees.change_employee %}
+                <div class="col-auto">
+                    <a class="btn btn-primary btn-lg" href="{% url "employees:edit" employee.id %}">
+                        <i class="bi bi-pencil-fill"></i>
+                        {% translate "Edit" %}
+                    </a>
+                </div>
+            {% endif %}
+            {% if perms.employee.delete_employee %}
+                <div class="col-auto">
+                    <a class="btn btn-danger btn-lg" href="{% url "employees:delete" employee.id %}">
+                        <i class="bi bi-trash"></i>
+                        {% translate "Delete" %}
+                    </a>
+                </div>
+            {% endif %}
         </div>
-        <div class="col-auto">
-            <a class="btn btn-danger btn-lg" href="{% url "employees:delete" employee.id %}">
-                <i class="bi bi-trash"></i>
-                {% translate "Delete" %}
-            </a>
-        </div>
-    </div>
+    {% endif %}
 {% endblock %}

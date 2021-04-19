@@ -29,6 +29,7 @@ pprint([(c.app_label, c.model) for c in cts.all().order_by('app_label')])
 ```
 * Permissions
 ```python
+from pprint import pprint
 log = authenticate(username='john', password='123') # if is_active=True
 perms = Permission.objects.all()
 pprint([(p.content_type.app_label, p.content_type.model, p.codename) 

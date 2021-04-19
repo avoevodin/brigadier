@@ -1,15 +1,18 @@
 from django.views.generic import TemplateView
 from django.utils import timezone
-from django.db.models import Count, Q, Case, When, F
+from django.db.models import Count, Q
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.conf import settings
 
 from projects.models import Project, Task, IN_PROGRESS, COMPLETED, NEW
 from employees.models import Employee
 
 
-class HomeView(TemplateView):
+class HomeView(LoginRequiredMixin, TemplateView):
     """View of the home page.
 
     """
+    login_url = settings.LOGIN_URL
     template_name = 'home.html'
     context_object_name = 'statistic_lists'
 

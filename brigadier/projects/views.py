@@ -1,15 +1,19 @@
 from django.views import generic
 from django.urls import reverse_lazy, reverse
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.conf import settings
 
 from .models import Project, Task, Comment
 from .forms import ProjectModelForm, TaskModelForm, CommentModelForm
 
 
-class ProjectListView(generic.ListView):
+class ProjectListView(PermissionRequiredMixin, generic.ListView):
     """View displays the list of projects.
 
     """
     template_name = 'project_list.html'
+    login_url = settings.LOGIN_URL
+    permission_required = 'projects.view_project'
 
     def get_queryset(self):
         """Get objects of Project model with annotating percentage completed,
@@ -22,12 +26,13 @@ class ProjectListView(generic.ListView):
         ).order_by('deadline')
 
 
-class ProjectDetailView(generic.DetailView):
+class ProjectDetailView(PermissionRequiredMixin, generic.DetailView):
     """View displays details of the selected project.
 
     """
     template_name = 'project_detail.html'
     context_object_name = 'project'
+    permission_required = 'projects.view_project'
 
     def get_context_data(self, **kwargs):
         """Extends context data with tasks list of the project.
@@ -54,7 +59,7 @@ class ProjectDetailView(generic.DetailView):
         )
 
 
-class ProjectCreateView(generic.CreateView):
+class ProjectCreateView(PermissionRequiredMixin, generic.CreateView):
     """View displays creating form of the project.
 
     """
@@ -62,15 +67,17 @@ class ProjectCreateView(generic.CreateView):
     template_name = 'project_form.html'
     form_class = ProjectModelForm
     success_url = reverse_lazy('projects:list')
+    permission_required = 'projects.add_project'
 
 
-class ProjectEditView(generic.UpdateView):
+class ProjectEditView(PermissionRequiredMixin, generic.UpdateView):
     """View displays editing form of the project.
 
     """
     model = Project
     template_name = 'project_form.html'
     form_class = ProjectModelForm
+    permission_required = 'projects.change_project'
 
     def get_success_url(self):
         """Method returns success url depends of existing next-hook.
@@ -82,20 +89,22 @@ class ProjectEditView(generic.UpdateView):
             return reverse('projects:list')
 
 
-class ProjectDeleteView(generic.DeleteView):
+class ProjectDeleteView(PermissionRequiredMixin, generic.DeleteView):
     """View displays deleting form of the project.
 
     """
     model = Project
     template_name = 'project_confirm_delete.html'
     success_url = reverse_lazy('projects:list')
+    permission_required = 'projects.delete_project'
 
 
-class TaskListView(generic.ListView):
+class TaskListView(PermissionRequiredMixin, generic.ListView):
     """View displays the list of tasks.
 
     """
     template_name = 'task_list.html'
+    permission_required = 'projects.view_task'
 
     def get_queryset(self):
         """Extends queryset with related project, author and assignee
@@ -107,13 +116,14 @@ class TaskListView(generic.ListView):
         ).order_by('start_date')
 
 
-class TaskDetailView(generic.DetailView):
+class TaskDetailView(PermissionRequiredMixin, generic.DetailView):
     """Vies displays detail of the selected.
     task.
 
     """
     template_name = 'task_detail.html'
     context_object_name = 'task'
+    permission_required = 'projects.view_task'
 
     def get_queryset(self):
         """Extends objects query-set with related project, author and assignee.
@@ -131,13 +141,14 @@ class TaskDetailView(generic.DetailView):
         return context
 
 
-class TaskCreateView(generic.CreateView):
+class TaskCreateView(PermissionRequiredMixin, generic.CreateView):
     """View displays creating form of the task.
 
     """
     model = Task
     template_name = 'task_form.html'
     form_class = TaskModelForm
+    permission_required = 'projects.add_task'
 
     def get_success_url(self):
         """Method returns success url depends of existing next-hook.
@@ -149,13 +160,14 @@ class TaskCreateView(generic.CreateView):
             return reverse('projects:task_list')
 
 
-class TaskEditView(generic.UpdateView):
+class TaskEditView(PermissionRequiredMixin, generic.UpdateView):
     """View displays editing form of the task.
 
     """
     model = Task
     template_name = 'task_form.html'
     form_class = TaskModelForm
+    permission_required = 'projects.change_task'
 
     def get_success_url(self):
         """Method returns success url depends of existing next-hook.
@@ -167,12 +179,13 @@ class TaskEditView(generic.UpdateView):
             return reverse('projects:task_list')
 
 
-class TaskDeleteView(generic.DeleteView):
+class TaskDeleteView(PermissionRequiredMixin, generic.DeleteView):
     """View displays deleting form of the task.
 
     """
     model = Task
     template_name = 'task_confirm_delete.html'
+    permission_required = 'projects.delete_task'
 
     def get_success_url(self):
         """Method returns success url depends of existing next-hook.

@@ -109,7 +109,9 @@
                 <figure class="text-left mt-1 mb-2">{{ comment.text|linebreaks }}</figure>
             </div>
         {% empty %}
-            <p>{% translate "No comments are available." %}</p>
+            <div class="mx-4">
+                <p>{% translate "No comments are available." %}</p>
+            </div>
         {% endfor %}
     </div>
     <div class="card" style="max-width: 600px; border: 0">

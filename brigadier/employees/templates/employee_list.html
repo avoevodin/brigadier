@@ -31,14 +31,14 @@
                     <td><a href="{% url "employees:detail" employee.id %}">{{ employee.full_name }}</a></td>
                     <td>{{ employee.email }}</td>
                     <td>{{ employee.birthdate }}</td>
-                    {% if perms.employees.change_employee or perms.employee.delete_employee %}
+                    {% if perms.employees.change_employee or perms.employees.delete_employee %}
                         <td>
                             {% if perms.employees.change_employee %}
                                 <a class="btn btn-warning btn-sm" href="{% url "employees:edit" employee.id %}">
                                     <i class="bi bi-pencil-fill"></i>
                                 </a>
                             {% endif %}
-                            {% if perms.employee.delete_employee %}
+                            {% if perms.employees.delete_employee %}
                                 <a class="btn btn-danger btn-sm" href="{% url "employees:delete" employee.id %}">
                                     <i class="bi bi-trash"></i>
                                 </a>

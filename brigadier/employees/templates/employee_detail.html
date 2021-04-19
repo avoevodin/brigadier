@@ -50,7 +50,7 @@
             </div>
         </div>
     </div>
-    {% if perms.employees.change_employee or perms.employee.delete_employee %}
+    {% if perms.employees.change_employee or perms.employees.delete_employee %}
         <div class="row mt-2">
             {% if perms.employees.change_employee %}
                 <div class="col-auto">
@@ -60,7 +60,7 @@
                     </a>
                 </div>
             {% endif %}
-            {% if perms.employee.delete_employee %}
+            {% if perms.employees.delete_employee %}
                 <div class="col-auto">
                     <a class="btn btn-danger btn-lg" href="{% url "employees:delete" employee.id %}">
                         <i class="bi bi-trash"></i>

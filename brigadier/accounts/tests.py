@@ -4,11 +4,11 @@ from django.urls import reverse
 
 
 class AccountRegistrationViewTest(TestCase):
-    """todo
+    """Tests for registration view.
 
     """
     def test_create_user_public_group_exists(self):
-        """todo
+        """Test checks home page availability with public.
 
         """
         group_public = Group.objects.create(name='public')
@@ -27,7 +27,8 @@ class AccountRegistrationViewTest(TestCase):
         self.assertQuerysetEqual(user.groups.all(), [group_public], transform=lambda x: x)
 
     def test_create_user_public_group_does_not_exists(self):
-        """todo
+        """Test check that home page isn't available if the
+        public group doesn't exist in user's account.
 
         """
         response = self.client.post(

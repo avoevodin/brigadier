@@ -1,7 +1,7 @@
 from django.views.generic import TemplateView
 from django.utils import timezone
 from django.db.models import Count, Q
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.conf import settings
 
 from projects.models import Project, Task, IN_PROGRESS, COMPLETED, NEW

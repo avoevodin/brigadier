@@ -70,20 +70,27 @@
             </div>
         </div>
     </div>
-    <div class="row mt-2">
-        <div class="col-auto">
-            <a class="btn btn-primary btn-lg" href="{% url "projects:task_edit" task.id %}?next={{ request.path }}">
-                <i class="bi bi-pencil-fill"></i>
-                {% translate "Edit" %}
-            </a>
+    {% if perms.projects.change_task or perms.projects.delete_task %}
+        <div class="row mt-2">
+            {% if perms.projects.change_task %}
+                <div class="col-auto">
+                    <a class="btn btn-primary btn-lg"
+                       href="{% url "projects:task_edit" task.id %}?next={{ request.path }}">
+                        <i class="bi bi-pencil-fill"></i>
+                        {% translate "Edit" %}
+                    </a>
+                </div>
+            {% endif %}
+            {% if perms.projects.delete_task %}
+                <div class="col-auto">
+                    <a class="btn btn-danger btn-lg" href="{% url "projects:task_delete" task.id %}">
+                        <i class="bi bi-trash"></i>
+                        {% translate "Delete" %}
+                    </a>
+                </div>
+            {% endif %}
         </div>
-        <div class="col-auto">
-            <a class="btn btn-danger btn-lg" href="{% url "projects:task_delete" task.id %}">
-                <i class="bi bi-trash"></i>
-                {% translate "Delete" %}
-            </a>
-        </div>
-    </div>
+    {% endif %}
     <hr>
     <div class="list-group list-group-flush">
         {% for comment in task.comments.all %}
@@ -102,10 +109,13 @@
                 <figure class="text-left mt-1 mb-2">{{ comment.text|linebreaks }}</figure>
             </div>
         {% empty %}
-            <p>{% translate "No comments are available." %}</p>
+            <div class="mx-4">
+                <p>{% translate "No comments are available." %}</p>
+            </div>
         {% endfor %}
     </div>
-    <div class="card" style="max-width: 600px; border: 0">
+    {% if perms.projects.add_comment %}
+        <div class="card" style="max-width: 600px; border: 0">
         <div class="card-body">
             <form method="POST" action="{% url "projects:comment_add" %}?next={{ request.path }}">
                 {% csrf_token %}
@@ -133,5 +143,6 @@
                 </button>
             </form>
         </div>
-    </div>
+    {% endif %}
+</div>
 {% endblock %}

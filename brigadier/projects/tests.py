@@ -5,6 +5,8 @@ from django.utils import timezone
 from django.urls import reverse
 from django.utils.translation import gettext as _
 
+from django.contrib.auth.models import User, Group, Permission
+
 from .models import Project, Task, Comment, NEW, COMPLETED, IN_PROGRESS
 from employees.tests import create_employee
 
@@ -77,6 +79,13 @@ class ProjectListViewTest(TestCase):
         """Test list view without any project.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['view_project'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         response = self.client.get(reverse('projects:list'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, _("No projects are available."))
@@ -86,6 +95,13 @@ class ProjectListViewTest(TestCase):
         """Test list view with two projects and without any task.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['view_project'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         deadline = timezone.now() + datetime.timedelta(days=32)
 
         postfix = ' 1'
@@ -134,6 +150,13 @@ class ProjectListViewTest(TestCase):
         and three tasks respectively.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['view_project'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         deadline = timezone.now() + datetime.timedelta(days=32)
         start_date = timezone.now()
         complete_date = timezone.now() + datetime.timedelta(days=8)
@@ -251,6 +274,13 @@ class ProjectListViewTest(TestCase):
         for three different projects.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['view_project'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         deadline = timezone.now() + datetime.timedelta(days=32)
 
         postfix = '_1'
@@ -406,6 +436,13 @@ class ProjectDetailViewTest(TestCase):
         """Test detail view of not existed project.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['view_project'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         response = self.client.get(reverse('projects:detail', args=(1,)))
         self.assertEqual(response.status_code, 404)
 
@@ -413,6 +450,13 @@ class ProjectDetailViewTest(TestCase):
         """Test detail view for the project with tasks.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['view_project'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         deadline = timezone.now() + datetime.timedelta(days=32)
         start_date = timezone.now()
         complete_date = timezone.now() + datetime.timedelta(days=8)
@@ -484,6 +528,13 @@ class ProjectDetailViewTest(TestCase):
         project without any task.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['view_project'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         deadline = timezone.now() + datetime.timedelta(days=32)
         postfix = ' 1'
         project_1 = create_project(**{
@@ -505,6 +556,13 @@ class ProjectDetailViewTest(TestCase):
         project with three different tasks.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['view_project'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         deadline = timezone.now() + datetime.timedelta(days=32)
         start_date = timezone.now()
         complete_date = timezone.now() + datetime.timedelta(days=8)
@@ -593,6 +651,13 @@ class ProjectCreateViewTest(TestCase):
         """Test creating of project.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['add_project', 'view_project'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         deadline = timezone.now() + datetime.timedelta(days=32)
         response = self.client.post(
             reverse('projects:create'),
@@ -635,6 +700,13 @@ class ProjectEditViewTest(TestCase):
         """Test editing project without next-hook.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['change_project', 'view_project'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         deadline = timezone.now() + datetime.timedelta(days=32)
         project_1 = create_project(**{
             'project_name': 'Project name',
@@ -679,6 +751,13 @@ class ProjectEditViewTest(TestCase):
         """Test editing project with next-hook.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['change_project', 'view_project'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         deadline = timezone.now() + datetime.timedelta(days=32)
         project_1 = create_project(**{
             'project_name': 'Project name',
@@ -716,6 +795,13 @@ class ProjectDeleteViewTest(TestCase):
         """Test deleting project with next-hook.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['delete_project', 'view_project'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         deadline = timezone.now() + datetime.timedelta(days=32)
         project_1 = create_project(**{
             'project_name': 'Project name 1',
@@ -762,6 +848,13 @@ class ProjectDeleteViewTest(TestCase):
         """Test deleting project without next-hook.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['delete_project', 'view_project'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         deadline = timezone.now() + datetime.timedelta(days=32)
         project_1 = create_project(**{
             'project_name': 'Project name 1',
@@ -884,6 +977,13 @@ class TaskListViewTest(TestCase):
         """Test list view without any task.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['view_task'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         response = self.client.get(reverse('projects:task_list'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, _("No tasks are available."))
@@ -893,6 +993,13 @@ class TaskListViewTest(TestCase):
         """Test list view with two tasks.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['view_task'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         postfix = '_1'
         firstname = 'Marshall' + postfix
         middlename = 'Bruce' + postfix
@@ -956,6 +1063,13 @@ class TaskDetailViewTest(TestCase):
         """Test for detail view without any comment.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['view_task'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         postfix = '_1'
         firstname = 'Marshall' + postfix
         middlename = 'Bruce' + postfix
@@ -1001,6 +1115,13 @@ class TaskDetailViewTest(TestCase):
         """Test task detail view with comments.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['view_task'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         postfix = '_1'
         firstname = 'Marshall' + postfix
         middlename = 'Bruce' + postfix
@@ -1051,6 +1172,13 @@ class TaskDetailViewTest(TestCase):
         """Test the task detail view for not existed task.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['view_task'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         response = self.client.get(reverse('projects:task_detail', args=(1,)))
         self.assertEqual(response.status_code, 404)
 
@@ -1063,6 +1191,13 @@ class TaskCreateViewTest(TestCase):
         """Test of creating task without next-hook.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['add_task', 'view_task'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         deadline = timezone.now() + datetime.timedelta(days=32)
         start_date = timezone.now()
         complete_date = timezone.now() + datetime.timedelta(days=8)
@@ -1112,6 +1247,13 @@ class TaskCreateViewTest(TestCase):
         """Test of creating task with next-hook.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['view_project', 'add_task', 'view_task'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         deadline = timezone.now() + datetime.timedelta(days=32)
         start_date = timezone.now()
         complete_date = timezone.now() + datetime.timedelta(days=8)
@@ -1167,6 +1309,13 @@ class TaskEditViewTest(TestCase):
         """Test of editing task without next-hook.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['change_task', 'view_task'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         deadline = timezone.now() + datetime.timedelta(days=32)
         start_date = timezone.now()
         complete_date = timezone.now() + datetime.timedelta(days=8)
@@ -1226,6 +1375,13 @@ class TaskEditViewTest(TestCase):
         """Test for editing task with next-hook.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['view_project', 'change_task', 'view_task'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         deadline = timezone.now() + datetime.timedelta(days=32)
         start_date = timezone.now()
         complete_date = timezone.now() + datetime.timedelta(days=8)
@@ -1291,6 +1447,13 @@ class TaskDeleteViewTest(TestCase):
         """Test of deleting task with next-hook.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['view_project', 'delete_task', 'view_task'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         deadline = timezone.now() + datetime.timedelta(days=32)
         start_date = timezone.now()
         complete_date = timezone.now() + datetime.timedelta(days=8)
@@ -1339,6 +1502,13 @@ class TaskDeleteViewTest(TestCase):
         """Test of deleting task without next-hook.
 
         """
+        username = 'test'
+        password = 'test'
+        perms = Permission.objects.filter(codename__in=['delete_task', 'view_task'])
+        usr = User.objects.create_user(username=username, password=password)
+        usr.user_permissions.set(perms)
+        self.client.login(username=username, password=password)
+
         deadline = timezone.now() + datetime.timedelta(days=32)
         start_date = timezone.now()
         complete_date = timezone.now() + datetime.timedelta(days=8)
@@ -1431,6 +1601,11 @@ class CommentCreateView(TestCase):
         Comment.objects.create(**{'task': task_1_1, 'text': 'comment 2'})
         Comment.objects.create(**{'task': task_1_1, 'text': 'comment 3'})
 
+        username = 'test'
+        password = 'test'
+        usr = User.objects.create_user(username=username, password=password)
+        usr.groups.add(Group.objects.get(name='public'))
+        self.client.login(username=username, password=password)
         response = self.client.post(
             reverse('projects:comment_add'),
             {
@@ -1490,6 +1665,11 @@ class CommentCreateView(TestCase):
         Comment.objects.create(**{'task': task_1_1, 'text': 'comment 2'})
         Comment.objects.create(**{'task': task_1_1, 'text': 'comment 3'})
 
+        username = 'test'
+        password = 'test'
+        usr = User.objects.create_user(username=username, password=password)
+        usr.groups.add(Group.objects.get(name='public'))
+        self.client.login(username=username, password=password)
         next_url = reverse('projects:task_detail', args=(task_1_1.id,))
         response = self.client.post(
             reverse('projects:comment_add') + "?next=" + next_url,

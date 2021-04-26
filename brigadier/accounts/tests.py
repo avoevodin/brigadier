@@ -11,7 +11,7 @@ class AccountRegistrationViewTest(TestCase):
         """todo
 
         """
-        group_public = Group.objects.create(name='public')
+        group_public = Group.objects.get(name='public')
         response = self.client.post(
             reverse('accounts:registration'),
             {
@@ -30,6 +30,8 @@ class AccountRegistrationViewTest(TestCase):
         """todo
 
         """
+        group_public = Group.objects.get(name='public')
+        group_public.delete()
         response = self.client.post(
             reverse('accounts:registration'),
             {

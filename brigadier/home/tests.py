@@ -1,15 +1,12 @@
 import datetime
 
+from django.contrib.auth.models import User, Group
 from django.test import TestCase
-from django.utils import timezone
 from django.urls import reverse
-
-from django.contrib.auth.models import User
-
-from projects.models import Project, Task, NEW, COMPLETED, IN_PROGRESS
-
-from projects.tests import create_project, create_task
+from django.utils import timezone
 from employees.tests import create_employee
+from projects.models import NEW, COMPLETED, IN_PROGRESS
+from projects.tests import create_project, create_task
 
 
 class HomeViewTest(TestCase):
@@ -23,7 +20,8 @@ class HomeViewTest(TestCase):
         """
         username = 'test'
         password = 'test'
-        User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password)
+        usr.groups.add(Group.objects.get(name='public'))
         self.client.login(username=username, password=password)
 
         response = self.client.get(reverse('home:home'))
@@ -50,7 +48,8 @@ class HomeViewTest(TestCase):
         """
         username = 'test'
         password = 'test'
-        User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password)
+        usr.groups.add(Group.objects.get(name='public'))
         self.client.login(username=username, password=password)
 
         deadline = timezone.now() + datetime.timedelta(days=32)
@@ -102,7 +101,8 @@ class HomeViewTest(TestCase):
         """
         username = 'test'
         password = 'test'
-        User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password)
+        usr.groups.add(Group.objects.get(name='public'))
         self.client.login(username=username, password=password)
 
         deadline = timezone.now() + datetime.timedelta(days=32)
@@ -273,7 +273,9 @@ class HomeViewTest(TestCase):
         """
         username = 'test'
         password = 'test'
-        User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password)
+        usr.groups.add(Group.objects.get(name='public'))
+
         self.client.login(username=username, password=password)
 
         deadline = timezone.now() + datetime.timedelta(days=32)

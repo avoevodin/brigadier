@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.urls import reverse
 from django.utils.translation import gettext as _
 
-from django.contrib.auth.models import User, Permission
+from django.contrib.auth.models import User, Group, Permission
 
 from .models import Project, Task, Comment, NEW, COMPLETED, IN_PROGRESS
 from employees.tests import create_employee
@@ -1601,6 +1601,11 @@ class CommentCreateView(TestCase):
         Comment.objects.create(**{'task': task_1_1, 'text': 'comment 2'})
         Comment.objects.create(**{'task': task_1_1, 'text': 'comment 3'})
 
+        username = 'test'
+        password = 'test'
+        usr = User.objects.create_user(username=username, password=password)
+        usr.groups.add(Group.objects.get(name='public'))
+        self.client.login(username=username, password=password)
         response = self.client.post(
             reverse('projects:comment_add'),
             {
@@ -1660,6 +1665,11 @@ class CommentCreateView(TestCase):
         Comment.objects.create(**{'task': task_1_1, 'text': 'comment 2'})
         Comment.objects.create(**{'task': task_1_1, 'text': 'comment 3'})
 
+        username = 'test'
+        password = 'test'
+        usr = User.objects.create_user(username=username, password=password)
+        usr.groups.add(Group.objects.get(name='public'))
+        self.client.login(username=username, password=password)
         next_url = reverse('projects:task_detail', args=(task_1_1.id,))
         response = self.client.post(
             reverse('projects:comment_add') + "?next=" + next_url,

@@ -222,6 +222,16 @@ brigadier-uwsgi
 ```shell
 docker push avo888/brigadier-uwsgi:latest
 ```
+* Making data migrations:
+  1. Create empty migration (it's good to use the name of the migration):
+  ```shell
+  python manage.py makemigrations --empty yourappname --name migration_name
+  ```
+  2. Create migrations code in the added migration file.
+  3. To get model you can work from: 
+  ```python
+  apps.get_model("yourappname", "yourmodelname")
+  ```
 
 ## Tests
 * Run tests with coverage: 

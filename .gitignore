@@ -134,3 +134,4 @@ dmypy.json
 # Etc
 /brigadier/static/
 /.env-uwsgi
+/brigadier/tmp

@@ -5,10 +5,12 @@
 {% block container %}
     <h1>{% trans "Tasks" %}</h1>
     <hr>
-    <a class="btn btn-primary" href="{% url "projects:task_create" %}">
-        <i class="bi bi-plus"></i>
-        {% translate "Create" %}
-    </a>
+    {% if perms.projects.add_task %}
+        <a class="btn btn-primary" href="{% url "projects:task_create" %}">
+            <i class="bi bi-plus"></i>
+            {% translate "Create" %}
+        </a>
+    {% endif %}
     {% if task_list %}
         {% include "task_list_included.html" with actions=True %}
     {% else %}

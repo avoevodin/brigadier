@@ -68,27 +68,36 @@
             </div>
         </div>
     </div>
-    <div class="row mt-2">
-        <div class="col-auto">
-            <a class="btn btn-primary btn-lg" href="{% url "projects:edit" project.id %}?next={{ request.path }}">
-                <i class="bi bi-pencil-fill"></i>
-                {% translate "Edit" %}
-            </a>
+    {% if perms.projects.change_project or perms.projects.delete_project %}
+        <div class="row mt-2">
+            {% if perms.projects.change_project %}
+                <div class="col-auto">
+                    <a class="btn btn-primary btn-lg"
+                       href="{% url "projects:edit" project.id %}?next={{ request.path }}">
+                        <i class="bi bi-pencil-fill"></i>
+                        {% translate "Edit" %}
+                    </a>
+                </div>
+            {% endif %}
+            {% if perms.projects.delete_project %}
+                <div class="col-auto">
+                    <a class="btn btn-danger btn-lg" href="{% url "projects:delete" project.id %}">
+                        <i class="bi bi-trash"></i>
+                        {% translate "Delete" %}
+                    </a>
+                </div>
+            {% endif %}
         </div>
-        <div class="col-auto">
-            <a class="btn btn-danger btn-lg" href="{% url "projects:delete" project.id %}">
-                <i class="bi bi-trash"></i>
-                {% translate "Delete" %}
-            </a>
-        </div>
-    </div>
-    <hr>
+        <hr>
+    {% endif %}
     <h3 class="mt-3">{% translate "Tasks" %}</h3>
     <hr>
-    <a class="btn btn-primary" href="{% url "projects:task_create" %}?next={{ request.path }}">
-        <i class="bi bi-plus"></i>
-        {% translate "Create" %}
-    </a>
+    {% if perms.tasks.add_task %}
+        <a class="btn btn-primary" href="{% url "projects:task_create" %}?next={{ request.path }}">
+            <i class="bi bi-plus"></i>
+            {% translate "Create" %}
+        </a>
+    {% endif %}
     {% if task_list %}
         {% include "task_list_included.html" %}
     {% else %}

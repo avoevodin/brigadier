@@ -11,7 +11,7 @@ class AccountRegistrationViewTest(TestCase):
         """Test checks home page availability with public.
 
         """
-        group_public = Group.objects.create(name='public')
+        group_public = Group.objects.get(name='public')
         response = self.client.post(
             reverse('accounts:registration'),
             {
@@ -31,6 +31,8 @@ class AccountRegistrationViewTest(TestCase):
         public group doesn't exist in user's account.
 
         """
+        group_public = Group.objects.get(name='public')
+        group_public.delete()
         response = self.client.post(
             reverse('accounts:registration'),
             {

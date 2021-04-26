@@ -21,10 +21,9 @@ class AccountRegistrationView(FormView):
         user = form.save()
         try:
             group_public = Group.objects.get(name='public')
-        except Group.DoesNotExist:
-            group_public = None
-        if group_public is not None:
             user.groups.add(group_public)
+        except Group.DoesNotExist:
+            pass
         return response
 
 

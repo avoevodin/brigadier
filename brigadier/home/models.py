@@ -3,7 +3,8 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Home(models.Model):
-    """todo
+    """Not managed model of home page view that contains view
+    permission.
 
     """
     class Meta:

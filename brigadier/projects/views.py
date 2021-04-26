@@ -1,10 +1,10 @@
-from django.views import generic
-from django.urls import reverse_lazy, reverse
-from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.conf import settings
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.urls import reverse_lazy, reverse
+from django.views import generic
 
-from .models import Project, Task, Comment
 from .forms import ProjectModelForm, TaskModelForm, CommentModelForm
+from .models import Project, Task, Comment
 
 
 class ProjectListView(PermissionRequiredMixin, generic.ListView):
@@ -197,13 +197,14 @@ class TaskDeleteView(PermissionRequiredMixin, generic.DeleteView):
             return reverse('projects:task_list')
 
 
-class CommentCreateView(generic.CreateView):
+class CommentCreateView(PermissionRequiredMixin, generic.CreateView):
     """Create view of Comment model.
 
     """
     model = Comment
     template_name = 'task_detail.html'
     form_class = CommentModelForm
+    permission_required = 'projects.add_comment'
 
     def get_success_url(self):
         """Method returns success url depends of existing next-hook.

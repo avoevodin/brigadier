@@ -114,7 +114,8 @@
             </div>
         {% endfor %}
     </div>
-    <div class="card" style="max-width: 600px; border: 0">
+    {% if perms.projects.add_comment %}
+        <div class="card" style="max-width: 600px; border: 0">
         <div class="card-body">
             <form method="POST" action="{% url "projects:comment_add" %}?next={{ request.path }}">
                 {% csrf_token %}
@@ -142,5 +143,6 @@
                 </button>
             </form>
         </div>
-    </div>
+    {% endif %}
+</div>
 {% endblock %}

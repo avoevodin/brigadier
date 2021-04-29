@@ -36,7 +36,7 @@ class AccountRegistrationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username']
+        fields = ['username', 'email']
 
 
 class AccountLoginForm(AuthenticationForm):

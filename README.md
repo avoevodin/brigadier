@@ -39,6 +39,10 @@ docker run -d --name brigadier-postgres --hostname brigadier-postgres \
 --env-file .env \
 postgres:13.2-alpine
 ```
+* Run memcached
+```shell
+docker run -d -p 11211:11211 --name brigadier-memcached memcached:alpine
+```
 * Pull the uwsgi-docker image:
 ```shell
 docker pull avo888/brigadier-uwsgi:latest
@@ -98,6 +102,7 @@ POSTGRES_PASSWORD=secret
 POSTGRES_HOST=0.0.0.0:8000
 POSTGRES_PORT=5433
 DJANGO_DEBUG=True
+MEMCACHED=localhost:11211
 __EOF__
 ```
 * Create and run PostgreSQL docker container:

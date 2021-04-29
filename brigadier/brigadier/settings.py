@@ -161,3 +161,18 @@ if DEBUG and pkgutil.find_loader('debug_toolbar'):
     INTERNAL_IPS = [
         '127.0.0.1'
     ]
+if env.get('MEMCACHED'):
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+            'LOCATION': env.get('MEMCACHED'),
+        }
+    }
+    SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+EMAIL_HOST_USER = None
+DEFAULT_FROM_EMAIL = 'info@example.com'
+
+EXPIRE_ACTIVATION_LINK = 86400 * 3

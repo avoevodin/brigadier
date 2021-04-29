@@ -3,8 +3,14 @@ from django.contrib.auth.views import (FormView, LoginView,
                                        PasswordChangeView, PasswordChangeDoneView)
 from django.contrib.auth.models import Group
 from django.urls import reverse_lazy
-from .forms import AccountRegistrationForm, AccountLoginForm, AccountPasswordChangeForm
 from django.conf import settings
+from django.core.cache import cache
+from uuid import uuid4
+from django.utils.translation import gettext as _
+from django.core.mail import send_mail
+from django.contrib.sites.shortcuts import get_current_site
+
+from .forms import AccountRegistrationForm, AccountLoginForm, AccountPasswordChangeForm
 
 
 class AccountRegistrationView(FormView):
@@ -17,7 +23,21 @@ class AccountRegistrationView(FormView):
 
     def form_valid(self, form):
         response = super(AccountRegistrationView, self).form_valid(form)
-        user = form.save()
+        user = form.save(commit=False)
+        user.is_active = False
+        user.save()
+
+        key = uuid4().hex
+        confirm = uuid4().hex
+        data = {
+            'confirm': confirm,
+            'user_id': user.id,
+        }
+        cache.set(key, data, settings.EXPIRE_ACTIVATION_LINK)
+        host = get_current_site(self.request)
+        send_mail(_('Activate your email'), _(f'Hello, link http://{host}/{key}/{confirm}'),
+                  None, [user.email])
+
         try:
             group_public = Group.objects.get(name='public')
             user.groups.add(group_public)
@@ -31,6 +51,13 @@ class AccountRegistrationDoneView(TemplateView):
 
     """
     template_name = 'registration_done.html'
+
+
+class AccountRegistrationActivateView(TemplateView):
+    """todo
+
+    """
+
 
 
 class AccountLoginView(LoginView):

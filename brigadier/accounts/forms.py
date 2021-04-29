@@ -7,7 +7,7 @@ from django.contrib.auth import password_validation
 
 
 class AccountRegistrationForm(UserCreationForm):
-    """todo
+    """Registration form.
 
     """
     username = UsernameField(
@@ -40,7 +40,7 @@ class AccountRegistrationForm(UserCreationForm):
 
 
 class AccountLoginForm(AuthenticationForm):
-    """todo
+    """Authentication form.
 
     """
     username = UsernameField(
@@ -71,7 +71,7 @@ class AccountLoginForm(AuthenticationForm):
 
 
 class AccountPasswordChangeForm(PasswordChangeForm):
-    """todo
+    """Change password form.
 
     """
     old_password = forms.CharField(

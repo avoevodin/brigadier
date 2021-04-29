@@ -233,7 +233,7 @@ class EmployeeCreateViewTest(TestCase):
 
     """
     def test_create_employee_without_login(self):
-        """todo
+        """Test of creating employee without login.
 
         """
         postfix = '_1'

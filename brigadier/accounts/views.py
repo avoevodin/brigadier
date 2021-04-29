@@ -8,7 +8,8 @@ from django.conf import settings
 
 
 class AccountRegistrationView(FormView):
-    """todo
+    """Account registration view. If the public group exist it will be
+    added to user account by default.
 
     """
     form_class = AccountRegistrationForm
@@ -27,14 +28,14 @@ class AccountRegistrationView(FormView):
 
 
 class AccountRegistrationDoneView(TemplateView):
-    """todo
+    """Registration view.
 
     """
     template_name = 'registration_done.html'
 
 
 class AccountLoginView(LoginView):
-    """todo
+    """Loging view.
     
     """
     form_class = AccountLoginForm
@@ -43,14 +44,14 @@ class AccountLoginView(LoginView):
 
 
 class AccountLogoutView(LogoutView):
-    """todo
+    """Logout view.
 
     """
     next_page = settings.LOGIN_URL
 
 
 class AccountPasswordChangeView(PasswordChangeView):
-    """todo
+    """Password change view.
 
     """
     form_class = AccountPasswordChangeForm
@@ -59,7 +60,7 @@ class AccountPasswordChangeView(PasswordChangeView):
 
 
 class AccountPasswordChangeDoneView(PasswordChangeDoneView):
-    """todo
+    """Password change done view.
 
     """
     template_name = 'password_change_done.html'

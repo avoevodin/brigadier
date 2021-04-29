@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils.translation import gettext_lazy as _
 
 
 class Home(models.Model):
@@ -7,12 +6,12 @@ class Home(models.Model):
     permission.
 
     """
-    class Meta:
 
+    class Meta:
         managed = False
 
         default_permissions = ()
 
         permissions = [
-            ('view_home', _('Can view home page'))
+            ('view_home', 'Can view home page')
         ]

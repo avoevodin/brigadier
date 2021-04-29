@@ -35,7 +35,7 @@ class ProjectManager(models.Manager):
                         'task',
                         filter=Q(task__status=COMPLETED),
                     ), FloatField()) / Cast(Count('task'), FloatField()),
-            ) * 100
+                output_field=FloatField()) * 100
         )
 
 

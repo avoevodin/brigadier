@@ -68,13 +68,14 @@ class AccountRegistrationActivateView(TemplateView):
         key = kwargs.get('key')
         confirm = kwargs.get('confirm')
         data = cache.get(key)
-        if (data is not None) and (data.get('confirm'))\
-            and (data.get('confirm') == confirm):
+        if (data is not None) and (data.get('confirm')) \
+                and (data.get('confirm') == confirm):
             user = User.objects.get(pk=data.get('user_id'))
             user.is_active = True
             user.save()
             context['message'] = 'ok'
-        context['message'] = 'error'
+        else:
+            context['message'] = 'error'
         return context
 
 

@@ -36,7 +36,7 @@ class AccountRegistrationView(FormView):
         host = get_current_site(self.request)
         send_mail(
             'Activate your email.',
-            f'Hello, link http://{host}'
+            f'Hello! \n Your confirmation link for Brigadier account is http://{host}'
             f'{reverse("accounts:registration_activate", args=(key, confirm))}',
             None,
             [user.email]

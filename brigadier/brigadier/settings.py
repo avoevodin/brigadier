@@ -162,4 +162,12 @@ if DEBUG and pkgutil.find_loader('debug_toolbar'):
         '127.0.0.1'
     ]
 
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+EMAIL_HOST_USER = None
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+DEFAULT_FROM_EMAIL = 'info@example.com'
+
+EXPIRE_LINK = 86400 * 3
+
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

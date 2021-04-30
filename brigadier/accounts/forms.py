@@ -17,6 +17,13 @@ class AccountRegistrationForm(UserCreationForm):
             'placeholder': _('Username'),
         })
     )
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={
+            'autofocus': True,
+            'class': 'form-control mb-2',
+            'placeholder': _('Email'),
+        })
+    )
     password1 = forms.CharField(
         strip=False,
         widget=forms.PasswordInput(attrs={
@@ -36,7 +43,7 @@ class AccountRegistrationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username']
+        fields = ['username', 'email']
 
 
 class AccountLoginForm(AuthenticationForm):

@@ -2,9 +2,9 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.forms import (UserCreationForm, AuthenticationForm,
                                        UsernameField, PasswordChangeForm)
-from django.contrib.auth.models import User
-from django.contrib.auth import password_validation
+from django.contrib.auth import password_validation, get_user_model
 
+User = get_user_model()
 
 class AccountRegistrationForm(UserCreationForm):
     """Registration form.

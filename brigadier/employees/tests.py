@@ -4,10 +4,12 @@ from django.test import TestCase
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.urls import reverse
-from django.contrib.auth.models import User, Permission
+from django.contrib.auth.models import Permission
+from django.contrib.auth import get_user_model
 
 from .models import Employee
 
+User = get_user_model()
 
 def create_employee(**kwargs):
     """Create an employee with passed parameters.

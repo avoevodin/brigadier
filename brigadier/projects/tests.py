@@ -4,12 +4,13 @@ from django.test import TestCase
 from django.utils import timezone
 from django.urls import reverse
 from django.utils.translation import gettext as _
-
-from django.contrib.auth.models import User, Group, Permission
+from django.contrib.auth.models import Group, Permission
+from django.contrib.auth import get_user_model
 
 from .models import Project, Task, Comment, NEW, COMPLETED, IN_PROGRESS
 from employees.tests import create_employee
 
+User = get_user_model()
 
 def create_project(**kwargs):
     """Method creates Project instance with selected parameters.

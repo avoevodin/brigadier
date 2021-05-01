@@ -1,7 +1,7 @@
 from django.contrib.auth.views import (FormView, LoginView,
                                        TemplateView, LogoutView,
                                        PasswordChangeView, PasswordChangeDoneView)
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group
 from django.urls import reverse_lazy, reverse
 from .forms import AccountRegistrationForm, AccountLoginForm, AccountPasswordChangeForm
 from django.conf import settings
@@ -9,6 +9,9 @@ from uuid import uuid4
 from django.core.mail import send_mail
 from django.core.cache import cache
 from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class AccountRegistrationView(FormView):

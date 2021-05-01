@@ -89,9 +89,10 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email', 'first_name']
+    REQUIRED_FIELDS = ['email']
 
-    class Meta:
+    class Meta(AbstractBaseUser.Meta):
+        swappable = 'AUTH_USER_MODEL'
         verbose_name = _('user')
         verbose_name_plural = _('users')
 

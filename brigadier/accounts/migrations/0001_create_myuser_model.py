@@ -38,8 +38,5 @@ class Migration(migrations.Migration):
                 'abstract': False,
                 'swappable': 'AUTH_USER_MODEL',
             },
-            managers=[
-                ('objects', django.contrib.auth.models.UserManager()),
-            ],
         ),
     ]

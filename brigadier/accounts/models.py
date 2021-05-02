@@ -12,7 +12,6 @@ class MyUserManager(BaseUserManager):
     """todo
 
     """
-
     def _create_user(self, username, email, password, **extra_fields):
         """todo
 
@@ -89,7 +88,7 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     )
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
-    objects = UserManager()
+    objects = MyUserManager()
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'username'
@@ -119,7 +118,7 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
         """Send an email to this user."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
-    # @property
-    # def is_staff(self):
-    #     """Is the user a member of staff?"""
-    #     return self.is_admin
+    @property
+    def is_staff(self):
+        """Is the user a member of staff?"""
+        return self.is_admin

@@ -5,19 +5,18 @@ from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from django.core.mail import send_mail
 from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.apps import apps
 
 
 class MyUserManager(BaseUserManager):
     """todo
 
     """
-    def create_user(self, username, email, password, **extra_fields):
+
+    def _create_user(self, username, email, password, **extra_fields):
         """todo
 
         """
-        extra_fields.setdefault('is_staff', False)
-        extra_fields.setdefault('is_superuser', False)
-
         if not username or not email:
             raise ValueError(_('Users must have a username and an email address'))
 
@@ -31,6 +30,11 @@ class MyUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+    def create_user(self, username, email=None, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_superuser', False)
+        return self._create_user(username, email, password, **extra_fields)
+
     def create_superuser(self, username, email, password, **extra_fields):
         """todo
 
@@ -43,7 +47,7 @@ class MyUserManager(BaseUserManager):
         if extra_fields.get('is_superuser') is not True:
             raise ValueError(_('Superuser must have is_superuser=True.'))
 
-        return self.create_user(username, email, password, **extra_fields)
+        return self._create_user(username, email, password, **extra_fields)
 
 
 class MyUser(AbstractBaseUser, PermissionsMixin):
@@ -70,8 +74,8 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
         max_length=255,
         unique=True,
     )
-    is_staff = models.BooleanField(
-        _('staff status'),
+    is_admin = models.BooleanField(
+        _('admin status'),
         default=False,
         help_text=_('Designates whether the user can log into this admin site.'),
     )
@@ -101,8 +105,8 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
         self.email = self.__class__.objects.normalize_email(self.email)
 
     def get_full_name(self):
-        """
-        Return the first_name plus the last_name, with a space in between.
+        """Return the first_name plus the last_name, with a space in between.
+
         """
         full_name = '%s %s' % (self.first_name, self.last_name)
         return full_name.strip()

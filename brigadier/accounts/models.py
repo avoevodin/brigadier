@@ -31,7 +31,7 @@ class MyUserManager(BaseUserManager):
         return user
 
     def create_user(self, username, email=None, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_admin', False)
         extra_fields.setdefault('is_superuser', False)
         return self._create_user(username, email, password, **extra_fields)
 
@@ -39,11 +39,11 @@ class MyUserManager(BaseUserManager):
         """todo
 
         """
-        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_admin', True)
         extra_fields.setdefault('is_superuser', True)
 
-        if extra_fields.get('is_staff') is not True:
-            raise ValueError(_('Superuser must have is_staff=True.'))
+        if extra_fields.get('is_admin') is not True:
+            raise ValueError(_('Superuser must have is_admin=True.'))
         if extra_fields.get('is_superuser') is not True:
             raise ValueError(_('Superuser must have is_superuser=True.'))
 
@@ -119,7 +119,7 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
         """Send an email to this user."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
-    @property
-    def is_staff(self):
-        """Is the user a member of staff?"""
-        return self.is_admin
+    # @property
+    # def is_staff(self):
+    #     """Is the user a member of staff?"""
+    #     return self.is_admin

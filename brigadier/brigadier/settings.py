@@ -173,3 +173,4 @@ EXPIRE_LINK = 86400 * 3
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 AUTH_USER_MODEL = 'accounts.MyUser'
+AUTHENTICATION_BACKENDS = ['accounts.backends.EmailBackend']

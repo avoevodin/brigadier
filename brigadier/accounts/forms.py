@@ -54,7 +54,7 @@ class AccountLoginForm(AuthenticationForm):
         widget=forms.TextInput(attrs={
             'autofocus': True,
             'class': 'form-control mb-2',
-            'placeholder': _('Username'),
+            'placeholder': _('Email or username'),
         })
     )
     password = forms.CharField(

@@ -22,8 +22,9 @@ class HomeViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.groups.add(Group.objects.get(name='public'))
         self.client.login(username=username, password=password)
 
@@ -50,8 +51,9 @@ class HomeViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.groups.add(Group.objects.get(name='public'))
         self.client.login(username=username, password=password)
 
@@ -103,8 +105,9 @@ class HomeViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.groups.add(Group.objects.get(name='public'))
         self.client.login(username=username, password=password)
 
@@ -275,8 +278,9 @@ class HomeViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.groups.add(Group.objects.get(name='public'))
 
         self.client.login(username=username, password=password)

@@ -19,6 +19,7 @@ class AccountRegistrationViewTest(TestCase):
             reverse('accounts:registration'),
             {
                 'username': 'User_name',
+                'email': 'user@example.com',
                 'password1': '1234',
                 'password2': '1234',
             }
@@ -40,6 +41,7 @@ class AccountRegistrationViewTest(TestCase):
             reverse('accounts:registration'),
             {
                 'username': 'User_name',
+                'email': 'user@example.com',
                 'password1': '1234',
                 'password2': '1234',
             }

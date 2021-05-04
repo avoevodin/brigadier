@@ -1,10 +1,11 @@
-from django.test import TestCase
-from django.contrib.auth.models import Group
 from django.contrib.auth import get_user_model, authenticate, get_user
-from django.urls import reverse
+from django.contrib.auth.models import AnonymousUser, Group
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.models import AnonymousUser
+from django.test import TestCase
+from django.urls import reverse
 from django.utils.translation import gettext as _
+from django.core import mail
+from django.conf import settings
 
 from .admin import UserCreationForm
 
@@ -286,3 +287,52 @@ class MyUserManagerModelTest(TestCase):
                 password=password,
                 is_superuser=False
             )
+
+
+class MyUserModelTest(TestCase):
+    """todo
+
+    """
+    def test_full_name(self):
+        """todo
+
+        """
+        username = 'test'
+        email = 'test@example.com'
+        password = '1234'
+        first_name = ' Mike'
+        last_name = 'Johnson '
+        usr = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name,
+        )
+        self.assertEqual(usr.get_full_name(), 'Mike Johnson')
+
+    def test_email_user(self):
+        """todo
+
+        """
+        username = 'test'
+        email = 'test@example.com'
+        password = '1234'
+        first_name = ' Mike'
+        last_name = 'Johnson '
+        usr = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name,
+        )
+        subject = 'Test subject'
+        message = f'Hello, dear {usr.get_full_name()}!'
+        usr.email_user(subject, message)
+        self.assertEqual(len(mail.outbox), 1)
+        sent_mail = mail.outbox[0]
+        self.assertEqual(sent_mail.subject, subject)
+        self.assertEqual(sent_mail.body, message)
+        self.assertEqual(sent_mail.from_email, settings.DEFAULT_FROM_EMAIL)
+        self.assertEqual(sent_mail.to, [usr.email])

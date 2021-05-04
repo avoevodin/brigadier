@@ -1,7 +1,9 @@
 from django.test import TestCase
 from django.contrib.auth.models import Group
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
 from django.urls import reverse
+from django.shortcuts import get_object_or_404
+from .admin import UserCreationForm
 
 User = get_user_model()
 
@@ -10,6 +12,7 @@ class AccountRegistrationViewTest(TestCase):
     """Tests for registration view.
 
     """
+
     def test_create_user_public_group_exists(self):
         """Test checks home page availability with public.
 
@@ -51,3 +54,81 @@ class AccountRegistrationViewTest(TestCase):
 
         user = User.objects.first()
         self.assertQuerysetEqual(user.groups.all(), [], transform=lambda x: x)
+
+
+class UserCreationTest(TestCase):
+    """todo
+
+    """
+
+    def test_create_user_admin_different_passwords(self):
+        """todo
+
+        """
+        username = 'admin'
+        email = 'admin@example.com'
+        password = '1234'
+        User.objects.create_user(
+            username=username, password=password, email=email,
+            is_admin=True, is_superuser=True,
+        )
+        self.client.login(username=username, password=password)
+        response = self.client.post(
+            reverse('admin:accounts_myuser_add'),
+            data={
+                'username': 'test',
+                'email': 'test@example.com',
+                'password1': '1234',
+                'password2': '12345',
+            }
+        )
+        self.assertEqual(response.context_data['errors'].data, [["Passwords don't match"]])
+
+    def test_create_user_admin(self):
+        """todo
+
+        """
+        username = 'admin'
+        email = 'admin@example.com'
+        password = '1234'
+        User.objects.create_user(
+            username=username, password=password, email=email,
+            is_admin=True, is_superuser=True,
+        )
+        self.client.login(username=username, password=password)
+
+        username = 'test'
+        email = 'test@example.com'
+        password = '1234'
+        response = self.client.post(
+            reverse('admin:accounts_myuser_add'),
+            data={
+                'username': username,
+                'email': email,
+                'password1': password,
+                'password2': password,
+            }
+        )
+        usr = get_object_or_404(User, email=email)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse('admin:accounts_myuser_change', args=(usr.id,)))
+
+    def test_create_user_form_save(self):
+        """todo
+
+        """
+        username = 'test'
+        email = 'test@example.com'
+        password = '1234'
+        form = UserCreationForm(
+            {'email': email, 'username': username, 'password1': password,
+            'password2':password}
+        )
+        user = form.save()
+        self.assertEqual(user, get_object_or_404(User, email=email))
+
+
+class AuthenticationTest(TestCase):
+    """todo
+
+    """

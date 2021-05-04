@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model, authenticate, get_user
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import AnonymousUser
+from django.utils.translation import gettext as _
 
 from .admin import UserCreationForm
 
@@ -214,3 +215,74 @@ class AuthenticationTest(TestCase):
         )
         auth_user = authenticate(username=username, password='mistake')
         self.assertEqual(auth_user, None)
+
+
+class MyUserManagerModelTest(TestCase):
+    """todo
+
+    """
+    def test_create_user_without_email(self):
+        """todo
+
+        """
+        username = 'test'
+        password = '1234'
+        with self.assertRaises(
+                ValueError,
+                msg=_('Users must have a username and an email address')
+        ):
+            User.objects.create_user(
+                username=username,
+                password=password,
+            )
+
+    def test_create_superuser(self):
+        """todo
+
+        """
+        username = 'admin'
+        email = 'admin@example.com'
+        password = '1234'
+        superuser = User.objects.create_superuser(
+            username=username,
+            email=email,
+            password=password,
+        )
+        self.assertEqual(superuser.is_admin, True)
+        self.assertEqual(superuser.is_superuser, True)
+
+    def test_create_superuser_is_not_admin(self):
+        """todo
+
+        """
+        username = 'admin'
+        email = 'admin@example.com'
+        password = '1234'
+        with self.assertRaises(
+                ValueError,
+                msg=_('Superuser must have is_admin=True.')
+        ):
+            User.objects.create_superuser(
+                username=username,
+                email=email,
+                password=password,
+                is_admin=False
+            )
+
+    def test_create_superuser_is_not_superuser(self):
+        """todo
+
+        """
+        username = 'admin'
+        email = 'admin@example.com'
+        password = '1234'
+        with self.assertRaises(
+                ValueError,
+                msg=_('Superuser must have is_superuser=True.')
+        ):
+            User.objects.create_superuser(
+                username=username,
+                email=email,
+                password=password,
+                is_superuser=False
+            )

@@ -1,8 +1,10 @@
 from django.test import TestCase
 from django.contrib.auth.models import Group
-from django.contrib.auth import get_user_model, authenticate
+from django.contrib.auth import get_user_model, authenticate, get_user
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import AnonymousUser
+
 from .admin import UserCreationForm
 
 User = get_user_model()
@@ -132,3 +134,83 @@ class AuthenticationTest(TestCase):
     """todo
 
     """
+    def test_authenticate_not_existed_user(self):
+        """todo
+
+        """
+        user = authenticate(username='test', password='1234')
+        self.assertEqual(user, None)
+
+    def test_authenticate_user(self):
+        """todo
+
+        """
+        username = 'test'
+        email = 'test@example.com'
+        password = '1234'
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password
+        )
+        auth_user = authenticate(username=username, password=password)
+        self.assertEqual(user, auth_user)
+        self.client.login(username=username, password=password)
+        session_user = get_user(self.client)
+        self.assertEqual(auth_user, session_user)
+
+    def test_authenticate_user_with_its_deletion_after_login(self):
+        """todo
+
+        """
+        username = 'test'
+        email = 'test@example.com'
+        password = '1234'
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password
+        )
+        auth_user = authenticate(username=username, password=password)
+        self.assertEqual(user, auth_user)
+        self.client.login(username=username, password=password)
+        auth_user.delete()
+        session_user = get_user(self.client)
+        self.assertEqual(AnonymousUser(), session_user)
+
+    def test_authenticate_not_existed_user_with_email(self):
+        """todo
+
+        """
+        user = authenticate(email='test@example.com', password='1234')
+        self.assertEqual(user, None)
+
+    def test_authenticate_user_with_email(self):
+        """todo
+
+        """
+        username = 'test'
+        email = 'test@example.com'
+        password = '1234'
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password
+        )
+        auth_user = authenticate(username=email, password=password)
+        self.assertEqual(user, auth_user)
+
+    def test_authenticate_user_wrong_password(self):
+        """todo
+
+        """
+        username = 'test'
+        email = 'test@example.com'
+        password = '1234'
+        User.objects.create_user(
+            username=username,
+            email=email,
+            password=password
+        )
+        auth_user = authenticate(username=username, password='mistake')
+        self.assertEqual(auth_user, None)

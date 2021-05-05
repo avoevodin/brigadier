@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.utils.translation import gettext as _
 from django.core import mail
 from django.conf import settings
+import re
 
 from .admin import UserCreationForm
 
@@ -58,6 +59,84 @@ class AccountRegistrationViewTest(TestCase):
 
         user = User.objects.first()
         self.assertQuerysetEqual(user.groups.all(), [], transform=lambda x: x)
+
+
+class AccountRegistrationActivateViewTest(TestCase):
+    """todo
+
+    """
+
+    def test_account_activate_from_email_with_error(self):
+        """todo
+
+        """
+        username = 'test'
+        email = 'test@example.com'
+        password = '1234'
+        response = self.client.post(
+            reverse('accounts:registration'),
+            {
+                'username': username,
+                'email': email,
+                'password1': password,
+                'password2': password,
+            }
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse('accounts:registration_done'))
+
+        user = get_object_or_404(User, email=email)
+        self.assertEqual(user.is_active, False)
+        self.assertEqual(len(mail.outbox), 1)
+        activate_mail = mail.outbox[0]
+        self.assertEqual(activate_mail.subject, 'Activate your email.')
+        self.assertEqual(activate_mail.from_email, settings.DEFAULT_FROM_EMAIL)
+        self.assertEqual(activate_mail.to, [user.email])
+        host = 'http://testserver'
+        activation_path = reverse(
+            "accounts:registration_activate",
+            args=(
+                'wrong_key', 'wrong_confirm',
+            )
+        )
+        activation_url = f'{host}{activation_path}'
+        response = self.client.get(activation_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context_data['message'], 'error')
+        self.assertEqual(user.is_active, False)
+
+    def test_account_activate_from_email(self):
+        """todo
+
+        """
+        username = 'test'
+        email = 'test@example.com'
+        password = '1234'
+        response = self.client.post(
+            reverse('accounts:registration'),
+            {
+                'username': username,
+                'email': email,
+                'password1': password,
+                'password2': password,
+            }
+        )
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse('accounts:registration_done'))
+
+        user = get_object_or_404(User, email=email)
+        self.assertEqual(user.is_active, False)
+        self.assertEqual(len(mail.outbox), 1)
+        activation_mail = mail.outbox[0]
+        self.assertEqual(activation_mail.subject, 'Activate your email.')
+        self.assertEqual(activation_mail.from_email, settings.DEFAULT_FROM_EMAIL)
+        self.assertEqual(activation_mail.to, [user.email])
+        activation_url = re.search("(?P<url>http?://[^\s]+)",
+                                   activation_mail.body).group("url")
+        response = self.client.get(activation_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context_data['message'], 'ok')
+        self.assertEqual(user.is_active, True)
 
 
 class UserCreationTest(TestCase):
@@ -126,7 +205,7 @@ class UserCreationTest(TestCase):
         password = '1234'
         form = UserCreationForm(
             {'email': email, 'username': username, 'password1': password,
-            'password2':password}
+             'password2': password}
         )
         user = form.save()
         self.assertEqual(user, get_object_or_404(User, email=email))
@@ -136,6 +215,7 @@ class AuthenticationTest(TestCase):
     """todo
 
     """
+
     def test_authenticate_not_existed_user(self):
         """todo
 
@@ -222,6 +302,7 @@ class MyUserManagerModelTest(TestCase):
     """todo
 
     """
+
     def test_create_user_without_email(self):
         """todo
 
@@ -293,6 +374,7 @@ class MyUserModelTest(TestCase):
     """todo
 
     """
+
     def test_full_name(self):
         """todo
 

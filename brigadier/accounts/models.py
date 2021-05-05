@@ -9,13 +9,10 @@ from django.utils.translation import gettext_lazy as _
 
 
 class MyUserManager(BaseUserManager):
-    """todo
+    """Manager for custom User model MyUser.
 
     """
     def _create_user(self, username, email, password, **extra_fields):
-        """todo
-
-        """
         if not username or not email:
             raise ValueError(_('Users must have a username and an email address'))
 
@@ -35,7 +32,7 @@ class MyUserManager(BaseUserManager):
         return self._create_user(username, email, password, **extra_fields)
 
     def create_superuser(self, username, email, password, **extra_fields):
-        """todo
+        """Create superuser.
 
         """
         extra_fields.setdefault('is_admin', True)
@@ -50,7 +47,7 @@ class MyUserManager(BaseUserManager):
 
 
 class MyUser(AbstractBaseUser, PermissionsMixin):
-    """todo
+    """Custom user model based on AbstractBaseUser.
 
     """
     username_validator = UnicodeUsernameValidator()

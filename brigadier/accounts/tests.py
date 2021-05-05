@@ -1,12 +1,13 @@
+import re
+
+from django.conf import settings
 from django.contrib.auth import get_user_model, authenticate, get_user
 from django.contrib.auth.models import AnonymousUser, Group
+from django.core import mail
 from django.shortcuts import get_object_or_404
 from django.test import TestCase
 from django.urls import reverse
 from django.utils.translation import gettext as _
-from django.core import mail
-from django.conf import settings
-import re
 
 from .admin import UserCreationForm
 
@@ -62,12 +63,12 @@ class AccountRegistrationViewTest(TestCase):
 
 
 class AccountRegistrationActivateViewTest(TestCase):
-    """todo
+    """Tests for account registration activate by the link
+    passed to user's email.
 
     """
-
     def test_account_activate_from_email_with_error(self):
-        """todo
+        """Activate an account with wrong activation link.
 
         """
         username = 'test'
@@ -103,10 +104,11 @@ class AccountRegistrationActivateViewTest(TestCase):
         response = self.client.get(activation_url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context_data['message'], 'error')
+        user.refresh_from_db()
         self.assertEqual(user.is_active, False)
 
     def test_account_activate_from_email(self):
-        """todo
+        """Activate an account with correct activation link.
 
         """
         username = 'test'
@@ -136,16 +138,16 @@ class AccountRegistrationActivateViewTest(TestCase):
         response = self.client.get(activation_url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context_data['message'], 'ok')
+        user.refresh_from_db()
         self.assertEqual(user.is_active, True)
 
 
 class UserCreationTest(TestCase):
-    """todo
+    """Custom user model creation tests.
 
     """
-
     def test_create_user_admin_different_passwords(self):
-        """todo
+        """Create user with not matching passwords.
 
         """
         username = 'admin'
@@ -168,7 +170,8 @@ class UserCreationTest(TestCase):
         self.assertEqual(response.context_data['errors'].data, [["Passwords don't match"]])
 
     def test_create_user_admin(self):
-        """todo
+        """Test opening user change form through
+        the admin panel.
 
         """
         username = 'admin'
@@ -197,7 +200,8 @@ class UserCreationTest(TestCase):
         self.assertEqual(response.url, reverse('admin:accounts_myuser_change', args=(usr.id,)))
 
     def test_create_user_form_save(self):
-        """todo
+        """Test saving user creation form through
+        the admin panel.
 
         """
         username = 'test'
@@ -212,19 +216,18 @@ class UserCreationTest(TestCase):
 
 
 class AuthenticationTest(TestCase):
-    """todo
+    """Test custom user model authentication.
 
     """
-
     def test_authenticate_not_existed_user(self):
-        """todo
+        """Authenticate not existed user.
 
         """
         user = authenticate(username='test', password='1234')
         self.assertEqual(user, None)
 
     def test_authenticate_user(self):
-        """todo
+        """Authenticate existed user.
 
         """
         username = 'test'
@@ -242,7 +245,7 @@ class AuthenticationTest(TestCase):
         self.assertEqual(auth_user, session_user)
 
     def test_authenticate_user_with_its_deletion_after_login(self):
-        """todo
+        """Get authenticated user after deleting this user.
 
         """
         username = 'test'
@@ -261,14 +264,14 @@ class AuthenticationTest(TestCase):
         self.assertEqual(AnonymousUser(), session_user)
 
     def test_authenticate_not_existed_user_with_email(self):
-        """todo
+        """Authenticate not existed user with email.
 
         """
         user = authenticate(email='test@example.com', password='1234')
         self.assertEqual(user, None)
 
     def test_authenticate_user_with_email(self):
-        """todo
+        """Authenticate existed user with email.
 
         """
         username = 'test'
@@ -283,7 +286,7 @@ class AuthenticationTest(TestCase):
         self.assertEqual(user, auth_user)
 
     def test_authenticate_user_wrong_password(self):
-        """todo
+        """Authenticate user with wrong password.
 
         """
         username = 'test'
@@ -299,12 +302,11 @@ class AuthenticationTest(TestCase):
 
 
 class MyUserManagerModelTest(TestCase):
-    """todo
+    """Tests for manager of custom User model MyUser.
 
     """
-
     def test_create_user_without_email(self):
-        """todo
+        """Create user without email.
 
         """
         username = 'test'
@@ -319,7 +321,7 @@ class MyUserManagerModelTest(TestCase):
             )
 
     def test_create_superuser(self):
-        """todo
+        """Create superuser.
 
         """
         username = 'admin'
@@ -334,7 +336,7 @@ class MyUserManagerModelTest(TestCase):
         self.assertEqual(superuser.is_superuser, True)
 
     def test_create_superuser_is_not_admin(self):
-        """todo
+        """Create superuser with is_admin=False.
 
         """
         username = 'admin'
@@ -352,7 +354,7 @@ class MyUserManagerModelTest(TestCase):
             )
 
     def test_create_superuser_is_not_superuser(self):
-        """todo
+        """Create superuser with is_superuser=False.
 
         """
         username = 'admin'
@@ -371,12 +373,11 @@ class MyUserManagerModelTest(TestCase):
 
 
 class MyUserModelTest(TestCase):
-    """todo
+    """Tests for custom User model MyUser.
 
     """
-
     def test_full_name(self):
-        """todo
+        """Get full name of the user.
 
         """
         username = 'test'
@@ -394,7 +395,7 @@ class MyUserModelTest(TestCase):
         self.assertEqual(usr.get_full_name(), 'Mike Johnson')
 
     def test_email_user(self):
-        """todo
+        """Email to user.
 
         """
         username = 'test'

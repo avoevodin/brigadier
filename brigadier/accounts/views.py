@@ -61,7 +61,8 @@ class AccountRegistrationDoneView(TemplateView):
 
 
 class AccountRegistrationActivateView(TemplateView):
-    """todo
+    """View for activate users from link. This link
+    is sent to user's email.
 
     """
     template_name = 'registration_activate.html'

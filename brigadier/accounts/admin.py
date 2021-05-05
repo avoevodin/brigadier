@@ -9,7 +9,7 @@ from .models import MyUser
 
 
 class UserCreationForm(ModelForm):
-    """todo
+    """Custom user creation form
 
     """
     password1 = CharField(label=_('Password'), widget=PasswordInput)

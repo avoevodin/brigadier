@@ -6,7 +6,8 @@ UserModel = get_user_model()
 
 
 class EmailBackend(ModelBackend):
-    """todo
+    """Email authentication backend. It provides an authentication
+    with email or username.
 
     """
     def authenticate(self, request, username=None, password=None, **kwargs):

@@ -232,6 +232,7 @@ docker push avo888/brigadier-uwsgi:latest
   ```python
   apps.get_model("yourappname", "yourmodelname")
   ```
+* Configure [Django Debug Toolbar](DJANGO_ORM_AND_DJANGO_DEBUG_TOOLBAR.md)
 
 ## Tests
 * Run tests with coverage: 

@@ -1,13 +1,11 @@
-* Upgrade 
-```shell
-pip install --upgrade django
-# update requirements.txt
-```
+# Email, cache, using it for email verification.
 
 ## memcached
-https://github.com/memcached/memcached/blob/master/doc/protocol.txt
-https://hub.docker.com/_/memcached?tab=description&page=1&ordering=last_updated
-* Port by default -p 11211:11211
+> https://github.com/memcached/memcached/blob/master/doc/protocol.txt
+> https://hub.docker.com/_/memcached?tab=description&page=1&ordering=last_updated
+> https://docs.djangoproject.com/en/3.1/topics/cache/#memcached
+
+* Run container with memcached alpine with docker. Port by default -p 11211:11211
 ```shell
 docker run -d -p 11211:11211 --name brigadier-memcached memcached:alpine
 ```
@@ -15,6 +13,7 @@ docker run -d -p 11211:11211 --name brigadier-memcached memcached:alpine
 ```shell
 brew install telnet
 ```
+* Using telnet for managing cache
 ```shell
 telnet localhost 11211
 # 0 - is binary format
@@ -31,43 +30,37 @@ stats items
 stats cachedump 1 0
 # to exit ctrl + ] and ctrl + D
 ```
-```shell
-# normal date
-date -r 2945823512358
-```
-*
-https://docs.djangoproject.com/en/3.1/topics/cache/#memcached
-
-* django console:
+* Using cache in the django console:
 ```python
 from django.core.cache import cache
 cache.set('A', 'ilia', timeout=30)
 cache.get('A')
 ```
+* Complex cache type:
 ```python
 from django.core.cache import cache
 cache.set('hash', {'key':'value', 'key1': 'value1'})
 cache.get('hash')
 # complex type is encrypted by pickle method
 ```
-* sessions to memcached
-https://docs.djangoproject.com/en/3.2/topics/http/sessions/#using-cached-sessions
-  
-* smtpd
-https://docs.python.org/3.4/library/smtpd.html
+* Store sessions into the memcached tutorial:
+> https://docs.djangoproject.com/en/3.2/topics/http/sessions/#using-cached-sessions
+
+## smtpd
+> https://docs.python.org/3.4/library/smtpd.html
+> https://docs.djangoproject.com/en/3.2/topics/email/#smtp-backend
+
+* Create smtpd server
 ```shell
 # with -d - debug
 python3 -m smtpd -n -c DebuggingServer -d localhost:1025
 ```
-```shell
-curl smtp://localhost:1025 --mail-from "me@example.com" --mail-rcpt "you@example.com" -d 'test mail' 
-```
-https://docs.djangoproject.com/en/3.2/topics/email/#smtp-backend
+* Using send_mail in Python:
 ```python
 from django.core.mail import send_mail
 send_mail('Hello', 'Hello\nThis is a greeting message\n\nRegards', 'robot@example.com', ['mike@example.com'])
 ```
-* send mail with curl
+* Sending mail with curl
 ```shell
 curl -T - --mail-from from@example.com --mail-rcpt rcpt@example.com \
     smtp://localhost:1025/example.com << _EOF
@@ -78,14 +71,8 @@ this is my message
 done.
 _EOF
 ```
-* mailcatcher
-https://hub.docker.com/r/iliadmitriev/mailcatcher
+* Running mailcatcher-tool container for administrating emails:
+> https://hub.docker.com/r/iliadmitriev/mailcatcher
 ```shell
 docker run -d -p 1080:1080 -p 1025:1025 --name brigadier-mailcatcher iliadmitriev/mailcatcher
-```
-
-* uuid generation:
-```python
-from uuid import uuid4
-key = uuid4().hex
 ```

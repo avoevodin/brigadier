@@ -22,6 +22,14 @@ pip install -r requirements.txt
 ```shell
 cd brigadier
 ```
+* Run the memcached container:
+```shell
+docker run -d -p 11211:11211 --name brigadier-memcached memcached:alpine
+```
+* Run the smtpd-server. Localhost and port are for example:
+```shell
+python3 -m smtpd -n -c BrigadierSMTPDServer localhost:1025
+```
 * Create the .env file. Example:
 ```shell
 cat > .env << __EOF__
@@ -30,6 +38,9 @@ POSTGRES_USER=brigadier
 POSTGRES_PASSWORD=secret
 POSTGRES_HOST=0.0.0.0:8000
 POSTGRES_PORT=5433
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+EMAIL_HOST_USER = None
 __EOF__
 ```
 * Create and run PostgreSQL docker container:
@@ -52,6 +63,9 @@ POSTGRES_PASSWORD=secret
 POSTGRES_PORT=5432
 POSTGRES_USER=brigadier
 PS1=%n@%m %~ %%
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+EMAIL_HOST_USER = None
 __EOF__
 ```
 * Run the uwsgi-docker image:
@@ -85,6 +99,14 @@ source venv/bin/activate
 ```shell
 pip install -r requirements.txt
 ```
+* Run the memcached container:
+```shell
+docker run -d -p 11211:11211 --name brigadier-memcached memcached:alpine
+```
+* Run the smtpd-server. -d is a debug-mode:
+```shell
+python3 -m smtpd -n -c BrigadierSMTPDServer -d localhost:1025
+```
 * Open brigadier-project directory
 ```shell
 cd brigadier
@@ -98,6 +120,9 @@ POSTGRES_PASSWORD=secret
 POSTGRES_HOST=0.0.0.0:8000
 POSTGRES_PORT=5433
 DJANGO_DEBUG=True
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+EMAIL_HOST_USER = None
 __EOF__
 ```
 * Create and run PostgreSQL docker container:
@@ -210,6 +235,9 @@ POSTGRES_PORT=5432
 POSTGRES_USER=brigadier
 PS1=%n@%m %~ %%
 DJANGO_DEBUG=True
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+EMAIL_HOST_USER = None
 __EOF__
 ```
 * Run container based on the created docker-image:

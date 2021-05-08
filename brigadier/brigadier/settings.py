@@ -10,13 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
-from pathlib import Path
-from os import environ as env
-
-from django.utils.translation import gettext_lazy as _
-from django.urls import reverse_lazy
-
 import pkgutil
+from os import environ as env
+from pathlib import Path
+
+from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -162,11 +161,18 @@ if DEBUG and pkgutil.find_loader('debug_toolbar'):
         '127.0.0.1'
     ]
 
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1025
-EMAIL_HOST_USER = None
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 DEFAULT_FROM_EMAIL = 'info@example.com'
+
+if env.get('EMAIL_HOST'):
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = env.get('EMAIL_HOST')
+    EMAIL_PORT = env.get('EMAIL_PORT')
+    EMAIL_HOST_USER = env.get('EMAIL_HOST_USER')
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'localhost'
+    EMAIL_PORT = 1025
+    EMAIL_HOST_USER = None
 
 EXPIRE_LINK = 86400 * 3
 

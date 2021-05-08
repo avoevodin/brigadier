@@ -4,12 +4,13 @@ from django.test import TestCase
 from django.utils import timezone
 from django.urls import reverse
 from django.utils.translation import gettext as _
-
-from django.contrib.auth.models import User, Group, Permission
+from django.contrib.auth.models import Group, Permission
+from django.contrib.auth import get_user_model
 
 from .models import Project, Task, Comment, NEW, COMPLETED, IN_PROGRESS
 from employees.tests import create_employee
 
+User = get_user_model()
 
 def create_project(**kwargs):
     """Method creates Project instance with selected parameters.
@@ -80,9 +81,10 @@ class ProjectListViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['view_project'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -96,9 +98,10 @@ class ProjectListViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['view_project'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -151,9 +154,10 @@ class ProjectListViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['view_project'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -275,9 +279,10 @@ class ProjectListViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['view_project'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -437,9 +442,10 @@ class ProjectDetailViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['view_project'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -451,9 +457,10 @@ class ProjectDetailViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['view_project'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -529,9 +536,10 @@ class ProjectDetailViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['view_project'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -557,9 +565,10 @@ class ProjectDetailViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['view_project'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -652,9 +661,10 @@ class ProjectCreateViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['add_project', 'view_project'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -701,9 +711,10 @@ class ProjectEditViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['change_project', 'view_project'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -752,9 +763,10 @@ class ProjectEditViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['change_project', 'view_project'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -796,9 +808,10 @@ class ProjectDeleteViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['delete_project', 'view_project'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -849,9 +862,10 @@ class ProjectDeleteViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['delete_project', 'view_project'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -978,9 +992,10 @@ class TaskListViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['view_task'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -994,9 +1009,10 @@ class TaskListViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['view_task'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -1064,9 +1080,10 @@ class TaskDetailViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['view_task'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -1116,9 +1133,10 @@ class TaskDetailViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['view_task'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -1173,9 +1191,10 @@ class TaskDetailViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['view_task'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -1192,9 +1211,10 @@ class TaskCreateViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['add_task', 'view_task'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -1248,9 +1268,10 @@ class TaskCreateViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['view_project', 'add_task', 'view_task'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -1310,9 +1331,10 @@ class TaskEditViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['change_task', 'view_task'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -1376,9 +1398,10 @@ class TaskEditViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['view_project', 'change_task', 'view_task'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -1448,9 +1471,10 @@ class TaskDeleteViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['view_project', 'delete_task', 'view_task'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -1503,9 +1527,10 @@ class TaskDeleteViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['delete_task', 'view_task'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -1602,8 +1627,9 @@ class CommentCreateView(TestCase):
         Comment.objects.create(**{'task': task_1_1, 'text': 'comment 3'})
 
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.groups.add(Group.objects.get(name='public'))
         self.client.login(username=username, password=password)
         response = self.client.post(
@@ -1666,8 +1692,9 @@ class CommentCreateView(TestCase):
         Comment.objects.create(**{'task': task_1_1, 'text': 'comment 3'})
 
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.groups.add(Group.objects.get(name='public'))
         self.client.login(username=username, password=password)
         next_url = reverse('projects:task_detail', args=(task_1_1.id,))

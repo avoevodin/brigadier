@@ -4,10 +4,12 @@ from django.test import TestCase
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.urls import reverse
-from django.contrib.auth.models import User, Permission
+from django.contrib.auth.models import Permission
+from django.contrib.auth import get_user_model
 
 from .models import Employee
 
+User = get_user_model()
 
 def create_employee(**kwargs):
     """Create an employee with passed parameters.
@@ -155,9 +157,10 @@ class EmployeeListViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['view_employee'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -171,9 +174,10 @@ class EmployeeListViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['view_employee'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -218,9 +222,10 @@ class EmployeeDetailViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['view_employee'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email,)
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -260,8 +265,9 @@ class EmployeeCreateViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
-        User.objects.create_user(username=username, password=password)
+        User.objects.create_user(username=username, password=password, email=email,)
         self.client.login(username=username, password=password)
 
         postfix = '_1'
@@ -287,9 +293,10 @@ class EmployeeCreateViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['view_employee', 'add_employee'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email,)
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -325,9 +332,10 @@ class EmployeeEditViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
-        perms = Permission.objects.filter(codename__in=['view_employee', 'change_employee'])
-        usr = User.objects.create_user(username=username, password=password)
+        perms = Permission.objects.filter(codename__in=['change_employee', 'view_employee'])
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -368,9 +376,10 @@ class EmployeeEditViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['change_employee', 'view_employee'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email,)
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -418,9 +427,10 @@ class EmployeeDeleteViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['delete_employee', 'view_employee'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 
@@ -456,9 +466,10 @@ class EmployeeDeleteViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
         perms = Permission.objects.filter(codename__in=['delete_employee', 'view_employee'])
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email,)
         usr.user_permissions.set(perms)
         self.client.login(username=username, password=password)
 

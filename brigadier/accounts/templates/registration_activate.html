@@ -1,0 +1,32 @@
+{% extends "empty.html" %}
+
+{% load i18n %}
+
+{% block container %}
+    <div class="card mx-auto mt-5" style="max-width: 600px">
+        <div class="card-body">
+            <figure class="text-center">
+                {% if message == 'ok' %}
+                    <h3>
+                        {% translate "Congratulations! Your Brigadier account is activated." %}
+                    </h3>
+                    <p class="text-secondary">
+                        {% translate "You can " %}
+                        <a href="{% url "accounts:login" %}">{% translate "Log in" %}</a>
+                        {% translate "now" %}.
+                    </p>
+                {% else %}
+                    <h3>
+                        {% translate "Oops! Confirmation link isn't valid." %}
+                    </h3>
+                    <p class="text-secondary">
+                        {% translate "Contact the administrator or " %}
+                        <a href="{% url "accounts:registration" %}">
+                            {% translate "Sing up" context "Reg_activate_sing_up_imperative" %}.
+                        </a>
+                    </p>
+                {% endif %}
+            </figure>
+        </div>
+    </div>
+{% endblock %}

@@ -2,9 +2,16 @@ from django.contrib.auth.views import (FormView, LoginView,
                                        TemplateView, LogoutView,
                                        PasswordChangeView, PasswordChangeDoneView)
 from django.contrib.auth.models import Group
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from .forms import AccountRegistrationForm, AccountLoginForm, AccountPasswordChangeForm
 from django.conf import settings
+from uuid import uuid4
+from django.core.mail import send_mail
+from django.core.cache import cache
+from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class AccountRegistrationView(FormView):
@@ -18,7 +25,26 @@ class AccountRegistrationView(FormView):
 
     def form_valid(self, form):
         response = super(AccountRegistrationView, self).form_valid(form)
-        user = form.save()
+        user = form.save(commit=False)
+        user.is_active = False
+        user.save()
+
+        key = uuid4().hex
+        confirm = uuid4().hex
+        data = {
+            'confirm': confirm,
+            'user_id': user.id,
+        }
+        cache.set(key, data, settings.EXPIRE_LINK)
+        host = get_current_site(self.request)
+        send_mail(
+            'Activate your email.',
+            f'Hello! \n Your confirmation link for Brigadier account is http://{host}'
+            f'{reverse("accounts:registration_activate", args=(key, confirm))}',
+            None,
+            [user.email]
+        )
+
         try:
             group_public = Group.objects.get(name='public')
             user.groups.add(group_public)
@@ -32,6 +58,29 @@ class AccountRegistrationDoneView(TemplateView):
 
     """
     template_name = 'registration_done.html'
+
+
+class AccountRegistrationActivateView(TemplateView):
+    """View for activate users from link. This link
+    is sent to user's email.
+
+    """
+    template_name = 'registration_activate.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(AccountRegistrationActivateView, self).get_context_data(**kwargs)
+        key = kwargs.get('key')
+        confirm = kwargs.get('confirm')
+        data = cache.get(key)
+        if (data is not None) and (data.get('confirm')) \
+                and (data.get('confirm') == confirm):
+            user = User.objects.get(pk=data.get('user_id'))
+            user.is_active = True
+            user.save()
+            context['message'] = 'ok'
+        else:
+            context['message'] = 'error'
+        return context
 
 
 class AccountLoginView(LoginView):

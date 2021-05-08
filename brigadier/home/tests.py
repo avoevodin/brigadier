@@ -1,12 +1,15 @@
 import datetime
 
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 from employees.tests import create_employee
 from projects.models import NEW, COMPLETED, IN_PROGRESS
 from projects.tests import create_project, create_task
+
+User = get_user_model()
 
 
 class HomeViewTest(TestCase):
@@ -19,8 +22,9 @@ class HomeViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.groups.add(Group.objects.get(name='public'))
         self.client.login(username=username, password=password)
 
@@ -47,8 +51,9 @@ class HomeViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.groups.add(Group.objects.get(name='public'))
         self.client.login(username=username, password=password)
 
@@ -100,8 +105,9 @@ class HomeViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.groups.add(Group.objects.get(name='public'))
         self.client.login(username=username, password=password)
 
@@ -272,8 +278,9 @@ class HomeViewTest(TestCase):
 
         """
         username = 'test'
+        email = 'user@example.com'
         password = 'test'
-        usr = User.objects.create_user(username=username, password=password)
+        usr = User.objects.create_user(username=username, password=password, email=email, )
         usr.groups.add(Group.objects.get(name='public'))
 
         self.client.login(username=username, password=password)

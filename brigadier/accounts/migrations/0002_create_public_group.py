@@ -15,7 +15,7 @@ def create_public_group(apps, schema_editor):
 
     Group = apps.get_model('auth', 'Group')
     Permission = apps.get_model('auth', 'Permission')
-    User = apps.get_model('auth', 'User')
+    User = apps.get_model('accounts', 'MyUser')
     group_public, _ = Group.objects.get_or_create(name='public')
     perms = Permission.objects.all()
     perms_public = perms.exclude(content_type__app_label__in=['auth', 'admin', 'sessions', 'contenttypes'])\
@@ -51,7 +51,8 @@ class Migration(migrations.Migration):
         ('projects', '0011_auto_20210402_1817'),
         ('employees', '0006_auto_20210325_2344'),
         ('home', '0001_home_view_permission'),
-        ('contenttypes', '0002_remove_content_type_name')
+        ('contenttypes', '0002_remove_content_type_name'),
+        ('accounts', '0001_create_myuser_model'),
     ]
 
     operations = [

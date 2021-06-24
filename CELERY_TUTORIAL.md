@@ -40,3 +40,6 @@ result.get(propagate=False)
 # getting the traceback of async task
 result.traceback
 ```
+
+## Configure Celery in the Django project
+> https://docs.celeryproject.org/en/stable/django/first-steps-with-django.html

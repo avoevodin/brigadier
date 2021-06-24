@@ -41,6 +41,9 @@ POSTGRES_PORT=5433
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
 EMAIL_HOST_USER = None
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+CACHE_BACKEND = 'django.core.cache.backends.memcached.MemcachedCache'
+CACHE_LOCATION = '127.0.0.1:11211'
 __EOF__
 ```
 * Create and run PostgreSQL docker container:
@@ -66,6 +69,8 @@ PS1=%n@%m %~ %%
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
 EMAIL_HOST_USER = None
+CACHE_BACKEND = 'django.core.cache.backends.memcached.MemcachedCache'
+CACHE_LOCATION = '127.0.0.1:11211'
 __EOF__
 ```
 * Run the uwsgi-docker image:
@@ -123,6 +128,8 @@ DJANGO_DEBUG=True
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
 EMAIL_HOST_USER = None
+CACHE_BACKEND = 'django.core.cache.backends.memcached.MemcachedCache'
+CACHE_LOCATION = '127.0.0.1:11211'
 __EOF__
 ```
 * Create and run PostgreSQL docker container:
@@ -220,6 +227,8 @@ RUN python3 manage.py collectstatic --no-input
 RUN python3 manage.py compilemessages
 
 CMD uwsgi --ini uwsgi.ini
+CMD celery -A brigadier worker -l INFO
+
 ```
 * Create the docker-image from the Dockerfile:
 ```shell
@@ -238,6 +247,8 @@ DJANGO_DEBUG=True
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
 EMAIL_HOST_USER = None
+CACHE_BACKEND = 'django.core.cache.backends.memcached.MemcachedCache'
+CACHE_LOCATION = '127.0.0.1:11211'
 __EOF__
 ```
 * Run container based on the created docker-image:

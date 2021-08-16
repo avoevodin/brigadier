@@ -11,7 +11,7 @@ from django.core.cache import cache
 from django.urls import reverse_lazy
 
 from .forms import AccountRegistrationForm, AccountLoginForm, AccountPasswordChangeForm
-from .tasks import send_veification_mail
+from ..worker.email.tasks import send_verification_mail
 
 User = get_user_model()
 
@@ -39,7 +39,7 @@ class AccountRegistrationView(FormView):
         }
         cache.set(key, data, settings.EXPIRE_LINK)
         host = get_current_site(self.request).domain
-        send_veification_mail.delay(host, user.email, key, confirm)
+        send_verification_mail.delay(host, user.email, key, confirm)
 
         try:
             group_public = Group.objects.get(name='public')

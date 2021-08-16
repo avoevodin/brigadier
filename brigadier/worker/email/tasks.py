@@ -1,10 +1,14 @@
 from django.core.mail import send_mail
 from django.urls import reverse
-from celery import shared_task
+from .. import app
 
 
-@shared_task
-def send_veification_mail(host, user_email, key, confirm):
+@app.task(
+    max_retries=5,
+    default_retry_delay=60,
+    auto_retry_for=(ConnectionRefusedError,)
+)
+def send_verification_mail(host, user_email, key, confirm):
     """todo
     """
 
@@ -15,3 +19,8 @@ def send_veification_mail(host, user_email, key, confirm):
         None,
         [user_email]
     )
+
+
+@app.task
+def debug_task(self):
+    print(f'Request: {self.request!r}')

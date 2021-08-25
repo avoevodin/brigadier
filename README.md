@@ -41,6 +41,9 @@ POSTGRES_PORT=5433
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
 EMAIL_HOST_USER = None
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+CACHE_BACKEND = 'django.core.cache.backends.memcached.MemcachedCache'
+CACHE_LOCATION = '127.0.0.1:11211'
 __EOF__
 ```
 * Create and run PostgreSQL docker container:
@@ -66,6 +69,8 @@ PS1=%n@%m %~ %%
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
 EMAIL_HOST_USER = None
+CACHE_BACKEND = 'django.core.cache.backends.memcached.MemcachedCache'
+CACHE_LOCATION = '127.0.0.1:11211'
 __EOF__
 ```
 * Run the uwsgi-docker image:
@@ -74,7 +79,8 @@ docker run -d --name brigadier-uwsgi --hostname brigadier-uwsgi \
 -p 8000:8000 \
 --env-file brigadier/.env-uwsgi \
 --link brigadier-postgres \
-avo888/brigadier-uwsgi:latest
+avo888/brigadier-uwsgi:latest \
+cmd celery -A brigadier worker -l INFO
 ```
 * Create objects from admin console.
     1. Go to the browser and type '127.0.0.1:8000/admin'
@@ -123,6 +129,8 @@ DJANGO_DEBUG=True
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
 EMAIL_HOST_USER = None
+CACHE_BACKEND = 'django.core.cache.backends.memcached.MemcachedCache'
+CACHE_LOCATION = '127.0.0.1:11211'
 __EOF__
 ```
 * Create and run PostgreSQL docker container:
@@ -220,6 +228,7 @@ RUN python3 manage.py collectstatic --no-input
 RUN python3 manage.py compilemessages
 
 CMD uwsgi --ini uwsgi.ini
+
 ```
 * Create the docker-image from the Dockerfile:
 ```shell
@@ -238,13 +247,16 @@ DJANGO_DEBUG=True
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
 EMAIL_HOST_USER = None
+CACHE_BACKEND = 'django.core.cache.backends.memcached.MemcachedCache'
+CACHE_LOCATION = '127.0.0.1:11211'
 __EOF__
 ```
 * Run container based on the created docker-image:
 ```shell
 docker run --name brigadier-uwsgi --hostname brigadier-uwsgi \
 -d -p 8000:8000 --env-file .env-uwsgi --link brigadier-postgres \
-brigadier-uwsgi
+brigadier-uwsgi \
+cmd celery -A brigadier worker -l INFO
 ```
 * Push repository to the docker hub:
 ```shell

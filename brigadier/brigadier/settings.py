@@ -164,7 +164,7 @@ if DEBUG and pkgutil.find_loader('debug_toolbar'):
 DEFAULT_FROM_EMAIL = 'info@example.com'
 
 if env.get('EMAIL_HOST'):
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_BACKEND = env.get('EMAIL_BACKEND')
     EMAIL_HOST = env.get('EMAIL_HOST')
     EMAIL_PORT = env.get('EMAIL_PORT')
     EMAIL_HOST_USER = env.get('EMAIL_HOST_USER')
@@ -180,3 +180,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 AUTH_USER_MODEL = 'accounts.MyUser'
 AUTHENTICATION_BACKENDS = ['accounts.backends.EmailBackend']
+
+if env.get('CACHE_BACKEND'):
+    CACHES = {
+        'default': {
+            'BACKEND': env.get('CACHE_BACKEND'),
+            'LOCATION': env.get('CACHE_LOCATION'),
+        }
+    }
+else:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+            'LOCATION': '127.0.0.1:11211',
+        }
+    }

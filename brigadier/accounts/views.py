@@ -1,15 +1,17 @@
+from uuid import uuid4
+
+from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 from django.contrib.auth.views import (FormView, LoginView,
                                        TemplateView, LogoutView,
                                        PasswordChangeView, PasswordChangeDoneView)
-from django.contrib.auth.models import Group
-from django.urls import reverse_lazy, reverse
-from .forms import AccountRegistrationForm, AccountLoginForm, AccountPasswordChangeForm
-from django.conf import settings
-from uuid import uuid4
-from django.core.mail import send_mail
-from django.core.cache import cache
 from django.contrib.sites.shortcuts import get_current_site
-from django.contrib.auth import get_user_model
+from django.core.cache import cache
+from django.urls import reverse_lazy
+
+from .forms import AccountRegistrationForm, AccountLoginForm, AccountPasswordChangeForm
+from worker.email.tasks import send_verification_mail
 
 User = get_user_model()
 
@@ -36,14 +38,8 @@ class AccountRegistrationView(FormView):
             'user_id': user.id,
         }
         cache.set(key, data, settings.EXPIRE_LINK)
-        host = get_current_site(self.request)
-        send_mail(
-            'Activate your email.',
-            f'Hello! \n Your confirmation link for Brigadier account is http://{host}'
-            f'{reverse("accounts:registration_activate", args=(key, confirm))}',
-            None,
-            [user.email]
-        )
+        host = get_current_site(self.request).domain
+        send_verification_mail.delay(host, user.email, key, confirm)
 
         try:
             group_public = Group.objects.get(name='public')

@@ -1,6 +1,6 @@
 from django.core.mail import send_mail
 from django.urls import reverse
-from .. import app
+from worker.app import app
 
 
 @app.task(

@@ -11,7 +11,7 @@ from django.core.cache import cache
 from django.urls import reverse_lazy
 
 from .forms import AccountRegistrationForm, AccountLoginForm, AccountPasswordChangeForm
-from ..worker.email.tasks import send_verification_mail
+from worker.email.tasks import send_verification_mail
 
 User = get_user_model()
 

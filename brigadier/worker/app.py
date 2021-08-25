@@ -3,7 +3,7 @@ from os import environ as env
 from celery import Celery
 from worker import config
 
-env.setdefault('DJANGO_SETTINGS_MODULE', 'brigadier:settings')
+env.setdefault('DJANGO_SETTINGS_MODULE', 'brigadier.settings')
 
 RABBIT_USER = env.get('RABBITMQ_DEFAULT_USER')
 RABBIT_PASS = env.get('RABBITMQ_DEFAULT_PASS')
@@ -32,8 +32,4 @@ app.conf.result_backend = REDIS_RESULTS_BACKEND
 
 app.config_from_object(config)
 
-app.autodiscover_tasks(['worker.email'])
-
-queue_names_list = map(lambda x: x.name, config.task_queue)
-
-app.select_queues(queue_names_list)
+app.autodiscover_tasks(['worker'])

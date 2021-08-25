@@ -13,4 +13,3 @@ RUN python3 manage.py collectstatic --no-input
 RUN python3 manage.py compilemessages
 
 CMD uwsgi --ini uwsgi.ini
-CMD celery -A brigadier worker -l INFO

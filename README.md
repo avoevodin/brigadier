@@ -79,7 +79,8 @@ docker run -d --name brigadier-uwsgi --hostname brigadier-uwsgi \
 -p 8000:8000 \
 --env-file brigadier/.env-uwsgi \
 --link brigadier-postgres \
-avo888/brigadier-uwsgi:latest
+avo888/brigadier-uwsgi:latest \
+cmd celery -A brigadier worker -l INFO
 ```
 * Create objects from admin console.
     1. Go to the browser and type '127.0.0.1:8000/admin'
@@ -227,7 +228,6 @@ RUN python3 manage.py collectstatic --no-input
 RUN python3 manage.py compilemessages
 
 CMD uwsgi --ini uwsgi.ini
-CMD celery -A brigadier worker -l INFO
 
 ```
 * Create the docker-image from the Dockerfile:
@@ -255,7 +255,8 @@ __EOF__
 ```shell
 docker run --name brigadier-uwsgi --hostname brigadier-uwsgi \
 -d -p 8000:8000 --env-file .env-uwsgi --link brigadier-postgres \
-brigadier-uwsgi
+brigadier-uwsgi \
+cmd celery -A brigadier worker -l INFO
 ```
 * Push repository to the docker hub:
 ```shell

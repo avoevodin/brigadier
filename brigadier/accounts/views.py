@@ -11,7 +11,7 @@ from django.core.cache import cache
 from django.urls import reverse_lazy
 
 from .forms import AccountRegistrationForm, AccountLoginForm, AccountPasswordChangeForm
-from worker.email.tasks import send_verification_mail
+from worker.email.tasks import send_verification_mail, send_onboarding_mail
 
 User = get_user_model()
 
@@ -74,9 +74,18 @@ class AccountRegistrationActivateView(TemplateView):
             user.is_active = True
             user.save()
             context['message'] = 'ok'
+
+            host = get_current_site(self.request).domain
+            send_onboarding_mail(host, user.email)
         else:
             context['message'] = 'error'
         return context
+
+
+class AccountRegistrationActivationDoneView(TemplateView):
+    """todo
+    """
+    template_name = "registration_activation_done.html"
 
 
 class AccountLoginView(LoginView):

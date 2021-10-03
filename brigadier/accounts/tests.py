@@ -5,12 +5,13 @@ from unittest.mock import ANY
 from django.conf import settings
 from django.contrib.auth import get_user_model, authenticate, get_user
 from django.contrib.auth.models import AnonymousUser
+from django.contrib.sites.shortcuts import get_current_site
 from django.core import mail
+from django.core.cache import cache
 from django.shortcuts import get_object_or_404
 from django.test import TestCase
 from django.urls import reverse
 from django.utils.translation import gettext as _
-from django.contrib.sites.shortcuts import get_current_site
 
 from .admin import UserCreationForm
 
@@ -130,16 +131,22 @@ class AccountRegistrationActivateViewTest(TestCase):
             )
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, reverse('accounts:registration_done'))
-        m.assert_called_once_with(get_current_site(response.wsgi_request).domain, email, ANY, ANY)
+        host = get_current_site(response.wsgi_request).domain
+        m.assert_called_once_with(host, email, ANY, ANY)
+        call_args = m.call_args.args
+        key = call_args[2]
+        confirm = call_args[3]
         user = get_object_or_404(User, email=email)
         self.assertEqual(user.is_active, False)
-        self.assertEqual(len(mail.outbox), 1)
-        activation_mail = mail.outbox[0]
-        self.assertEqual(activation_mail.subject, 'Activate your email.')
-        self.assertEqual(activation_mail.from_email, settings.DEFAULT_FROM_EMAIL)
-        self.assertEqual(activation_mail.to, [user.email])
-        activation_url = re.search("(?P<url>http?://[^\s]+)",
-                                   activation_mail.body).group("url")
+        # self.assertEqual(len(mail.outbox), 1)
+        # activation_mail = mail.outbox[0]
+        # self.assertEqual(activation_mail.subject, 'Activate your email.')
+        # self.assertEqual(activation_mail.from_email, settings.DEFAULT_FROM_EMAIL)
+        # self.assertEqual(activation_mail.to, [user.email])
+        activation_url = 'http://' + host \
+            + reverse("accounts:registration_activate", args=(key, confirm))
+        # activation_url = re.search("(?P<url>http?://[^\s]+)",
+        #                            activation_mail.body).group("url")
         response = self.client.get(activation_url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context_data['message'], 'ok')

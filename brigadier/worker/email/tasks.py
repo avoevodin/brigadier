@@ -18,7 +18,7 @@ def send_verification_mail(host, user_email, key, confirm):
         f'{reverse("accounts:registration_activate", args=(key, confirm))}',
         None,
         [user_email]
-    )  # pragma: no cover
+    )
 
 
 @app.task(
@@ -38,7 +38,7 @@ def send_onboarding_mail(host, user_email):
         f'{reverse("accounts:registration_activation_done")}',
         None,
         [user_email]
-    )  # pragma: no cover
+    )
 
 
 @app.task

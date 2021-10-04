@@ -63,7 +63,7 @@ class AccountRegistrationActivateView(TemplateView):
     """
     template_name = 'registration_activate.html'
 
-    def get_context_data(self, **kwargs):  # pragma: no cover
+    def get_context_data(self, **kwargs):
         context = super(AccountRegistrationActivateView, self).get_context_data(**kwargs)
         key = kwargs.get('key')
         confirm = kwargs.get('confirm')

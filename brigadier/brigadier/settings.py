@@ -12,10 +12,12 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import pkgutil
 from os import environ as env
+from sys import argv
 from pathlib import Path
 
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

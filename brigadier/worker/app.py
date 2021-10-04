@@ -18,13 +18,9 @@ if RABBIT_HOST and RABBIT_PORT and RABBIT_VHOST \
     broker_url = f'pyamqp://{RABBIT_USER}:{RABBIT_PASS}@' \
         f'{RABBIT_HOST}:{RABBIT_PORT}/{RABBIT_VHOST}'
 else:
-    broker_url = None
+    broker_url = None  # pragma: no cover
 
 app = Celery('worker')
-
-# todo()
-# mark it down in the README of the Celery
-# app.config_from_object('django.conf:settings', namespace='CELERY')
 
 app.conf.broker_url = broker_url
 

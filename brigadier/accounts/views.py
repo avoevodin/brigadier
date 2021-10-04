@@ -83,7 +83,8 @@ class AccountRegistrationActivateView(TemplateView):
 
 
 class AccountRegistrationActivationDoneView(TemplateView):
-    """todo
+    """View for activation from email link.
+
     """
     template_name = "registration_activation_done.html"
 

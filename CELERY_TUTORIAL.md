@@ -48,16 +48,43 @@ result.traceback
 
 ## Create celery directory in the project
 * Create main celery app directory, for example name it worker
-* Create app.py file for creating celery app:
+* Create app.py file for creating celery app. Example:
 ```python
-from celery import Celery
+from os import environ as env
 
+from celery import Celery
+from worker import config
+
+env.setdefault('DJANGO_SETTINGS_MODULE', 'brigadier.settings')
+
+RABBIT_USER = env.get('RABBITMQ_DEFAULT_USER')
+RABBIT_PASS = env.get('RABBITMQ_DEFAULT_PASS')
+RABBIT_VHOST = env.get('RABBITMQ_DEFAULT_VHOST')
+RABBIT_HOST = env.get('RABBITMQ_HOST')
+RABBIT_PORT = env.get('RABBITMQ_PORT')
+
+REDIS_RESULTS_BACKEND = env.get('REDIS_RESULTS_BACKEND', None)
+
+if RABBIT_HOST and RABBIT_PORT and RABBIT_VHOST \
+    and RABBIT_PASS and RABBIT_USER:
+    broker_url = f'pyamqp://{RABBIT_USER}:{RABBIT_PASS}@' \
+        f'{RABBIT_HOST}:{RABBIT_PORT}/{RABBIT_VHOST}'
+else:
+    broker_url = None  # pragma: no cover
 
 app = Celery('worker')
 
-app.conf.broker_url = 'pyamqp://guest:guest@127.0.0.1:5672/celery'
+app.conf.broker_url = broker_url
+
+app.conf.result_backend = REDIS_RESULTS_BACKEND
+
+app.config_from_object(config)
+# it's possible to use configs from django default settings module with namespace:
+# app.config_from_object('django.conf:settings', namespace='CELERY')
+
 
 app.autodiscover_tasks(['worker'])
+
 ```
 * Import celery app in __init__.py in the celery app directory:
 ```python

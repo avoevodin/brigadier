@@ -33,7 +33,7 @@ python3 -m smtpd -n -c BrigadierSMTPDServer localhost:1025
 * Create the .env file. Example:
 ```shell
 cat > .env << __EOF__
-PPOSTGRES_DB=brigadier
+POSTGRES_DB=brigadier
 POSTGRES_USER=brigadier
 POSTGRES_PASSWORD=secret
 POSTGRES_HOST=0.0.0.0

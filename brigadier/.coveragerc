@@ -9,3 +9,6 @@ omit =
 	*/tests.py
 	brigadier/*
 	*/apps.py
+[report]
+exclude_lines =
+    pragma: no cover

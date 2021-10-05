@@ -111,7 +111,9 @@ class AccountRegistrationActivateViewTest(TestCase):
             "accounts:registration_activate",
             args=('wrong_key', 'wrong_confirm')
         )
-        response = self.client.get(activation_url)
+        with mock.patch('worker.email.tasks.send_onboarding_mail.delay') as m:
+            response = self.client.get(activation_url)
+        m.assert_not_called()
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context_data['message'], 'error')
         user.refresh_from_db()
@@ -146,9 +148,12 @@ class AccountRegistrationActivateViewTest(TestCase):
         self.assertEqual(user.is_active, False)
         activation_url = 'http://' + host \
             + reverse("accounts:registration_activate", args=(key, confirm))
-        response = self.client.get(activation_url)
+        with mock.patch('worker.email.tasks.send_onboarding_mail.delay') as m:
+            response = self.client.get(activation_url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context_data['message'], 'ok')
+        host = get_current_site(response.wsgi_request).domain
+        m.assert_called_once_with(host, email)
         user.refresh_from_db()
         self.assertEqual(user.is_active, True)
 

@@ -127,9 +127,46 @@ docker run -d \
 -p 15674:15672 -p 5674:5672 \
 rabbitmq:3.8.14-management-alpine
 ```
+
+### Redis result backend
+
+## Install redis
+```shell
+pip install redis
+```
+
+## Pull docker container and run it. Example:
+```shell
+docker pull redis:6.2.5-alpine
+docker run --name brigadier-redis -p 6379 -d redis:6.2.5-alpine
+```
+
+## Add result backend in app.py:
+```python
+...
+REDIS_RESULTS_BACKEND = env.get('REDIS_RESULTS_BACKEND')
+...
+app.conf.result_backend = REDIS_RESULTS_BACKEND
+...
+```
+
+## Add env var to env file:
+```text
+REDIS_RESULTS_BACKEND=redis://localhost:6379/0
+```
+
 ## Run celery app
 ```shell
 celery -A worker.app worker
+```
+
+## Look at the results of completed task:
+```shell
+telnet localhost 6379
+# Press '^]'. Get all keys of results:
+>>> KEYS *
+# Get the value of result by key:
+>>> GET key
 ```
 
 ## profit

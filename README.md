@@ -36,7 +36,7 @@ cat > .env << __EOF__
 POSTGRES_DB=brigadier
 POSTGRES_USER=brigadier
 POSTGRES_PASSWORD=secret
-POSTGRES_HOST=0.0.0.0
+POSTGRES_HOST='localhost'
 POSTGRES_PORT=5433
 EMAIL_HOST='localhost'
 EMAIL_PORT=1025
@@ -49,7 +49,7 @@ RABBITMQ_DEFAULT_PASS=adminsecret
 RABBITMQ_DEFAULT_VHOST=celery
 CACHE_BACKEND='django.core.cache.backends.memcached.MemcachedCache'
 CACHE_LOCATION=127.0.0.1:11211
-
+REDIS_RESULTS_BACKEND=redis://localhost:6379/0
 __EOF__
 ```
 * Create and run PostgreSQL docker container:
@@ -66,11 +66,12 @@ docker pull avo888/brigadier-uwsgi:latest
 * Create .env-uwsgi file. Example:
 ```shell
 cat > .env-uwsgi << __EOF__
+POSTGRES_HOST=brigadier-postgres
 POSTGRES_DB=brigadier
-POSTGRES_USER=brigadier
 POSTGRES_PASSWORD=secret
-POSTGRES_HOST=0.0.0.0
-POSTGRES_PORT=5433
+POSTGRES_PORT=5432
+POSTGRES_USER=brigadier
+PS1=%n@%m %~ %%
 EMAIL_HOST='localhost'
 EMAIL_PORT=1025
 EMAIL_HOST_USER=None
@@ -82,6 +83,7 @@ RABBITMQ_DEFAULT_PASS=adminsecret
 RABBITMQ_DEFAULT_VHOST=celery
 CACHE_BACKEND='django.core.cache.backends.memcached.MemcachedCache'
 CACHE_LOCATION=127.0.0.1:11211
+REDIS_RESULTS_BACKEND=redis://localhost:6379/0
 __EOF__
 ```
 * Run the uwsgi-docker image:
@@ -134,7 +136,7 @@ cat > .env << __EOF__
 POSTGRES_DB=brigadier
 POSTGRES_USER=brigadier
 POSTGRES_PASSWORD=secret
-POSTGRES_HOST=0.0.0.0
+POSTGRES_HOST='localhost'
 POSTGRES_PORT=5433
 EMAIL_HOST='localhost'
 EMAIL_PORT=1025
@@ -147,6 +149,7 @@ RABBITMQ_DEFAULT_PASS=adminsecret
 RABBITMQ_DEFAULT_VHOST=celery
 CACHE_BACKEND='django.core.cache.backends.memcached.MemcachedCache'
 CACHE_LOCATION=127.0.0.1:11211
+REDIS_RESULTS_BACKEND=redis://localhost:6379/0
 __EOF__
 ```
 * Create and run PostgreSQL docker container:

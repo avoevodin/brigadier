@@ -23,7 +23,7 @@ class AccountRegistrationView(FormView):
     """
     form_class = AccountRegistrationForm
     template_name = 'registration.html'
-    success_url = reverse_lazy("accounts:registration_done")
+    success_url = reverse_lazy('accounts:registration_done')
 
     def form_valid(self, form):
         response = super(AccountRegistrationView, self).form_valid(form)
@@ -76,7 +76,7 @@ class AccountRegistrationActivateView(TemplateView):
             context['message'] = 'ok'
 
             host = get_current_site(self.request).domain
-            send_onboarding_mail(host, user.email)
+            send_onboarding_mail.delay(host, user.email)
         else:
             context['message'] = 'error'
         return context

@@ -29,3 +29,10 @@ app.conf.result_backend = REDIS_RESULTS_BACKEND
 app.config_from_object(config)
 
 app.autodiscover_tasks(['worker'])
+
+
+@app.on_after_finalize.connect
+def setup_periodic_tasks(sender, **kwargs):
+    """todo
+
+    """

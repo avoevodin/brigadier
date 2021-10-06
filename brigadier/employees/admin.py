@@ -9,19 +9,21 @@ class EmployeeAdmin(admin.ModelAdmin):
 
     """
     fields = [
-        'id', 'firstname', 'middlename', 'surname', 'email', 'birthdate'
+        'id', 'firstname', 'middlename', 'surname', 'email',
+        'user', 'birthdate'
     ]
     readonly_fields = [
         'id'
     ]
     list_display = [
-        'id', 'firstname', 'middlename', 'surname', 'email', 'birthdate'
+        'id', 'firstname', 'middlename', 'surname', 'email', 'birthdate',
+        'user'
     ]
     list_display_links = [
         'id', 'firstname', 'middlename', 'surname'
     ]
     search_fields = [
-        'firstname', 'middlename', 'surname'
+        'firstname', 'middlename', 'surname', 'user'
     ]
     list_filter = [
         'birthdate'

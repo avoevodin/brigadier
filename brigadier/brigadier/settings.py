@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'employees.apps.EmployeesConfig',
     'projects.apps.ProjectsConfig',
     'accounts.apps.AccountsConfig',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [

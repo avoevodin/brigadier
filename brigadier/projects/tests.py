@@ -12,6 +12,7 @@ from employees.tests import create_employee
 
 User = get_user_model()
 
+
 def create_project(**kwargs):
     """Method creates Project instance with selected parameters.
 

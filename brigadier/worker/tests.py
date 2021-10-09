@@ -37,7 +37,7 @@ class WorkerEmailTest(TestCase):
         send_verification_mail(host, email, key, confirm)
         self.assertEqual(len(mail.outbox), 1)
         activation_mail = mail.outbox[0]
-        self.assertEqual(activation_mail.subject, 'Activate your email.')
+        self.assertEqual(activation_mail.subject, 'Activate your account.')
         self.assertEqual(activation_mail.from_email, settings.DEFAULT_FROM_EMAIL)
         self.assertEqual(activation_mail.to, [email])
         mail.outbox = []

@@ -160,6 +160,54 @@ REDIS_RESULTS_BACKEND=redis://localhost:6379/0
 celery -A worker.app worker
 ```
 
+### Celery beat
+
+## Install celery beat
+```shell
+pip install django-celery-beat
+```
+
+## Add celery beat to Installed apps:
+```python
+INSTALLED_APPS = (
+    ...,
+    'django_celery_beat',
+)
+```
+
+## Migrate celery beat objects:
+```shell
+python manage.py migrate
+```
+
+## Add periodic task to tasks.py:
+> https://docs.celeryproject.org/en/stable/userguide/periodic-tasks.html#entries
+* Example
+```python
+@app.on_after_finalize.connect
+def setup_periodic_tasks(sender, **kwargs):
+    """Periodic task for sending notifications about overdue tasks.
+
+    """
+    from celery.schedules import crontab
+    ...
+    sender.add_periodic_task(
+        crontab(hour=12, minute=00, day_of_week='1-5'), # schedule with crontab
+        # 10.0, # every 10 seconds
+        create_overdue_notification_tasks.s(),
+        name='Overdue notifications from Monday to Friday at 12:00.'
+    )  # pragma: no cover
+
+# add create_overdue_notification_tasks
+```
+
+## Run celery beat:
+```shell
+celery -A worker beat
+```
+
+### Redis results
+
 ## Look at the results of completed task:
 ```shell
 telnet localhost 6379

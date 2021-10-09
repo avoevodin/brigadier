@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-04 13:17+0300\n"
+"POT-Creation-Date: 2021-10-09 04:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Andrey Voevodin <avoevodin8888@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,7 +36,7 @@ msgstr "Важные даты"
 msgid "Username"
 msgstr "Имя пользователя"
 
-#: accounts/forms.py:29 employees/forms.py:32 employees/models.py:23
+#: accounts/forms.py:29 employees/forms.py:32 employees/models.py:32
 #: employees/templates/employee_detail.html:37
 #: employees/templates/employee_list.html:20
 msgid "Email"
@@ -46,7 +46,7 @@ msgstr "Адрес электронной почты"
 msgid "Enter password"
 msgstr "Введите пароль"
 
-#: accounts/forms.py:45 accounts/forms.py:114 accounts/forms.py:124
+#: accounts/forms.py:45 accounts/forms.py:114 accounts/forms.py:125
 msgid "Confirm password"
 msgstr "Подтвердите пароль"
 
@@ -62,19 +62,19 @@ msgstr "Старый пароль"
 msgid "New password"
 msgstr "Новый пароль"
 
-#: accounts/forms.py:123
+#: accounts/forms.py:124
 msgid "Password"
 msgstr "Пароль"
 
-#: accounts/models.py:17 accounts/tests.py:322
+#: accounts/models.py:17 accounts/tests.py:335
 msgid "Users must have a username and an email address"
 msgstr "Необходимо указать имя пользователя и адрес электронной почты"
 
-#: accounts/models.py:42 accounts/tests.py:353
+#: accounts/models.py:42 accounts/tests.py:366
 msgid "Superuser must have is_admin=True."
 msgstr "У суперпользователя должно быть свойство is_admin=True."
 
-#: accounts/models.py:44 accounts/tests.py:371
+#: accounts/models.py:44 accounts/tests.py:384
 msgid "Superuser must have is_superuser=True."
 msgstr "У суперпользователя должно быть свойство is_superuser=True."
 
@@ -84,7 +84,8 @@ msgstr "имя пользователя"
 
 #: accounts/models.py:59
 msgid "Required 150 characters or fewer. Letters, digits and @/./+/-/_ only."
-msgstr "Длина должна быть не более 150 символов. Буквы, цифры и @/./+/-/_ only."
+msgstr ""
+"Длина должна быть не более 150 символов. Буквы, цифры и @/./+/-/_ only."
 
 #: accounts/models.py:62
 msgid "A user with that username already exists."
@@ -109,8 +110,8 @@ msgstr "статус администратора"
 #: accounts/models.py:76
 msgid "Designates whether the user can log into this admin site."
 msgstr ""
-"Отвечает за возможность пользователя аутентифицироваться "
-"в панели администратора сайта."
+"Отвечает за возможность пользователя аутентифицироваться в панели "
+"администратора сайта."
 
 #: accounts/models.py:79
 msgid "active"
@@ -157,8 +158,9 @@ msgstr "Перейти на "
 #: accounts/templates/login.html:17 accounts/templates/password_change.html:15
 #: accounts/templates/password_change_done.html:16
 #: accounts/templates/registration.html:17
+msgctxt "Homepage_genitive_case"
 msgid "Home page"
-msgstr "Главная страница"
+msgstr "Главную страницу"
 
 #: accounts/templates/login.html:43 templates/nav.html:49
 msgid "Login"
@@ -200,8 +202,8 @@ msgstr "Поздравляем! Ваш аккаунт Brigadier создан."
 #: accounts/templates/registration_activate.html:14
 msgid "Please, check your email for getting further instructions."
 msgstr ""
-"Пожалуйста, проверьте вашу электронную почту для получения "
-"дальнейших инструкций."
+"Пожалуйста, проверьте вашу электронную почту для получения дальнейших "
+"инструкций."
 
 #: accounts/templates/registration_activate.html:18
 msgid "Oops! Confirmation link isn't valid."
@@ -217,6 +219,7 @@ msgid "Sing up"
 msgstr "Зарегистрируйтесь"
 
 #: accounts/templates/registration_activation_done.html:10
+#: worker/email/tasks.py:94
 msgid "Welcome!"
 msgstr "Добро пожаловать!"
 
@@ -239,47 +242,53 @@ msgstr "Поздравляем! Ваш аккаунт Brigadier создан."
 #: accounts/templates/registration_done.html:13
 msgid "Please, check your email for activation link."
 msgstr ""
+"Пожалуйста, проверьте свою почту, туда должна прийти ссылка для активации "
+"аккаунта."
 
-#: brigadier/settings.py:151
+#: brigadier/settings.py:152
 msgid "English"
 msgstr "Английский"
 
-#: brigadier/settings.py:152
+#: brigadier/settings.py:153
 msgid "Russian"
 msgstr "Русский"
 
-#: employees/apps.py:7 employees/models.py:45
+#: employees/apps.py:7 employees/models.py:54
 #: employees/templates/employee_list.html:6 home/templates/home.html:100
 #: templates/nav.html:30
 msgid "Employees"
 msgstr "Сотрудники"
 
-#: employees/forms.py:20 employees/models.py:10
+#: employees/forms.py:20 employees/models.py:11
 #: employees/templates/employee_detail.html:13
 msgid "Firstname"
 msgstr "Имя"
 
-#: employees/forms.py:24 employees/models.py:14
+#: employees/forms.py:24 employees/models.py:15
 #: employees/templates/employee_detail.html:21
 msgid "Middlename"
 msgstr "Отчество"
 
-#: employees/forms.py:28 employees/models.py:20
+#: employees/forms.py:28 employees/models.py:21
 #: employees/templates/employee_detail.html:29
 msgid "Surname"
 msgstr "Фамилия"
 
-#: employees/forms.py:36 employees/models.py:25
+#: employees/forms.py:36 employees/models.py:34
 #: employees/templates/employee_detail.html:45
 #: employees/templates/employee_list.html:21
 msgid "Birthdate"
 msgstr "Дата рождения"
 
-#: employees/models.py:41 employees/templates/employee_list.html:19
+#: employees/models.py:26
+msgid "User"
+msgstr "Имя пользователя"
+
+#: employees/models.py:50 employees/templates/employee_list.html:19
 msgid "Full name"
 msgstr "ФИО"
 
-#: employees/models.py:44
+#: employees/models.py:53
 msgid "Employee"
 msgstr "Сотрудник"
 
@@ -357,8 +366,8 @@ msgstr "Сохранить"
 msgid "Actions"
 msgstr "Действия"
 
-#: employees/templates/employee_list.html:53 employees/tests.py:169
-#: employees/tests.py:458
+#: employees/templates/employee_list.html:53 employees/tests.py:171
+#: employees/tests.py:460
 msgid "No employees are available."
 msgstr "Нет доступных сотрудников."
 
@@ -377,7 +386,7 @@ msgid "Total"
 msgstr "Всего"
 
 #: home/templates/home.html:24 home/templates/home.html:64
-#: projects/models.py:14 projects/tests.py:979
+#: projects/models.py:14 projects/tests.py:980
 msgid "In progress"
 msgstr "Выполняется"
 
@@ -476,11 +485,11 @@ msgstr "Дата завершения"
 msgid "Text your comment"
 msgstr "Напишите свой комментарий"
 
-#: projects/models.py:12 projects/tests.py:978
+#: projects/models.py:12 projects/tests.py:979
 msgid "New"
 msgstr "Новая"
 
-#: projects/models.py:13 projects/tests.py:980
+#: projects/models.py:13 projects/tests.py:981
 msgid "Finished"
 msgstr "Завершена"
 
@@ -537,8 +546,8 @@ msgid "Closed?"
 msgstr "Закрыт?"
 
 #: projects/templates/project_detail.html:104
-#: projects/templates/task_list.html:17 projects/tests.py:558
-#: projects/tests.py:1004
+#: projects/templates/task_list.html:17 projects/tests.py:559
+#: projects/tests.py:1005
 msgid "No tasks are available."
 msgstr "Нет доступных задач."
 
@@ -551,11 +560,11 @@ msgstr "Создать проект"
 msgid "Name"
 msgstr "Имя"
 
-#: projects/templates/project_list.html:77 projects/tests.py:93
+#: projects/templates/project_list.html:77 projects/tests.py:94
 msgid "No projects are available."
 msgstr "Нет доступных проектов."
 
-#: projects/templates/task_detail.html:113 projects/tests.py:1128
+#: projects/templates/task_detail.html:113 projects/tests.py:1129
 msgid "No comments are available."
 msgstr "Нет доступных комментариев."
 
@@ -578,3 +587,50 @@ msgstr "Создать аккаунт"
 #: templates/nav.html:71
 msgid "Logout"
 msgstr "Выйти"
+
+#: worker/email/tasks.py:50
+msgid "Task \""
+msgstr "Задача \""
+
+#: worker/email/tasks.py:51
+msgid "\" overdue for "
+msgstr "\" просрочена на "
+
+#: worker/email/tasks.py:51
+msgid " days "
+msgstr " дней "
+
+#: worker/email/tasks.py:52
+msgid "and "
+msgstr "и "
+
+#: worker/email/tasks.py:52
+msgid " hours.\n"
+msgstr " часов.\n"
+
+#: worker/email/tasks.py:74
+msgid "Activate your account."
+msgstr "Активируйте свой аккаунт."
+
+#: worker/email/tasks.py:75
+msgid ""
+"Hello!\n"
+"Your confirmation link for Brigadier account is\n"
+msgstr ""
+"Добро пожаловать!\n"
+"Ваша ссылка активации аккаунта Brigadier\n"
+
+#: worker/email/tasks.py:96
+msgid ""
+"Brigadier team welcomes you on board and we wish you a productive work.\n"
+msgstr ""
+"Команда Brigadier поздравляет вас с успешной регистрацией и желает вам \n"
+"продуктивной работы.\n"
+
+#: worker/email/tasks.py:133
+msgid "Hello!"
+msgstr "Привет!"
+
+#: worker/email/tasks.py:134
+msgid "Seems that you have some overdue tasks here:\n"
+msgstr "Кажется, у вас есть несколько просроченных задач:\n"

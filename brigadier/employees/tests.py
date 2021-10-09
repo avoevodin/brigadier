@@ -11,6 +11,7 @@ from .models import Employee
 
 User = get_user_model()
 
+
 def create_employee(**kwargs):
     """Create an employee with passed parameters.
 
@@ -20,6 +21,7 @@ def create_employee(**kwargs):
         middlename=kwargs.get('middlename'),
         surname=kwargs.get('surname'),
         email=kwargs.get('email'),
+        user=kwargs.get('user'),
         birthdate=kwargs.get('birthdate'),
     )
 

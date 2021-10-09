@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-04 13:17+0300\n"
+"POT-Creation-Date: 2021-10-09 04:13+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Andrey Voevodin <avoevodin8888@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,7 +34,7 @@ msgstr "Important dates"
 msgid "Username"
 msgstr "Username"
 
-#: accounts/forms.py:29 employees/forms.py:32 employees/models.py:23
+#: accounts/forms.py:29 employees/forms.py:32 employees/models.py:32
 #: employees/templates/employee_detail.html:37
 #: employees/templates/employee_list.html:20
 msgid "Email"
@@ -44,7 +44,7 @@ msgstr "Email"
 msgid "Enter password"
 msgstr "Enter password"
 
-#: accounts/forms.py:45 accounts/forms.py:114 accounts/forms.py:124
+#: accounts/forms.py:45 accounts/forms.py:114 accounts/forms.py:125
 msgid "Confirm password"
 msgstr "Confirm password"
 
@@ -60,19 +60,19 @@ msgstr "Old password"
 msgid "New password"
 msgstr "New password"
 
-#: accounts/forms.py:123
+#: accounts/forms.py:124
 msgid "Password"
 msgstr "Password"
 
-#: accounts/models.py:17 accounts/tests.py:322
+#: accounts/models.py:17 accounts/tests.py:335
 msgid "Users must have a username and an email address"
 msgstr "Users must have a username and an email address"
 
-#: accounts/models.py:42 accounts/tests.py:353
+#: accounts/models.py:42 accounts/tests.py:366
 msgid "Superuser must have is_admin=True."
 msgstr "Superuser must have is_admin=True."
 
-#: accounts/models.py:44 accounts/tests.py:371
+#: accounts/models.py:44 accounts/tests.py:384
 msgid "Superuser must have is_superuser=True."
 msgstr "Superuser must have is_superuser=True."
 
@@ -115,8 +115,10 @@ msgstr "active"
 #: accounts/models.py:82
 msgid ""
 "Designates whether this user should be treated as active. Unselect this "
-"Designates whether this user should be treated as active. Unselect this "
+"instead of deleting accounts."
 msgstr ""
+"Designates whether this user should be treated as active. Unselect this "
+"instead of deleting accounts."
 
 #: accounts/models.py:86
 msgid "date joined"
@@ -151,6 +153,7 @@ msgstr "Go to the "
 #: accounts/templates/login.html:17 accounts/templates/password_change.html:15
 #: accounts/templates/password_change_done.html:16
 #: accounts/templates/registration.html:17
+msgctxt "Homepage_genitive_case"
 msgid "Home page"
 msgstr "Home page"
 
@@ -209,6 +212,7 @@ msgid "Sing up"
 msgstr "Sing up"
 
 #: accounts/templates/registration_activation_done.html:10
+#: worker/email/tasks.py:94
 msgid "Welcome!"
 msgstr "Welcome!"
 
@@ -232,46 +236,50 @@ msgstr "Congratulations! Your Brigadier account is created."
 msgid "Please, check your email for activation link."
 msgstr "Please, check your email for activation link."
 
-#: brigadier/settings.py:151
+#: brigadier/settings.py:152
 msgid "English"
 msgstr "English"
 
-#: brigadier/settings.py:152
+#: brigadier/settings.py:153
 msgid "Russian"
 msgstr "Russian"
 
-#: employees/apps.py:7 employees/models.py:45
+#: employees/apps.py:7 employees/models.py:54
 #: employees/templates/employee_list.html:6 home/templates/home.html:100
 #: templates/nav.html:30
 msgid "Employees"
 msgstr "Employees"
 
-#: employees/forms.py:20 employees/models.py:10
+#: employees/forms.py:20 employees/models.py:11
 #: employees/templates/employee_detail.html:13
 msgid "Firstname"
 msgstr "Firstname"
 
-#: employees/forms.py:24 employees/models.py:14
+#: employees/forms.py:24 employees/models.py:15
 #: employees/templates/employee_detail.html:21
 msgid "Middlename"
 msgstr "Middlename"
 
-#: employees/forms.py:28 employees/models.py:20
+#: employees/forms.py:28 employees/models.py:21
 #: employees/templates/employee_detail.html:29
 msgid "Surname"
 msgstr "Surname"
 
-#: employees/forms.py:36 employees/models.py:25
+#: employees/forms.py:36 employees/models.py:34
 #: employees/templates/employee_detail.html:45
 #: employees/templates/employee_list.html:21
 msgid "Birthdate"
 msgstr "Birthdate"
 
-#: employees/models.py:41 employees/templates/employee_list.html:19
+#: employees/models.py:26
+msgid "User"
+msgstr "User"
+
+#: employees/models.py:50 employees/templates/employee_list.html:19
 msgid "Full name"
 msgstr "Full name"
 
-#: employees/models.py:44
+#: employees/models.py:53
 msgid "Employee"
 msgstr "Employee"
 
@@ -349,8 +357,8 @@ msgstr "Save"
 msgid "Actions"
 msgstr "Actions"
 
-#: employees/templates/employee_list.html:53 employees/tests.py:169
-#: employees/tests.py:458
+#: employees/templates/employee_list.html:53 employees/tests.py:171
+#: employees/tests.py:460
 msgid "No employees are available."
 msgstr "No employees are available."
 
@@ -369,7 +377,7 @@ msgid "Total"
 msgstr "Total"
 
 #: home/templates/home.html:24 home/templates/home.html:64
-#: projects/models.py:14 projects/tests.py:979
+#: projects/models.py:14 projects/tests.py:980
 msgid "In progress"
 msgstr "In progress"
 
@@ -468,11 +476,11 @@ msgstr "Complete date"
 msgid "Text your comment"
 msgstr "Text your comment"
 
-#: projects/models.py:12 projects/tests.py:978
+#: projects/models.py:12 projects/tests.py:979
 msgid "New"
 msgstr "New"
 
-#: projects/models.py:13 projects/tests.py:980
+#: projects/models.py:13 projects/tests.py:981
 msgid "Finished"
 msgstr "Finished"
 
@@ -529,8 +537,8 @@ msgid "Closed?"
 msgstr "Closed?"
 
 #: projects/templates/project_detail.html:104
-#: projects/templates/task_list.html:17 projects/tests.py:558
-#: projects/tests.py:1004
+#: projects/templates/task_list.html:17 projects/tests.py:559
+#: projects/tests.py:1005
 msgid "No tasks are available."
 msgstr "No tasks are available."
 
@@ -543,11 +551,11 @@ msgstr "Create project"
 msgid "Name"
 msgstr "Name"
 
-#: projects/templates/project_list.html:77 projects/tests.py:93
+#: projects/templates/project_list.html:77 projects/tests.py:94
 msgid "No projects are available."
 msgstr "No projects are available."
 
-#: projects/templates/task_detail.html:113 projects/tests.py:1128
+#: projects/templates/task_detail.html:113 projects/tests.py:1129
 msgid "No comments are available."
 msgstr "No comments are available."
 
@@ -570,3 +578,49 @@ msgstr "Create an account"
 #: templates/nav.html:71
 msgid "Logout"
 msgstr "Logout"
+
+#: worker/email/tasks.py:50
+msgid "Task \""
+msgstr "Task \""
+
+#: worker/email/tasks.py:51
+msgid "\" overdue for "
+msgstr "\" overdue for "
+
+#: worker/email/tasks.py:51
+msgid " days "
+msgstr " days "
+
+#: worker/email/tasks.py:52
+msgid "and "
+msgstr "and "
+
+#: worker/email/tasks.py:52
+msgid " hours.\n"
+msgstr " hours.\n"
+
+#: worker/email/tasks.py:74
+msgid "Activate your account."
+msgstr "Activate your account."
+
+#: worker/email/tasks.py:75
+msgid ""
+"Hello!\n"
+"Your confirmation link for Brigadier account is\n"
+msgstr ""
+"Hello!\n"
+"Your confirmation link for Brigadier account is\n"
+
+#: worker/email/tasks.py:96
+msgid ""
+"Brigadier team welcomes you on board and we wish you a productive work.\n"
+msgstr ""
+"Brigadier team welcomes you on board and we wish you a productive work.\n"
+
+#: worker/email/tasks.py:133
+msgid "Hello!"
+msgstr "Hello!"
+
+#: worker/email/tasks.py:134
+msgid "Seems that you have some overdue tasks here:\n"
+msgstr "Seems that you have some overdue tasks here:\n"

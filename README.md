@@ -86,7 +86,6 @@ CACHE_BACKEND=django.core.cache.backends.memcached.MemcachedCache
 CACHE_LOCATION=127.0.0.1:11211
 REDIS_RESULTS_BACKEND=redis://localhost:6379/0
 DJANGO_SETTINGS_MODULE=brigadier.settings
-
 __EOF__
 ```
 * Run the uwsgi-docker image:

@@ -1,4 +1,3 @@
-from celery.schedules import crontab
 from django.core.mail import send_mail
 from django.db.models import F
 from django.urls import reverse
@@ -136,18 +135,6 @@ def send_overdue_notification_email(user_email, overdue_tasks_list):
         None,
         [user_email]
     )
-
-
-@app.on_after_finalize.connect
-def setup_periodic_tasks(sender, **kwargs):
-    """Periodic task for sending notifications about overdue tasks.
-
-    """
-    sender.add_periodic_task(
-        crontab(hour=12, minute=00, day_of_week='1-5'),
-        create_overdue_notification_tasks.s(),
-        name='Overdue notifications from Monday to Friday at 12:00.'
-    )  # pragma: no cover
 
 
 @app.task

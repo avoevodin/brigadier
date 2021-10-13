@@ -182,7 +182,7 @@ python manage.py migrate
 
 ## Add periodic task to tasks.py:
 > https://docs.celeryproject.org/en/stable/userguide/periodic-tasks.html#entries
-* Example
+* Example for tasks.py:
 ```python
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
@@ -199,6 +199,16 @@ def setup_periodic_tasks(sender, **kwargs):
     )  # pragma: no cover
 
 # add create_overdue_notification_tasks
+```
+
+* Example for config:
+```python
+beat_schedule = {
+    'overdue-notify-every-weekday-midnight': {
+        'task': 'tasks.create_overdue_notification_tasks',
+        'schedule': crontab(hour=12, minute=00, day_of_week='1-5'),
+    },
+}
 ```
 
 ## Run celery beat:

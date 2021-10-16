@@ -45,4 +45,5 @@ jobs:
         verbose: true
     - name: Check if coverage under 100
       run: |
+        cd brigadier
         coverage report --fail-under=100

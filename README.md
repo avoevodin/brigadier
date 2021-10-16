@@ -1,7 +1,5 @@
 # Brigadier
-
 [![Python application](https://github.com/avoevodin/brigadier/actions/workflows/python-app.yml/badge.svg)](https://github.com/avoevodin/brigadier/actions/workflows/python-app.yml)
-
 [![codecov](https://codecov.io/gh/avoevodin/brigadier/branch/master/graph/badge.svg?token=FLC8BXMGQN)](https://codecov.io/gh/avoevodin/brigadier)
 
 #### Task manager for handling brigade of the builders.

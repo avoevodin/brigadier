@@ -32,8 +32,7 @@ jobs:
     - name: Test with unittest
       run: |
         cd brigadier
-        coverage run manage.py test
-        coverage report --show-missing --fail-under=100
+        coverage run --source='.' manage.py test --verbosity=2
         coverage xml -o coverage.xml
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
@@ -44,3 +43,6 @@ jobs:
         name: codecov-umbrella
         fail_ci_if_error: true
         verbose: true
+    - name: Check if coverage under 100
+      run: |
+        coverage report --fail-under=100

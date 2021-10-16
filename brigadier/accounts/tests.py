@@ -141,7 +141,7 @@ class AccountRegistrationActivateViewTest(TestCase):
         self.assertEqual(response.url, reverse('accounts:registration_done'))
         host = get_current_site(response.wsgi_request).domain
         m.assert_called_once_with(host, email, ANY, ANY)
-        call_args = m.call_args.args
+        call_args = m.call_args_list[0][0]
         key = call_args[2]
         confirm = call_args[3]
         user = get_object_or_404(User, email=email)

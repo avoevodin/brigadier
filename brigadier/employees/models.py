@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from accounts.models import MyUser
 
 
 class Employee(models.Model):
@@ -19,6 +20,14 @@ class Employee(models.Model):
     surname = models.CharField(
         verbose_name=_('Surname'),
         max_length=200,
+    )
+    user = models.ForeignKey(
+        MyUser,
+        verbose_name=_('User'),
+        related_name='employees_user',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL
     )
     email = models.EmailField(verbose_name=_('Email'), max_length=200)
     birthdate = models.DateField(

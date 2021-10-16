@@ -14,6 +14,8 @@ click-plugins==1.1.1
 click-repl==0.2.0
 coverage==5.5
 Django==3.2
+django-celery-beat==2.2.1
+django-timezone-field==4.2.1
 idna==3.2
 kombu==5.1.0
 loader==2017.9.11
@@ -22,6 +24,7 @@ multidict==5.1.0
 pendulum==2.1.2
 prompt-toolkit==3.0.19
 psycopg2==2.8.6
+python-crontab==2.5.1
 python-dateutil==2.8.2
 python-memcached==1.59
 pytz==2021.1
@@ -33,7 +36,7 @@ sqlparse==0.4.1
 termcc==2019.8.2
 terminaltables==3.1.0
 typing-extensions==3.10.0.0
-uWSGI==2.0.19.1
+uWSGI==2.0.20
 vine==5.0.0
 wcwidth==0.2.5
 yarl==1.6.3

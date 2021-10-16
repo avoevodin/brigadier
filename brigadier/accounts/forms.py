@@ -116,6 +116,7 @@ class AccountPasswordChangeForm(PasswordChangeForm):
         }),
     )
 
+
 class UserCreationForm(ModelForm):
     """Custom user creation form
 

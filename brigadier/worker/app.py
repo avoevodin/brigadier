@@ -29,3 +29,4 @@ app.conf.result_backend = REDIS_RESULTS_BACKEND
 app.config_from_object(config)
 
 app.autodiscover_tasks(['worker'])
+

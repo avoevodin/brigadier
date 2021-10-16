@@ -1,4 +1,7 @@
 # Brigadier
+[![Python application](https://github.com/avoevodin/brigadier/actions/workflows/python-app.yml/badge.svg)](https://github.com/avoevodin/brigadier/actions/workflows/python-app.yml)
+[![codecov](https://codecov.io/gh/avoevodin/brigadier/branch/master/graph/badge.svg?token=FLC8BXMGQN)](https://codecov.io/gh/avoevodin/brigadier)
+
 #### Task manager for handling brigade of the builders.
 
 ## Install
@@ -50,6 +53,7 @@ RABBITMQ_DEFAULT_VHOST=celery
 CACHE_BACKEND=django.core.cache.backends.memcached.MemcachedCache
 CACHE_LOCATION=127.0.0.1:11211
 REDIS_RESULTS_BACKEND=redis://localhost:6379/0
+DJANGO_SETTINGS_MODULE=brigadier.settings
 __EOF__
 ```
 * Create and run PostgreSQL docker container:
@@ -72,18 +76,19 @@ POSTGRES_PASSWORD=secret
 POSTGRES_PORT=5432
 POSTGRES_USER=brigadier
 PS1=%n@%m %~ %%
-EMAIL_HOST='localhost'
+EMAIL_HOST=localhost
 EMAIL_PORT=1025
 EMAIL_HOST_USER=None
-EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
 RABBITMQ_HOST=127.0.0.1
 RABBITMQ_PORT=5672
 RABBITMQ_DEFAULT_USER=admin
 RABBITMQ_DEFAULT_PASS=adminsecret
 RABBITMQ_DEFAULT_VHOST=celery
-CACHE_BACKEND='django.core.cache.backends.memcached.MemcachedCache'
+CACHE_BACKEND=django.core.cache.backends.memcached.MemcachedCache
 CACHE_LOCATION=127.0.0.1:11211
 REDIS_RESULTS_BACKEND=redis://localhost:6379/0
+DJANGO_SETTINGS_MODULE=brigadier.settings
 __EOF__
 ```
 * Run the uwsgi-docker image:
@@ -150,6 +155,7 @@ RABBITMQ_DEFAULT_VHOST=celery
 CACHE_BACKEND=django.core.cache.backends.memcached.MemcachedCache
 CACHE_LOCATION=127.0.0.1:11211
 REDIS_RESULTS_BACKEND=redis://localhost:6379/0
+DJANGO_SETTINGS_MODULE=brigadier.settings
 __EOF__
 ```
 * Create and run PostgreSQL docker container:
@@ -274,6 +280,7 @@ RABBITMQ_DEFAULT_VHOST=celery
 CACHE_BACKEND=django.core.cache.backends.memcached.MemcachedCache
 CACHE_LOCATION=127.0.0.1:11211
 REDIS_RESULTS_BACKEND=redis://localhost:6379/0
+DJANGO_SETTINGS_MODULE=brigadier.settings
 __EOF__
 ```
 * Run container based on the created docker-image:

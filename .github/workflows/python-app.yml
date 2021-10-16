@@ -34,3 +34,13 @@ jobs:
         cd brigadier
         coverage run manage.py test
         coverage report --show-missing --fail-under=100
+        coverage xml -o coverage.xml
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v2
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: true
+        verbose: true

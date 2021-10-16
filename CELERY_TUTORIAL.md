@@ -201,7 +201,7 @@ def setup_periodic_tasks(sender, **kwargs):
 # add create_overdue_notification_tasks
 ```
 
-* Example for config:
+* Or example for config:
 ```python
 beat_schedule = {
     'overdue-notify-every-weekday-midnight': {

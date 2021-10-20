@@ -9,7 +9,7 @@ from django.core import mail
 from django.shortcuts import get_object_or_404
 from django.test import TestCase
 from django.urls import reverse
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext as _, activate, deactivate
 
 from .admin import UserCreationForm
 
@@ -156,6 +156,28 @@ class AccountRegistrationActivateViewTest(TestCase):
         m.assert_called_once_with(host, email)
         user.refresh_from_db()
         self.assertEqual(user.is_active, True)
+
+
+class AccountLoginViewTest(TestCase):
+    """Test for login view.
+
+    """
+    def test_open_login_view_with_different_languages(self):
+        """Open login view with different languages. Make sure that
+        translation works correctly.
+
+        """
+        response = self.client.get(
+            reverse('accounts:login'),
+            HTTP_ACCEPT_LANGUAGE='ru'
+        )
+        self.assertContains(response, "Войти в аккаунт Brigadier")
+
+        response = self.client.get(
+            reverse('accounts:login'),
+            HTTP_ACCEPT_LANGUAGE='en'
+        )
+        self.assertContains(response, "Login to a Brigadier account")
 
 
 class UserCreationTest(TestCase):

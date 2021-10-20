@@ -28,7 +28,12 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
+        sudo apt-get install -y gettext
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Setup localization
+      run: |
+        cd brigadier
+        python manage.py compilemessages
     - name: Test with unittest
       run: |
         cd brigadier

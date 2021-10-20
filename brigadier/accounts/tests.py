@@ -158,6 +158,28 @@ class AccountRegistrationActivateViewTest(TestCase):
         self.assertEqual(user.is_active, True)
 
 
+class AccountLoginViewTest(TestCase):
+    """Test for login view.
+
+    """
+    def test_open_login_view_with_different_languages(self):
+        """Open login view with different languages. Make sure that
+        translation works correctly.
+
+        """
+        response = self.client.get(
+            reverse('accounts:login'),
+            HTTP_ACCEPT_LANGUAGE='ru'
+        )
+        self.assertContains(response, "Войти в аккаунт Brigadier")
+
+        response = self.client.get(
+            reverse('accounts:login'),
+            HTTP_ACCEPT_LANGUAGE='en'
+        )
+        self.assertContains(response, "Login to a Brigadier account")
+
+
 class UserCreationTest(TestCase):
     """Custom user model creation tests.
 

@@ -9,7 +9,7 @@ from django.core import mail
 from django.shortcuts import get_object_or_404
 from django.test import TestCase
 from django.urls import reverse
-from django.utils.translation import gettext as _, activate, deactivate
+from django.utils.translation import gettext as _
 
 from .admin import UserCreationForm
 

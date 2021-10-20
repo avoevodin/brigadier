@@ -30,7 +30,7 @@ jobs:
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Setup localization
-    - run: |
+      run: |
         cd brigadier
         python manage.py compilemessages
     - name: Test with unittest

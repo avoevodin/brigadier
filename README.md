@@ -6,7 +6,11 @@ This app is the simple and fast project manager which helps you to
 save your time and complete projects before deadline.
 
 ## Features
-    * 
+* Task manager
+* Project manager
+* Employee manager
+* Overdue, complete, processed tasks and projects monitor
+* Occupied employees, employees with overdue tasks and without any task monitor
 
 # Install
 
@@ -126,10 +130,12 @@ python3 manage.py migrate --no-input
 ```
 * Compile messages
 ```shell
+# notice that you must be in the brigadier/brigadier directory
 python3 manage.py compilemessages
 ```
 * Collect static
 ```shell
+# notice that you must be in the brigadier/brigadier directory
 python3 manage.py collectstatic --no-input
 ```
 * Run uwsgi server
@@ -234,6 +240,140 @@ docker run --name brigadier-createsuperuser \
         --rm -ti --env-file .env \
         brigadier-django \
         python3 manage.py createsuperuser
+```
+
+## Developer install
+
+### Bare metall install 
+
+1. Create the venv:
+```shell
+python3 -m venv venv
+```
+2. Activate the venv:
+```shell
+source venv/bin/activate
+```
+3. Install requirements:
+```shell
+pip install -r requirements.txt
+```
+4. [Setup services](#setup-services)
+
+### Setup environment
+```shell
+# create common .env file for the project
+cat > .env <<_EOF
+POSTGRES_DB=brigadier
+POSTGRES_USER=brigadier
+POSTGRES_PASSWORD=secret
+POSTGRES_HOST=127.0.0.1
+POSTGRES_PORT=5432
+EMAIL_HOST=127.0.0.1
+EMAIL_PORT=1025
+EMAIL_HOST_USER=None
+EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+RABBITMQ_HOST=127.0.0.1
+RABBITMQ_PORT=5672
+RABBITMQ_DEFAULT_USER=admin
+RABBITMQ_DEFAULT_PASS=adminsecret
+RABBITMQ_DEFAULT_VHOST=celery
+CACHE_BACKEND=django.core.cache.backends.memcached.MemcachedCache
+CACHE_LOCATION=127.0.0.1:11211
+REDIS_RESULTS_BACKEND=redis://127.0.0.1:6379/0
+DJANGO_SETTINGS_MODULE=brigadier.settings
+DJANGO_DEBUG=True
+_EOF
+
+# export env vars
+export $(cat .env)
+```
+
+### Run application
+* Apply migrations
+```shell
+cd brigadier
+python3 manage.py migrate --no-input
+```
+* Make and compile locale messages
+```shell
+# notice that you must be in the brigadier/brigadier directory
+python3 manage.py makemessages -l en
+python3 manage.py makemessages -l ru
+python3 manage.py compilemessages
+```
+* Collect static
+```shell
+python3 manage.py collectstatic --no-input
+```
+* Run server
+```shell
+python3 manage.py runserver 0:8000
+```
+* Run celery worker
+```shell
+# notice that you must be in the brigadier/brigadier directory,
+# python venv must be activated, env vars must be exported.
+celery -A worker.app worker
+```
+* Run celery beat
+```shell
+# notice that you must be in the brigadier/brigadier directory,
+# python venv must be activated, env vars must be exported.
+celery -A worker.app beat 
+```
+
+* Configure [Django Debug Toolbar](DJANGO_ORM_AND_DJANGO_DEBUG_TOOLBAR.md)
+
+## Tests
+1. Create the venv:
+```shell
+python3 -m venv venv
+```
+2. Activate the venv:
+```shell
+source venv/bin/activate
+```
+3. Install requirements:
+```shell
+pip install -r requirements.txt
+```
+4. Test project
+```shell
+# notice that you must be in the brigadier/brigadier directory,
+# python venv must be activated, env vars must be exported.
+python3 manage.py test
+```
+5. Test project with verbosity
+```shell
+# notice that you must be in the brigadier/brigadier directory,
+python3 manage.py test -v 2
+```
+6. Run coverage with verbosity 2
+```shell
+# notice that you must be in the brigadier/brigadier directory,
+coverage run --source='.' manage.py test --verbosity=2
+```
+7. Look at the coverage report
+```shell
+# notice that you must be in the brigadier/brigadier directory,
+coverage report -m
+```
+7. Look at the coverage html report
+```shell
+# notice that you must be in the brigadier/brigadier directory,
+coverage html
+open htmlcov/index.html
+```
+8. Create the coverage xml report
+```shell
+# notice that you must be in the brigadier/brigadier directory,
+coverage xml
+```
+9. Check if coverage under 100
+```shell
+cd brigadier
+coverage report --fail-under=100
 ```
 
 * Profit

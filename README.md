@@ -7,8 +7,6 @@ save your time and complete projects before deadline.
 
 # Table of contents
 
-# Table of contents
-
 - [Brigadier](#brigadier)
   - [Features](#features)
 - [Install](#install)

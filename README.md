@@ -244,21 +244,11 @@ docker run --name brigadier-createsuperuser \
 
 ## Developer install
 
-### Bare metall install 
+### Bare metal install and setup services
 
-1. Create the venv:
-```shell
-python3 -m venv venv
-```
-2. Activate the venv:
-```shell
-source venv/bin/activate
-```
-3. Install requirements:
-```shell
-pip install -r requirements.txt
-```
-4. [Setup services](#setup-services)
+1. [Bare metal install](#bare-metal-install)
+
+2. [Setup services](#setup-services)
 
 ### Setup environment
 ```shell
@@ -372,7 +362,6 @@ coverage xml
 ```
 9. Check if coverage under 100
 ```shell
-cd brigadier
 coverage report --fail-under=100
 ```
 

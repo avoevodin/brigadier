@@ -5,12 +5,35 @@
 This app is the simple and fast project manager which helps you to
 save your time and complete projects before deadline.
 
-* [Bare metal install](#bare-metal-install)
-* [Docker install](#docker-install)
-  * [Prepare](#setup-docker-environment)
-  * [Build and run](#build-image)
-* [Development](#development)
-* [Testing](#testing)
+- [Brigadier](#brigadier)
+  * [Features](#features)
+- [Install](#install)
+  * [Bare metal install](#bare-metal-install)
+    + [Setup services](#setup-services)
+    + [Setup environment](#setup-environment)
+    + [Run application](#run-application)
+    + [Configure](#configure)
+  * [Docker install](#docker-install)
+    + [Setup docker environment](#setup-docker-environment)
+    + [Build image](#build-image)
+    + [Migrate](#migrate)
+    + [Run docker containers](#run-docker-containers)
+    + [Create superuser](#create-superuser)
+  * [Development](#development)
+    + [Bare metal install and setup services](#bare-metal-install-and-setup-services)
+    + [Setup environment with an active django debug](#setup-environment-with-an-active-django-debug)
+    + [Run application](#run-application-1)
+  * [Testing](#testing)
+    + [Test project](#test-project)
+    + [Test project with verbosity](#test-project-with-verbosity)
+    + [Run coverage with verbosity 2](#run-coverage-with-verbosity-2)
+    + [Look at the coverage report](#look-at-the-coverage-report)
+    + [Look at the coverage html report](#look-at-the-coverage-html-report)
+    + [Create the coverage xml report](#create-the-coverage-xml-report)
+    + [Check if coverage under 100](#check-if-coverage-under-100)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
 
 ## Features
 * Task manager
@@ -326,39 +349,39 @@ celery -A worker.app beat
 
 1. [Bare metal install](#bare-metal-install)
 
-2. Test project
+### Test project
 ```shell
 # notice that you must be in the brigadier/brigadier directory,
 # python venv must be activated, env vars must be exported.
 python3 manage.py test
 ```
-3. Test project with verbosity
+### Test project with verbosity
 ```shell
 # notice that you must be in the brigadier/brigadier directory,
 python3 manage.py test -v 2
 ```
-4. Run coverage with verbosity 2
+### Run coverage with verbosity 2
 ```shell
 # notice that you must be in the brigadier/brigadier directory,
 coverage run --source='.' manage.py test --verbosity=2
 ```
-5. Look at the coverage report
+### Look at the coverage report
 ```shell
 # notice that you must be in the brigadier/brigadier directory,
 coverage report -m
 ```
-6. Look at the coverage html report
+### Look at the coverage html report
 ```shell
 # notice that you must be in the brigadier/brigadier directory,
 coverage html
 open htmlcov/index.html
 ```
-7. Create the coverage xml report
+### Create the coverage xml report
 ```shell
 # notice that you must be in the brigadier/brigadier directory,
 coverage xml
 ```
-8. Check if coverage under 100
+### Check if coverage under 100
 ```shell
 coverage report --fail-under=100
 ```

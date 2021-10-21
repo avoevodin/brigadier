@@ -2,81 +2,136 @@
 [![Python application](https://github.com/avoevodin/brigadier/actions/workflows/python-app.yml/badge.svg)](https://github.com/avoevodin/brigadier/actions/workflows/python-app.yml)
 [![codecov](https://codecov.io/gh/avoevodin/brigadier/branch/master/graph/badge.svg?token=FLC8BXMGQN)](https://codecov.io/gh/avoevodin/brigadier)
 
-#### Task manager for handling brigade of the builders.
+This app is the simple and fast project manager which helps you to
+save your time and complete projects before deadline.
 
-## Install
-* Clone the rep:
+# Table of contents
+
+- [Brigadier](#brigadier)
+  - [Features](#features)
+- [Install](#install)
+  - [Bare metal install](#bare-metal-install)
+    - [Setup services](#setup-services)
+    - [Setup environment](#setup-environment)
+    - [Run application](#run-application)
+    - [Configure](#configure)
+  - [Docker install](#docker-install)
+    - [Setup docker environment](#setup-docker-environment)
+    - [Build image](#build-image)
+    - [Migrate](#migrate)
+    - [Run docker containers](#run-docker-containers)
+    - [Create superuser](#create-superuser)
+  - [Development](#development)
+    - [Bare metal install and setup services](#bare-metal-install-and-setup-services)
+    - [Setup environment with an active django debug](#setup-environment-with-an-active-django-debug)
+    - [Run application](#run-application)
+  - [Testing](#testing)
+    - [Test project](#test-project)
+    - [Test project with verbosity](#test-project-with-verbosity)
+    - [Run coverage with verbosity 2](#run-coverage-with-verbosity-2)
+    - [Look at the coverage report](#look-at-the-coverage-report)
+    - [Look at the coverage html report](#look-at-the-coverage-html-report)
+    - [Create the coverage xml report](#create-the-coverage-xml-report)
+    - [Check if coverage under 100](#check-if-coverage-under-100)
+
+## Features
+* Task manager
+* Project manager
+* Employee manager
+* Overdue, complete, processed tasks and projects monitor
+* Occupied employees, employees with overdue tasks and without any task monitor
+
+# Install
+
+Clone the rep:
 ```shell
 git clone git@github.com:avoevodin/brigadier.git
+cd brigadier
 ```
-* Create the venv:
+
+## Bare metal install
+
+1. Create the venv:
 ```shell
 python3 -m venv venv
 ```
-* Activate the venv:
+2. Activate the venv:
 ```shell
 source venv/bin/activate
 ```
-* Install requirements:
+3. Install requirements:
 ```shell
 pip install -r requirements.txt
 ```
-* Open brigadier-project directory
+
+### Setup services
+
+1. Postgres
 ```shell
-cd brigadier
-```
-* Run the memcached container:
-```shell
-docker run -d -p 11211:11211 --name brigadier-memcached memcached:alpine
-```
-* Run the smtpd-server. Localhost and port are for example:
-```shell
-python3 -m smtpd -n -c BrigadierSMTPDServer localhost:1025
-```
-* Create the .env file. Example:
-```shell
-cat > .env << __EOF__
+# create .env-postgres file with initial db options
+cat > .env-postgres <<_EOF
 POSTGRES_DB=brigadier
 POSTGRES_USER=brigadier
 POSTGRES_PASSWORD=secret
-POSTGRES_HOST=localhost
-POSTGRES_PORT=5433
-EMAIL_HOST=localhost
-EMAIL_PORT=1025
-EMAIL_HOST_USER=None
-EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-RABBITMQ_HOST=127.0.0.1
-RABBITMQ_PORT=5674
+_EOF
+
+# create docker instance
+docker run -d --name brigadier-postgres \
+        --hostname brigadier-postgres \
+        -p 5432:5432 --env-file .env-postgres \
+        postgres:14-alpine
+```
+2. RabbitMQ
+```shell
+# create .env-rmq file with initial rmq options
+cat > .env-rmq <<_EOF
 RABBITMQ_DEFAULT_USER=admin
 RABBITMQ_DEFAULT_PASS=adminsecret
 RABBITMQ_DEFAULT_VHOST=celery
-CACHE_BACKEND=django.core.cache.backends.memcached.MemcachedCache
-CACHE_LOCATION=127.0.0.1:11211
-REDIS_RESULTS_BACKEND=redis://localhost:6379/0
-DJANGO_SETTINGS_MODULE=brigadier.settings
-__EOF__
+_EOF
+
+# create docker instance
+docker run -d --name brigadier-rmq \
+        --hostname brigadier-rmq \
+        -p 5672:5672 -p 15672:15672 \
+        --env-file .env-rmq \
+        rabbitmq:3.8.14-management-alpine
 ```
-* Create and run PostgreSQL docker container:
+3. Memcached
 ```shell
-docker run -d --name brigadier-postgres --hostname brigadier-postgres \
--p 5433:5432 \
---env-file .env \
-postgres:13.2-alpine
+# create docker instance
+docker run -d --name brigadier-memcached \
+        --hostname brigadier-memcached \
+        -p 11211:11211 \
+        memcached:alpine
 ```
-* Pull the uwsgi-docker image:
+4. Redis
 ```shell
-docker pull avo888/brigadier-uwsgi:latest
+# create docker instance
+docker run -d --name brigadier-redis \
+        --hostname brigadier-redis \
+        -p 6379:6379 \
+        redis:6.2.6-alpine
 ```
-* Create .env-uwsgi file. Example:
+5. Mailcatcher(dev only)
 ```shell
-cat > .env-uwsgi << __EOF__
-POSTGRES_HOST=brigadier-postgres
+# create docker instance
+docker run -d --name brigadier-mailcatcher \
+        --hostname brigadier-mailcatcher \
+        -p 1025:1025 -p 1080:1080 \
+        iliadmitriev/mailcatcher
+```
+
+### Setup environment
+```shell
+# create common .env file for the project
+cat > .env <<_EOF
 POSTGRES_DB=brigadier
-POSTGRES_PASSWORD=secret
-POSTGRES_PORT=5432
 POSTGRES_USER=brigadier
-PS1=%n@%m %~ %%
-EMAIL_HOST=localhost
+POSTGRES_PASSWORD=secret
+POSTGRES_HOST=127.0.0.1
+POSTGRES_PORT=5432
+EMAIL_HOST=127.0.0.1
 EMAIL_PORT=1025
 EMAIL_HOST_USER=None
 EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
@@ -87,232 +142,247 @@ RABBITMQ_DEFAULT_PASS=adminsecret
 RABBITMQ_DEFAULT_VHOST=celery
 CACHE_BACKEND=django.core.cache.backends.memcached.MemcachedCache
 CACHE_LOCATION=127.0.0.1:11211
-REDIS_RESULTS_BACKEND=redis://localhost:6379/0
+REDIS_RESULTS_BACKEND=redis://127.0.0.1:6379/0
 DJANGO_SETTINGS_MODULE=brigadier.settings
-__EOF__
-```
-* Run the uwsgi-docker image:
-```shell
-docker run -d --name brigadier-uwsgi --hostname brigadier-uwsgi \
--p 8000:8000 \
---env-file brigadier/.env-uwsgi \
---link brigadier-postgres \
-avo888/brigadier-uwsgi:latest \
-cmd celery -A brigadier worker -l INFO
-```
-* Create objects from admin console.
-    1. Go to the browser and type '127.0.0.1:8000/admin'
-    2. Login
-    3. Create objects
-* Profit
+DJANGO_DEBUG=False
+_EOF
 
-## Develop
-* Clone the rep:
-```shell
-git clone git@github.com:avoevodin/brigadier.git
+# export env vars
+export $(cat .env)
 ```
-* Create the venv:
-```shell
-python3 -m venv venv
-```
-* Activate the venv:
-```shell
-source venv/bin/activate
-```
-* Install requirements:
-```shell
-pip install -r requirements.txt
-```
-* Run the memcached container:
-```shell
-docker run -d -p 11211:11211 --name brigadier-memcached memcached:alpine
-```
-* Run the smtpd-server. -d is a debug-mode:
-```shell
-python3 -m smtpd -n -c BrigadierSMTPDServer -d localhost:1025
-```
-* Open brigadier-project directory
+
+### Run application
+* Apply migrations
 ```shell
 cd brigadier
+python3 manage.py migrate --no-input
 ```
-* Create the .env file. Example:
+* Compile messages
 ```shell
-cat > .env << __EOF__
+# notice that you must be in the brigadier/brigadier directory
+python3 manage.py compilemessages
+```
+* Collect static
+```shell
+# notice that you must be in the brigadier/brigadier directory
+python3 manage.py collectstatic --no-input
+```
+* Run uwsgi server
+```shell
+uwsgi --ini uwsgi.ini
+```
+* Run celery worker
+```shell
+# notice that you must be in the brigadier/brigadier directory,
+# python venv must be activated, env vars must be exported.
+celery -A worker.app worker
+```
+* Run celery beat
+```shell
+# notice that you must be in the brigadier/brigadier directory,
+# python venv must be activated, env vars must be exported.
+celery -A worker.app beat 
+```
+
+### Configure
+```shell
+# create super user.
+# Notice that you must be in the brigadier/brigadier directory,
+# python venv must be activated, env vars must be exported.
+python3 manage.py createsuperuser
+```
+
+## Docker install
+
+[Setup services](#setup-services)
+
+### Setup docker environment
+```shell
+# create common .env file for the project. IP address just for example,
+# find out your current address before configuring.
+cat > .env <<_EOF
 POSTGRES_DB=brigadier
 POSTGRES_USER=brigadier
 POSTGRES_PASSWORD=secret
-POSTGRES_HOST=localhost
-POSTGRES_PORT=5433
-EMAIL_HOST=localhost
+POSTGRES_HOST=192.168.1.46
+POSTGRES_PORT=5432
+EMAIL_HOST=192.168.1.46
+EMAIL_PORT=1025
+EMAIL_HOST_USER=None
+EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+RABBITMQ_HOST=192.168.1.46
+RABBITMQ_PORT=5672
+RABBITMQ_DEFAULT_USER=admin
+RABBITMQ_DEFAULT_PASS=adminsecret
+RABBITMQ_DEFAULT_VHOST=celery
+CACHE_BACKEND=django.core.cache.backends.memcached.MemcachedCache
+CACHE_LOCATION=192.168.1.46:11211
+REDIS_RESULTS_BACKEND=redis://192.168.1.46:6379/0
+DJANGO_SETTINGS_MODULE=brigadier.settings
+DJANGO_DEBUG=False
+_EOF
+```
+
+### Build image
+```shell
+docker build -f Dockerfile -t brigadier-django ./
+```
+
+### Migrate
+```shell
+docker run --name brigadier-migrations \
+        --hostname brigadier-migrations \
+        --rm -ti --env-file .env \
+        brigadier-django \
+        python3 manage.py migrate --no-input
+```
+
+### Run docker containers
+* Run uwsgi container:
+```shell
+docker run --name brigadier-uwsgi \
+        --hostname brigadier-uwsgi \
+        -d -p 8000:8000 --env-file .env \
+        brigadier-django
+```
+* Run celery container:
+```shell
+docker run --name brigadier-celery \
+        --hostname brigadier-celery \
+        -d --env-file .env \
+        brigadier-django \
+        celery -A worker.app worker
+```
+* Run celery beat container:
+```shell
+docker run --name brigadier-celery-beat \
+        --hostname brigadier-celery-beat \
+        -d --env-file .env \
+        brigadier-django \
+        celery -A worker.app beat
+```
+
+### Create superuser
+```shell
+docker run --name brigadier-createsuperuser \
+        --hostname brigadier-createsuperuser \
+        --rm -ti --env-file .env \
+        brigadier-django \
+        python3 manage.py createsuperuser
+```
+
+## Development
+
+### Bare metal install and setup services
+
+1. [Bare metal install](#bare-metal-install)
+
+2. [Setup services](#setup-services)
+
+### Setup environment with an active django debug
+```shell
+# create common .env file for the project
+cat > .env <<_EOF
+POSTGRES_DB=brigadier
+POSTGRES_USER=brigadier
+POSTGRES_PASSWORD=secret
+POSTGRES_HOST=127.0.0.1
+POSTGRES_PORT=5432
+EMAIL_HOST=127.0.0.1
 EMAIL_PORT=1025
 EMAIL_HOST_USER=None
 EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
 RABBITMQ_HOST=127.0.0.1
-RABBITMQ_PORT=5674
+RABBITMQ_PORT=5672
 RABBITMQ_DEFAULT_USER=admin
 RABBITMQ_DEFAULT_PASS=adminsecret
 RABBITMQ_DEFAULT_VHOST=celery
 CACHE_BACKEND=django.core.cache.backends.memcached.MemcachedCache
 CACHE_LOCATION=127.0.0.1:11211
-REDIS_RESULTS_BACKEND=redis://localhost:6379/0
+REDIS_RESULTS_BACKEND=redis://127.0.0.1:6379/0
 DJANGO_SETTINGS_MODULE=brigadier.settings
-__EOF__
-```
-* Create and run PostgreSQL docker container:
-```shell
-docker run -d --name brigadier-postgres --hostname brigadier-postgres \
--p 5433:5432 \
---env-file .env \
-postgres:13.2-alpine
-```
+DJANGO_DEBUG=True
+_EOF
 
-### Run server from the terminal
-* Export env vars from env-file:
-```shell
+# export env vars
 export $(cat .env)
 ```
-* Compile messages:
+
+### Run application
+* Apply migrations
 ```shell
 cd brigadier
-./manage.py compilemessages
+python3 manage.py migrate --no-input
 ```
-* Migrate:
+* Make and compile locale messages
 ```shell
-./manage.py migrate --no-input
+# notice that you must be in the brigadier/brigadier directory
+python3 manage.py makemessages -l en
+python3 manage.py makemessages -l ru
+python3 manage.py compilemessages
 ```
-* Collect static:
+* Collect static
 ```shell
 python3 manage.py collectstatic --no-input
 ```
-* Create superuser:
+* Run server
 ```shell
-./manage.py createsuperuser
+python3 manage.py runserver 0:8000
 ```
-* Configure server
-    1. Create django-server configuration.
-    2. Point paths to django-project and its settings.
-    3. In mysite/settings.py configure ALLOWED_HOSTS with '*',
-        if it hasn't been done before.
-* Run server from the terminal:
+* Run celery worker
 ```shell
-./manage.py runserver 0:8000
+# notice that you must be in the brigadier/brigadier directory,
+# python venv must be activated, env vars must be exported.
+celery -A worker.app worker
 ```
-* Create objects from admin console.
-    1. Go to the browser and type '127.0.0.1:8000/admin'
-    2. Login
-    3. Create objects
-
-### Run server from the docker container with uwsgi:
-* Settings for uwsgi in uwsgi.ini:
-```ini
-[uwsgi]
-http-socket=0.0.0.0:8000
-chdir=%d
-workers=%k
-threads=%k
-module=brigadier.wsgi:application
-master=True
-
-;pidfile=%duwsgi-master.pid
-;daemonize=%duwsgi.log
-
-env DJANGO_DEBUG=False
-env DJANGO_SETTINGS_MODULE=brigadier.settings
-
-plugins = python3,http
-
-offload-threads = %k
-static-map=/static=%dstatic
-check-static=%dstatic
-static-expires=%dstatic/* 86400
-```
-* Create the requirements_docker.txt file, if it doesn't exist:
+* Run celery beat
 ```shell
-cat requirements_docker.txt << __EOF__
-asgiref==3.3.1
-coverage==5.5
-Django==3.1.7
-pytz==2021.1
-sqlparse==0.4.1
-__EOF__
+# notice that you must be in the brigadier/brigadier directory,
+# python venv must be activated, env vars must be exported.
+celery -A worker.app beat 
 ```
-* Dockerfile:
-```dockerfile
-FROM alpine:3.13
 
-RUN apk add python3 py3-pip py3-psycopg2 uwsgi uwsgi-python3 uwsgi-http gettext
-
-COPY requirements_docker.txt /app/requirements.txt
-
-RUN pip install -r /app/requirements.txt
-
-COPY brigadier/ /app/brigadier/
-WORKDIR /app/brigadier/
-
-RUN python3 manage.py collectstatic --no-input
-RUN python3 manage.py compilemessages
-
-CMD uwsgi --ini uwsgi.ini
-
-```
-* Create the docker-image from the Dockerfile:
-```shell
-docker build -f Dockerfile -t brigadier-uwsgi ./
-```
-* Create .env-uwsgi file. Example:
-```shell
-cat > .env-uwsgi << __EOF__
-POSTGRES_HOST=brigadier-postgres
-POSTGRES_DB=brigadier
-POSTGRES_PASSWORD=secret
-POSTGRES_PORT=5432
-POSTGRES_USER=brigadier
-PS1=%n@%m %~ %%
-EMAIL_HOST=localhost
-EMAIL_PORT=1025
-EMAIL_HOST_USER=None
-EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-RABBITMQ_HOST=127.0.0.1
-RABBITMQ_PORT=5672
-RABBITMQ_DEFAULT_USER=admin
-RABBITMQ_DEFAULT_PASS=adminsecret
-RABBITMQ_DEFAULT_VHOST=celery
-CACHE_BACKEND=django.core.cache.backends.memcached.MemcachedCache
-CACHE_LOCATION=127.0.0.1:11211
-REDIS_RESULTS_BACKEND=redis://localhost:6379/0
-DJANGO_SETTINGS_MODULE=brigadier.settings
-__EOF__
-```
-* Run container based on the created docker-image:
-```shell
-docker run --name brigadier-uwsgi --hostname brigadier-uwsgi \
--d -p 8000:8000 --env-file .env-uwsgi --link brigadier-postgres \
-brigadier-uwsgi \
-cmd celery -A brigadier worker -l INFO
-```
-* Push repository to the docker hub:
-```shell
-docker push avo888/brigadier-uwsgi:latest
-```
-* Making data migrations:
-  1. Create empty migration (it's good to use the name of the migration):
-  ```shell
-  python manage.py makemigrations --empty yourappname --name migration_name
-  ```
-  2. Create migrations code in the added migration file.
-  3. To get model you can work from: 
-  ```python
-  apps.get_model("yourappname", "yourmodelname")
-  ```
 * Configure [Django Debug Toolbar](DJANGO_ORM_AND_DJANGO_DEBUG_TOOLBAR.md)
 
-## Tests
-* Run tests with coverage: 
+## Testing
+
+1. [Bare metal install](#bare-metal-install)
+
+### Test project
 ```shell
-coverage run --source='.' manage.py test -v 2
+# notice that you must be in the brigadier/brigadier directory,
+# python venv must be activated, env vars must be exported.
+python3 manage.py test
 ```
-* Get report in html of coverage tests:
+### Test project with verbosity
 ```shell
+# notice that you must be in the brigadier/brigadier directory,
+python3 manage.py test -v 2
+```
+### Run coverage with verbosity 2
+```shell
+# notice that you must be in the brigadier/brigadier directory,
+coverage run --source='.' manage.py test --verbosity=2
+```
+### Look at the coverage report
+```shell
+# notice that you must be in the brigadier/brigadier directory,
+coverage report -m
+```
+### Look at the coverage html report
+```shell
+# notice that you must be in the brigadier/brigadier directory,
 coverage html
 open htmlcov/index.html
 ```
+### Create the coverage xml report
+```shell
+# notice that you must be in the brigadier/brigadier directory,
+coverage xml
+```
+### Check if coverage under 100
+```shell
+coverage report --fail-under=100
+```
+
+* Profit

@@ -7,6 +7,8 @@ save your time and complete projects before deadline.
 
 # Table of contents
 
+# Table of contents
+
 - [Brigadier](#brigadier)
   - [Features](#features)
 - [Install](#install)
@@ -21,18 +23,18 @@ save your time and complete projects before deadline.
     - [Migrate](#migrate)
     - [Run docker containers](#run-docker-containers)
     - [Create superuser](#create-superuser)
-  - [Development](#development)
-    - [Bare metal install and setup services](#bare-metal-install-and-setup-services)
-    - [Setup environment with an active django debug](#setup-environment-with-an-active-django-debug)
-    - [Run application](#run-application)
-  - [Testing](#testing)
-    - [Test project](#test-project)
-    - [Test project with verbosity](#test-project-with-verbosity)
-    - [Run coverage with verbosity 2](#run-coverage-with-verbosity-2)
-    - [Look at the coverage report](#look-at-the-coverage-report)
-    - [Look at the coverage html report](#look-at-the-coverage-html-report)
-    - [Create the coverage xml report](#create-the-coverage-xml-report)
-    - [Check if coverage under 100](#check-if-coverage-under-100)
+- [Development](#development)
+  - [Bare metal install and setup services](#bare-metal-install-and-setup-services)
+  - [Setup environment with an active django debug](#setup-environment-with-an-active-django-debug)
+  - [Run application](#run-application)
+- [Testing](#testing)
+  - [Test project](#test-project)
+  - [Test project with verbosity](#test-project-with-verbosity)
+  - [Run coverage with verbosity 2](#run-coverage-with-verbosity-2)
+  - [Look at the coverage report](#look-at-the-coverage-report)
+  - [Look at the coverage html report](#look-at-the-coverage-html-report)
+  - [Create the coverage xml report](#create-the-coverage-xml-report)
+  - [Check if coverage under 100](#check-if-coverage-under-100)
 
 ## Features
 * Task manager
@@ -271,15 +273,15 @@ docker run --name brigadier-createsuperuser \
         python3 manage.py createsuperuser
 ```
 
-## Development
+# Development
 
-### Bare metal install and setup services
+## Bare metal install and setup services
 
 1. [Bare metal install](#bare-metal-install)
 
 2. [Setup services](#setup-services)
 
-### Setup environment with an active django debug
+## Setup environment with an active django debug
 ```shell
 # create common .env file for the project
 cat > .env <<_EOF
@@ -308,7 +310,7 @@ _EOF
 export $(cat .env)
 ```
 
-### Run application
+## Run application
 * Apply migrations
 ```shell
 cd brigadier
@@ -344,43 +346,49 @@ celery -A worker.app beat
 
 * Configure [Django Debug Toolbar](DJANGO_ORM_AND_DJANGO_DEBUG_TOOLBAR.md)
 
-## Testing
+# Testing
 
 1. [Bare metal install](#bare-metal-install)
 
-### Test project
+## Test project
 ```shell
 # notice that you must be in the brigadier/brigadier directory,
 # python venv must be activated, env vars must be exported.
 python3 manage.py test
 ```
-### Test project with verbosity
+
+## Test project with verbosity
 ```shell
 # notice that you must be in the brigadier/brigadier directory,
 python3 manage.py test -v 2
 ```
-### Run coverage with verbosity 2
+
+## Run coverage with verbosity 2
 ```shell
 # notice that you must be in the brigadier/brigadier directory,
 coverage run --source='.' manage.py test --verbosity=2
 ```
-### Look at the coverage report
+
+## Look at the coverage report
 ```shell
 # notice that you must be in the brigadier/brigadier directory,
 coverage report -m
 ```
-### Look at the coverage html report
+
+## Look at the coverage html report
 ```shell
 # notice that you must be in the brigadier/brigadier directory,
 coverage html
 open htmlcov/index.html
 ```
-### Create the coverage xml report
+
+## Create the coverage xml report
 ```shell
 # notice that you must be in the brigadier/brigadier directory,
 coverage xml
 ```
-### Check if coverage under 100
+
+## Check if coverage under 100
 ```shell
 coverage report --fail-under=100
 ```

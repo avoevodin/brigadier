@@ -5,6 +5,13 @@
 This app is the simple and fast project manager which helps you to
 save your time and complete projects before deadline.
 
+* [Bare metal install](#bare-metal-install)
+* [Docker install](#docker-install)
+  * [Prepare](#setup-docker-environment)
+  * [Build and run](#build-image)
+* [Development](#development)
+* [Testing](#testing)
+
 ## Features
 * Task manager
 * Project manager
@@ -242,7 +249,7 @@ docker run --name brigadier-createsuperuser \
         python3 manage.py createsuperuser
 ```
 
-## Developer install
+## Development
 
 ### Bare metal install and setup services
 
@@ -315,7 +322,7 @@ celery -A worker.app beat
 
 * Configure [Django Debug Toolbar](DJANGO_ORM_AND_DJANGO_DEBUG_TOOLBAR.md)
 
-## Tests
+## Testing
 
 1. [Bare metal install](#bare-metal-install)
 

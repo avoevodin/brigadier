@@ -5,35 +5,34 @@
 This app is the simple and fast project manager which helps you to
 save your time and complete projects before deadline.
 
+# Table of contents
+
 - [Brigadier](#brigadier)
-  * [Features](#features)
+  - [Features](#features)
 - [Install](#install)
-  * [Bare metal install](#bare-metal-install)
-    + [Setup services](#setup-services)
-    + [Setup environment](#setup-environment)
-    + [Run application](#run-application)
-    + [Configure](#configure)
-  * [Docker install](#docker-install)
-    + [Setup docker environment](#setup-docker-environment)
-    + [Build image](#build-image)
-    + [Migrate](#migrate)
-    + [Run docker containers](#run-docker-containers)
-    + [Create superuser](#create-superuser)
-  * [Development](#development)
-    + [Bare metal install and setup services](#bare-metal-install-and-setup-services)
-    + [Setup environment with an active django debug](#setup-environment-with-an-active-django-debug)
-    + [Run application](#run-application-1)
-  * [Testing](#testing)
-    + [Test project](#test-project)
-    + [Test project with verbosity](#test-project-with-verbosity)
-    + [Run coverage with verbosity 2](#run-coverage-with-verbosity-2)
-    + [Look at the coverage report](#look-at-the-coverage-report)
-    + [Look at the coverage html report](#look-at-the-coverage-html-report)
-    + [Create the coverage xml report](#create-the-coverage-xml-report)
-    + [Check if coverage under 100](#check-if-coverage-under-100)
-
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
-
+  - [Bare metal install](#bare-metal-install)
+    - [Setup services](#setup-services)
+    - [Setup environment](#setup-environment)
+    - [Run application](#run-application)
+    - [Configure](#configure)
+  - [Docker install](#docker-install)
+    - [Setup docker environment](#setup-docker-environment)
+    - [Build image](#build-image)
+    - [Migrate](#migrate)
+    - [Run docker containers](#run-docker-containers)
+    - [Create superuser](#create-superuser)
+  - [Development](#development)
+    - [Bare metal install and setup services](#bare-metal-install-and-setup-services)
+    - [Setup environment with an active django debug](#setup-environment-with-an-active-django-debug)
+    - [Run application](#run-application)
+  - [Testing](#testing)
+    - [Test project](#test-project)
+    - [Test project with verbosity](#test-project-with-verbosity)
+    - [Run coverage with verbosity 2](#run-coverage-with-verbosity-2)
+    - [Look at the coverage report](#look-at-the-coverage-report)
+    - [Look at the coverage html report](#look-at-the-coverage-html-report)
+    - [Create the coverage xml report](#create-the-coverage-xml-report)
+    - [Check if coverage under 100](#check-if-coverage-under-100)
 
 ## Features
 * Task manager

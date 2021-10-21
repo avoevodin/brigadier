@@ -250,7 +250,7 @@ docker run --name brigadier-createsuperuser \
 
 2. [Setup services](#setup-services)
 
-### Setup environment
+### Setup environment with an active django debug
 ```shell
 # create common .env file for the project
 cat > .env <<_EOF
@@ -316,51 +316,42 @@ celery -A worker.app beat
 * Configure [Django Debug Toolbar](DJANGO_ORM_AND_DJANGO_DEBUG_TOOLBAR.md)
 
 ## Tests
-1. Create the venv:
-```shell
-python3 -m venv venv
-```
-2. Activate the venv:
-```shell
-source venv/bin/activate
-```
-3. Install requirements:
-```shell
-pip install -r requirements.txt
-```
-4. Test project
+
+1. [Bare metal install](#bare-metal-install)
+
+2. Test project
 ```shell
 # notice that you must be in the brigadier/brigadier directory,
 # python venv must be activated, env vars must be exported.
 python3 manage.py test
 ```
-5. Test project with verbosity
+3. Test project with verbosity
 ```shell
 # notice that you must be in the brigadier/brigadier directory,
 python3 manage.py test -v 2
 ```
-6. Run coverage with verbosity 2
+4. Run coverage with verbosity 2
 ```shell
 # notice that you must be in the brigadier/brigadier directory,
 coverage run --source='.' manage.py test --verbosity=2
 ```
-7. Look at the coverage report
+5. Look at the coverage report
 ```shell
 # notice that you must be in the brigadier/brigadier directory,
 coverage report -m
 ```
-7. Look at the coverage html report
+6. Look at the coverage html report
 ```shell
 # notice that you must be in the brigadier/brigadier directory,
 coverage html
 open htmlcov/index.html
 ```
-8. Create the coverage xml report
+7. Create the coverage xml report
 ```shell
 # notice that you must be in the brigadier/brigadier directory,
 coverage xml
 ```
-9. Check if coverage under 100
+8. Check if coverage under 100
 ```shell
 coverage report --fail-under=100
 ```

@@ -132,7 +132,7 @@ dmypy.json
 /.idea
 
 # Etc
-/brigadier/static/
+*/static/
 /.env-*
 /brigadier/tmp
 bd_dump.json
